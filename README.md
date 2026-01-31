@@ -56,6 +56,24 @@ ros2 launch snake_robot_simulation <launch_file_name>.launch.py
 - `worlds/` - Gazebo world files
 - `snake_sim/` - Python package for simulation nodes
 
+## References
+
+This work is inspired by the following research on snake-like robotics:
+
+1. **Hirose, S.** (1993). *Biologically inspired robots: snake-like locomotors and manipulators*. Oxford University Press.
+
+2. **Ma, S.** (1999). Analysis of snake movement forms for realization of snake-like robots. *Proceedings - IEEE International Conference on Robotics and Automation*, 4, 3007–3013. [DOI: 10.1109/ROBOT.1999.774054](https://doi.org/10.1109/ROBOT.1999.774054)
+
+3. **Bayraktaroglu, Z., Kilicarslan, A., & Kuzucu, A.** (2006). Design and Control of Biologically Inspired Wheel-less Snake-like Robot. *Proceedings of the IEEE International Conference on Biomedical Robotics and Biomechatronics*, 1001–1006. [DOI: 10.1109/BIOROB.2006.1639222](https://doi.org/10.1109/BIOROB.2006.1639222)
+
+4. **Liljebäck, P., Pettersen, K.Y., Stavdahl, Ø., & Gravdahl, J.** (2012). A review on modelling, implementation, and control of snake robots. *Robotics and Autonomous Systems*, 60, 29–40. [DOI: 10.1016/j.robot.2011.08.010](https://doi.org/10.1016/j.robot.2011.08.010)
+
+5. **Walker, I.D., Choset, H., & Chirikjian, G.S.** (2016). Snake-Like and Continuum Robots. In B. Siciliano & O. Khatib (Eds.), *Springer Handbook of Robotics* (2nd ed., pp. 481–498). Springer International Publishing.
+
+6. **Li, N., Wang, F., Ren, S., Cheng, X., Wang, G., & Li, P.** (2025). A Review on the Recent Development of Planar Snake Robot Control and Guidance. *Mathematics*, 13(2), 189. [DOI: 10.3390/math13020189](https://doi.org/10.3390/math13020189)
+
+7. **Sobhani, M., & Zarif Loloei, A.** (2025). Design and Implementation of a Neural Network-Based PD Controller for Adaptive Motion Control of a Novel Snake-like Robot.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
