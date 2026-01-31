@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="empty">
+    <physics type="ode" />
+    <gravity>0 0 -9.81</gravity>
+    <model name="ground_plane">
+      <static>true</static>
+
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+
+          <material>
+            <ambient>0.5 0.5 0.5 0.2</ambient>
+            <diffuse>0.5 0.5 0.5 0.2</diffuse>
+            <specular>0.1 0.1 0.1 0.2</specular>
+            <transparency>0.8</transparency>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>

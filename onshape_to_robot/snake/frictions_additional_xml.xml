@@ -1,0 +1,280 @@
+  <!-- Gazebo contact friction parameters -->
+
+<!-- Inner pads: Teflon–Wood -->
+<gazebo reference="inner_adhesive_pad">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.05</mu>
+        <mu2>0.05</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="inner_adhesive_pad_2">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.05</mu>
+        <mu2>0.05</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="inner_adhesive_pad_3">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.05</mu>
+        <mu2>0.05</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="inner_adhesive_pad_4">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.05</mu>
+        <mu2>0.05</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="inner_adhesive_pad_5">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.05</mu>
+        <mu2>0.05</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="inner_adhesive_pad_6">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.05</mu>
+        <mu2>0.05</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="inner_adhesive_pad_7">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.05</mu>
+        <mu2>0.05</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<!-- Outer pads: Rubber–Wood -->
+<gazebo reference="outer_adhesive_pad">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.9</mu>
+        <mu2>0.9</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="outer_adhesive_pad_2">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.9</mu>
+        <mu2>0.9</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="outer_adhesive_pad_3">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.9</mu>
+        <mu2>0.9</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="outer_adhesive_pad_4">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.9</mu>
+        <mu2>0.9</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="outer_adhesive_pad_5">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.9</mu>
+        <mu2>0.9</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="outer_adhesive_pad_6">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.9</mu>
+        <mu2>0.9</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<gazebo reference="outer_adhesive_pad_7">
+  <surface>
+    <friction>
+      <ode>
+        <mu>0.9</mu>
+        <mu2>0.9</mu2>
+      </ode>
+    </friction>
+  </surface>
+</gazebo>
+
+<!-- Gazebo ROS joint state plugin -->
+<gazebo>
+    <plugin
+        filename="libgz_ros2_control-system.so"
+        name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>/home/filip/ros2_ws/install/snake_sim/share/snake_sim/config/controllers.yaml</parameters>
+        <ros>
+            <namespace>/</namespace>
+        </ros>
+    </plugin>
+</gazebo>
+<ros2_control name="SnakeSystem" type="system">
+  <hardware>
+    <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+  </hardware>
+
+  <!-- Revolute joints between the modules -->
+  <joint name="revolute_1">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="revolute_2">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="revolute_3">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="revolute_4">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="revolute_5">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+  <joint name="revolute_6">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+  </joint>
+
+  <!-- Outer adhesive pad sliding joints -->
+  <joint name="outer_pad_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="outer_pad_2">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="outer_pad_3">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="outer_pad_4">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="outer_pad_5">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="outer_pad_6">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="outer_pad_7">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  
+  <!-- Inner adhesive pad sliding joints -->
+  <joint name="inner_pad_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="inner_pad_2">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="inner_pad_3">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="inner_pad_4">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="inner_pad_5">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="inner_pad_6">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+  <joint name="inner_pad_7">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+  </joint>
+</ros2_control>

@@ -1,0 +1,44 @@
+{
+    // Onshape URL of the assembly
+    "url": "https://cad.onshape.com/documents/2f8d19c43f1b817c7ff32a2e/w/5f254ec270ad323016b0722c/e/0a66a33b4483ec246f7b557chttps://cad.onshape.com/documents/2f8d19c43f1b817c7ff32a2e/w/5f254ec270ad323016b0722c/e/0a66a33b4483ec246f7b557c",
+    // Output format
+    "output_format": "urdf",
+        // Package name (for ROS) (default: "")
+    "package_name": "snake_sim/urdf",
+    "additional_xml": "frictions_additional_xml.xml",
+    "joint_properties": {
+        // Default properties for all joints
+        "*": {
+        },
+        // Set the properties for a specific joint
+        // Limits for revolute joints: +-120deg
+        "revolute_1": {
+            "friction": 0.1,
+            "limits": [-2.1, 2.1]
+        },
+        "revolute_2": {
+            "friction": 0.1,
+            "limits": [-2.1, 2.1]
+        },
+        "revolute_3": {
+            "friction": 0.1,
+            "limits": [-2.1, 2.1]
+        },
+        "revolute_4": {
+            "friction": 0.1,
+            "limits": [-2.1, 2.1]
+        },
+        "revolute_5": {
+            "friction": 0.1,
+            "limits": [-2.1, 2.1]
+        },
+        "revolute_6": {
+            "friction": 0.1,
+            "limits": [-2.1, 2.1]
+        },
+    },
+}
+
+// Frictions:
+// Teflon -- wood: 0.05-0.1
+// Rubber -- wood: 0.7-0.9

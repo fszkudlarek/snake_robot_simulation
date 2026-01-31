@@ -1,0 +1,2392 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/2f8d19c43f1b817c7ff32a2e/w/5f254ec270ad323016b0722c/e/0a66a33b4483ec246f7b557chttps://cad.onshape.com/documents/2f8d19c43f1b817c7ff32a2e/w/5f254ec270ad323016b0722c/e/0a66a33b4483ec246f7b557c -->
+<robot name="snake">
+  <!-- Link motor_with_onshape_mounting -->
+  <link name="motor_with_onshape_mounting">
+    <inertial>
+      <origin xyz="6.26697e-10 0.0126367 0.0331957" rpy="0 0 0"/>
+      <mass value="0.146495"/>
+      <inertia ixx="0.000204316" ixy="2.23005e-12" ixz="-1.96765e-12" iyy="6.43541e-05" iyz="-8.00346e-06" izz="0.000172816"/>
+    </inertial>
+    <!-- Part robot_mount_white_side -->
+    <visual>
+      <origin xyz="0.00356934 0.0482941 0.013" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+      <material name="robot_mount_white_side_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00356934 0.0482941 0.013" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part robot_mount_black_side -->
+    <visual>
+      <origin xyz="-0.00356934 0.0482941 0.06002" rpy="0 6.46654e-25 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+      <material name="robot_mount_black_side_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00356934 0.0482941 0.06002" rpy="0 6.46654e-25 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30 -->
+    <visual>
+      <origin xyz="0.0148 -0.0211564 0.02452" rpy="-3.3476e-15 -8.5054e-17 2.77598e-51"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0211564 0.02452" rpy="-3.3476e-15 -8.5054e-17 2.77598e-51"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_2 -->
+    <visual>
+      <origin xyz="-0.0148 0.000843576 0.04852" rpy="3.14159 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_2_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.000843576 0.04852" rpy="3.14159 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_3 -->
+    <visual>
+      <origin xyz="-0.0148 0.00584358 0.02452" rpy="-1.87044e-15 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_3_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.00584358 0.02452" rpy="-1.87044e-15 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_4 -->
+    <visual>
+      <origin xyz="-0.0148 -0.0161564 0.02452" rpy="-2.37004e-15 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_4_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 -0.0161564 0.02452" rpy="-2.37004e-15 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_5 -->
+    <visual>
+      <origin xyz="-0.0148 -0.0211564 0.04852" rpy="3.14159 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_5_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 -0.0211564 0.04852" rpy="3.14159 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_6 -->
+    <visual>
+      <origin xyz="0.0148 0.000843576 0.02452" rpy="1.87044e-15 -8.5054e-17 2.06795e-25"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_6_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.000843576 0.02452" rpy="1.87044e-15 -8.5054e-17 2.06795e-25"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_7 -->
+    <visual>
+      <origin xyz="0.0198 0.000843576 0.04852" rpy="3.14159 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_7_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0198 0.000843576 0.04852" rpy="3.14159 8.5054e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_8 -->
+    <visual>
+      <origin xyz="0.0148 -0.0161564 0.04852" rpy="3.14159 -8.5054e-17 2.06795e-25"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_8_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0161564 0.04852" rpy="3.14159 -8.5054e-17 2.06795e-25"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rx64_cap -->
+    <visual>
+      <origin xyz="-3.81639e-16 -0.0146564 0.01452" rpy="3.14159 6.0124e-16 -1.64292"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+      <material name="rx64_cap_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-3.81639e-16 -0.0146564 0.01452" rpy="3.14159 6.0124e-16 -1.64292"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mf128zz -->
+    <visual>
+      <origin xyz="-3.81639e-16 -0.0146564 0.01324" rpy="-7.73067e-15 4.47619e-16 -1.1654"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+      <material name="mf128zz_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-3.81639e-16 -0.0146564 0.01324" rpy="-7.73067e-15 4.47619e-16 -1.1654"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part hn05_i101 -->
+    <visual>
+      <origin xyz="-3.81639e-16 -0.0146564 0.0168" rpy="3.14159 -1.30022e-14 -2.80509"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+      <material name="hn05_i101_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-3.81639e-16 -0.0146564 0.0168" rpy="3.14159 -1.30022e-14 -2.80509"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mx64 -->
+    <visual>
+      <origin xyz="-3.88578e-16 -0.0146564 0.03652" rpy="0 2.46519e-32 3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+      <material name="mx64_material">
+        <color rgba="0.211765 0.211765 0.211765 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-3.88578e-16 -0.0146564 0.03652" rpy="0 2.46519e-32 3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link motor_with_onshape_mounting_2 -->
+  <link name="motor_with_onshape_mounting_2">
+    <inertial>
+      <origin xyz="-6.26697e-10 -0.0272931 -0.0268243" rpy="0 0 0"/>
+      <mass value="0.146495"/>
+      <inertia ixx="0.000204316" ixy="2.23005e-12" ixz="1.96765e-12" iyy="6.43541e-05" iyz="8.00346e-06" izz="0.000172816"/>
+    </inertial>
+    <!-- Part robot_mount_white_side_2 -->
+    <visual>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="3.14159 2.60157e-16 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+      <material name="robot_mount_white_side_2_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="3.14159 2.60157e-16 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part robot_mount_black_side_2 -->
+    <visual>
+      <origin xyz="0.00356934 -0.0629505 1.8735e-16" rpy="4.36256e-17 -2.60157e-16 -1.5611e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+      <material name="robot_mount_black_side_2_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00356934 -0.0629505 1.8735e-16" rpy="4.36256e-17 -2.60157e-16 -1.5611e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_9 -->
+    <visual>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.57559e-15 -3.57148e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_9_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.57559e-15 -3.57148e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_10 -->
+    <visual>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 3.57148e-17 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_10_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 3.57148e-17 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_11 -->
+    <visual>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.64246e-15 3.57148e-17 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_11_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.64246e-15 3.57148e-17 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_12 -->
+    <visual>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.14206e-15 3.57148e-17 1.76957e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_12_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.14206e-15 3.57148e-17 1.76957e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_13 -->
+    <visual>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 3.57148e-17 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_13_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 3.57148e-17 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_14 -->
+    <visual>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.64246e-15 -3.57148e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_14_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.64246e-15 -3.57148e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_15 -->
+    <visual>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 3.57148e-17 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_15_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 3.57148e-17 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_16 -->
+    <visual>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -3.57148e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_16_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -3.57148e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rx64_cap_2 -->
+    <visual>
+      <origin xyz="8.29198e-19 0 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+      <material name="rx64_cap_2_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="8.29198e-19 0 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mf128zz_2 -->
+    <visual>
+      <origin xyz="8.64725e-19 0 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+      <material name="mf128zz_2_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="8.64725e-19 0 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part hn05_i101_2 -->
+    <visual>
+      <origin xyz="7.65915e-19 0 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+      <material name="hn05_i101_2_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="7.65915e-19 0 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mx64_2 -->
+    <visual>
+      <origin xyz="-4.93038e-32 -1.38778e-17 -0.0235" rpy="0 -0 1.29737e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+      <material name="mx64_2_material">
+        <color rgba="0.211765 0.211765 0.211765 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-4.93038e-32 -1.38778e-17 -0.0235" rpy="0 -0 1.29737e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link motor_with_onshape_mounting_3 -->
+  <link name="motor_with_onshape_mounting_3">
+    <inertial>
+      <origin xyz="-6.26697e-10 -0.0272931 -0.0268243" rpy="0 0 0"/>
+      <mass value="0.146495"/>
+      <inertia ixx="0.000204316" ixy="2.23005e-12" ixz="1.96765e-12" iyy="6.43541e-05" iyz="8.00346e-06" izz="0.000172816"/>
+    </inertial>
+    <!-- Part robot_mount_white_side_3 -->
+    <visual>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+      <material name="robot_mount_white_side_3_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part robot_mount_black_side_3 -->
+    <visual>
+      <origin xyz="0.00356934 -0.0629505 1.94289e-16" rpy="-3.33067e-16 -2.77556e-17 5.04629e-26"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+      <material name="robot_mount_black_side_3_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00356934 -0.0629505 1.94289e-16" rpy="-3.33067e-16 -2.77556e-17 5.04629e-26"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_17 -->
+    <visual>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_17_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_18 -->
+    <visual>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_18_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_19 -->
+    <visual>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_19_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_20 -->
+    <visual>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 3.49433e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_20_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 3.49433e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_21 -->
+    <visual>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 6.98867e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_21_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 6.98867e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_22 -->
+    <visual>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_22_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_23 -->
+    <visual>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_23_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_24 -->
+    <visual>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_24_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rx64_cap_3 -->
+    <visual>
+      <origin xyz="-1.20151e-18 -2.77556e-17 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+      <material name="rx64_cap_3_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.20151e-18 -2.77556e-17 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mf128zz_3 -->
+    <visual>
+      <origin xyz="-1.16598e-18 -2.77556e-17 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+      <material name="mf128zz_3_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.16598e-18 -2.77556e-17 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part hn05_i101_3 -->
+    <visual>
+      <origin xyz="-1.26479e-18 -2.77556e-17 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+      <material name="hn05_i101_3_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.26479e-18 -2.77556e-17 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mx64_3 -->
+    <visual>
+      <origin xyz="0 2.77556e-17 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+      <material name="mx64_3_material">
+        <color rgba="0.211765 0.211765 0.211765 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 2.77556e-17 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link motor_with_onshape_mounting_4 -->
+  <link name="motor_with_onshape_mounting_4">
+    <inertial>
+      <origin xyz="-6.26697e-10 -0.0272931 -0.0268243" rpy="0 0 0"/>
+      <mass value="0.146495"/>
+      <inertia ixx="0.000204316" ixy="2.23005e-12" ixz="1.96765e-12" iyy="6.43541e-05" iyz="8.00346e-06" izz="0.000172816"/>
+    </inertial>
+    <!-- Part robot_mount_white_side_4 -->
+    <visual>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+      <material name="robot_mount_white_side_4_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part robot_mount_black_side_4 -->
+    <visual>
+      <origin xyz="0.00356934 -0.0629505 1.94289e-16" rpy="-3.33067e-16 -2.77556e-17 5.04629e-26"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+      <material name="robot_mount_black_side_4_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00356934 -0.0629505 1.94289e-16" rpy="-3.33067e-16 -2.77556e-17 5.04629e-26"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_25 -->
+    <visual>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_25_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_26 -->
+    <visual>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_26_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_27 -->
+    <visual>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_27_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_28 -->
+    <visual>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_28_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_29 -->
+    <visual>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_29_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_30 -->
+    <visual>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_30_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_31 -->
+    <visual>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_31_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_32 -->
+    <visual>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_32_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rx64_cap_4 -->
+    <visual>
+      <origin xyz="-6.70167e-18 -5.55112e-17 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+      <material name="rx64_cap_4_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-6.70167e-18 -5.55112e-17 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mf128zz_4 -->
+    <visual>
+      <origin xyz="-6.66614e-18 -5.55112e-17 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+      <material name="mf128zz_4_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-6.66614e-18 -5.55112e-17 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part hn05_i101_4 -->
+    <visual>
+      <origin xyz="-6.76495e-18 -5.55112e-17 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+      <material name="hn05_i101_4_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-6.76495e-18 -5.55112e-17 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mx64_4 -->
+    <visual>
+      <origin xyz="0 0 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+      <material name="mx64_4_material">
+        <color rgba="0.211765 0.211765 0.211765 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link motor_with_onshape_mounting_5 -->
+  <link name="motor_with_onshape_mounting_5">
+    <inertial>
+      <origin xyz="-6.26697e-10 -0.0272931 -0.0268243" rpy="0 0 0"/>
+      <mass value="0.146495"/>
+      <inertia ixx="0.000204316" ixy="2.23005e-12" ixz="1.96765e-12" iyy="6.43541e-05" iyz="8.00346e-06" izz="0.000172816"/>
+    </inertial>
+    <!-- Part robot_mount_white_side_5 -->
+    <visual>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+      <material name="robot_mount_white_side_5_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part robot_mount_black_side_5 -->
+    <visual>
+      <origin xyz="0.00356934 -0.0629505 1.80411e-16" rpy="-3.33067e-16 -2.77556e-17 5.04629e-26"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+      <material name="robot_mount_black_side_5_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00356934 -0.0629505 1.80411e-16" rpy="-3.33067e-16 -2.77556e-17 5.04629e-26"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_33 -->
+    <visual>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_33_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_34 -->
+    <visual>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_34_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_35 -->
+    <visual>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_35_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_36 -->
+    <visual>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_36_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_37 -->
+    <visual>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_37_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_38 -->
+    <visual>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_38_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_39 -->
+    <visual>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_39_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_40 -->
+    <visual>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_40_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rx64_cap_5 -->
+    <visual>
+      <origin xyz="-1.22018e-17 -5.55112e-17 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+      <material name="rx64_cap_5_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.22018e-17 -5.55112e-17 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mf128zz_5 -->
+    <visual>
+      <origin xyz="-1.21663e-17 -5.55112e-17 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+      <material name="mf128zz_5_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.21663e-17 -5.55112e-17 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part hn05_i101_5 -->
+    <visual>
+      <origin xyz="-1.22651e-17 -5.55112e-17 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+      <material name="hn05_i101_5_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.22651e-17 -5.55112e-17 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mx64_5 -->
+    <visual>
+      <origin xyz="0 0 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+      <material name="mx64_5_material">
+        <color rgba="0.211765 0.211765 0.211765 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link motor_with_onshape_mounting_6 -->
+  <link name="motor_with_onshape_mounting_6">
+    <inertial>
+      <origin xyz="-6.26697e-10 -0.0272931 -0.0268243" rpy="0 0 0"/>
+      <mass value="0.146495"/>
+      <inertia ixx="0.000204316" ixy="2.23005e-12" ixz="1.96765e-12" iyy="6.43541e-05" iyz="8.00346e-06" izz="0.000172816"/>
+    </inertial>
+    <!-- Part robot_mount_white_side_6 -->
+    <visual>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+      <material name="robot_mount_white_side_6_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part robot_mount_black_side_6 -->
+    <visual>
+      <origin xyz="0.00356934 -0.0629505 1.80411e-16" rpy="-3.33067e-16 -2.77556e-17 5.04629e-26"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+      <material name="robot_mount_black_side_6_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00356934 -0.0629505 1.80411e-16" rpy="-3.33067e-16 -2.77556e-17 5.04629e-26"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_41 -->
+    <visual>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_41_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_42 -->
+    <visual>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_42_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_43 -->
+    <visual>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_43_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_44 -->
+    <visual>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_44_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_45 -->
+    <visual>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_45_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_46 -->
+    <visual>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_46_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_47 -->
+    <visual>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_47_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_48 -->
+    <visual>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_48_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rx64_cap_6 -->
+    <visual>
+      <origin xyz="-1.7702e-17 -1.11022e-16 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+      <material name="rx64_cap_6_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.7702e-17 -1.11022e-16 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mf128zz_6 -->
+    <visual>
+      <origin xyz="-1.76665e-17 -1.11022e-16 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+      <material name="mf128zz_6_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.76665e-17 -1.11022e-16 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part hn05_i101_6 -->
+    <visual>
+      <origin xyz="-1.77653e-17 -1.11022e-16 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+      <material name="hn05_i101_6_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.77653e-17 -1.11022e-16 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mx64_6 -->
+    <visual>
+      <origin xyz="0 0 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+      <material name="mx64_6_material">
+        <color rgba="0.211765 0.211765 0.211765 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link motor_with_no_arms -->
+  <link name="motor_with_no_arms">
+    <inertial>
+      <origin xyz="-7.62304e-10 -0.0147254 -0.0275415" rpy="0 0 0"/>
+      <mass value="0.120435"/>
+      <inertia ixx="6.54242e-05" ixy="1.07623e-12" ixz="2.03349e-12" iyy="4.45701e-05" iyz="1.90145e-06" izz="4.8824e-05"/>
+    </inertial>
+    <!-- Part robot_mount_black_side_7 -->
+    <visual>
+      <origin xyz="0.00356934 -0.0629505 7.63278e-17" rpy="-1.47178e-16 -5.82867e-16 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side__2.stl"/>
+      </geometry>
+      <material name="robot_mount_black_side_7_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.00356934 -0.0629505 7.63278e-17" rpy="-1.47178e-16 -5.82867e-16 1.21446e-16"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_black_side__2.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part robot_mount_white_side_7 -->
+    <visual>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side__2.stl"/>
+      </geometry>
+      <material name="robot_mount_white_side_7_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00356934 -0.0629505 -0.04702" rpy="-3.14159 2.77556e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/robot_mount_white_side__2.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_49 -->
+    <visual>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_49_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0065 -0.0355" rpy="-3.64452e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_50 -->
+    <visual>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_50_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_51 -->
+    <visual>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_51_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 -0.0205 -0.0355" rpy="-1.57353e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_52 -->
+    <visual>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_52_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0015 -0.0355" rpy="-2.07313e-15 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_53 -->
+    <visual>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_53_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0148 0.0065 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_54 -->
+    <visual>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_54_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 -0.0155 -0.0355" rpy="1.57353e-15 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_55 -->
+    <visual>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_55_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0198 -0.0155 -0.0115" rpy="3.14159 5.72984e-17 1.04237e-17"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mounting_cube_25_30_56 -->
+    <visual>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+      <material name="mounting_cube_25_30_56_material">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0148 0.0015 -0.0115" rpy="3.14159 -5.72984e-17 -3.14159"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mounting_cube_25_30.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rx64_cap_7 -->
+    <visual>
+      <origin xyz="6.10623e-19 0 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+      <material name="rx64_cap_7_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="6.10623e-19 0 -0.0455" rpy="3.14159 3.03101e-16 1.49867"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/rx64_cap.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mf128zz_7 -->
+    <visual>
+      <origin xyz="6.4615e-19 0 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+      <material name="mf128zz_7_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="6.4615e-19 0 -0.04678" rpy="-7.87327e-15 1.85721e-16 1.9762"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mf128zz.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part hn05_i101_7 -->
+    <visual>
+      <origin xyz="5.4734e-19 0 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+      <material name="hn05_i101_7_material">
+        <color rgba="0.8 0.776471 0.713725 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="5.4734e-19 0 -0.04322" rpy="3.14159 -1.31264e-14 0.336505"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/hn05_i101.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part mx64_7 -->
+    <visual>
+      <origin xyz="0 0 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+      <material name="mx64_7_material">
+        <color rgba="0.211765 0.211765 0.211765 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0235" rpy="0 -0 8.24094e-33"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/mx64.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link inner_adhesive_pad -->
+  <link name="inner_adhesive_pad">
+    <inertial>
+      <origin xyz="0.0078 0.0157555 0" rpy="0 0 0"/>
+      <mass value="0.00312037"/>
+      <inertia ixx="2.94104e-07" ixy="1.3911e-48" ixz="-3.44607e-48" iyy="8.4842e-08" iyz="-4.0113e-49" izz="3.6646e-07"/>
+    </inertial>
+    <!-- Part inner_adhesive_pad -->
+    <visual>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.72873e-42 3.18057e-42 1.45417e-41"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+      <material name="inner_adhesive_pad_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.72873e-42 3.18057e-42 1.45417e-41"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_no_arms to inner_adhesive_pad -->
+  <joint name="inner_pad_7" type="prismatic">
+    <origin xyz="0.0078 0.0009 -0.05752" rpy="3.69223e-16 2.77556e-17 -3.14159"/>
+    <parent link="motor_with_no_arms"/>
+    <child link="inner_adhesive_pad"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Link outer_adhesive_pad -->
+  <link name="outer_adhesive_pad">
+    <inertial>
+      <origin xyz="0.0117 0.0235675 4.33681e-19" rpy="0 0 0"/>
+      <mass value="0.00381674"/>
+      <inertia ixx="1.21307e-06" ixy="6.18535e-48" ixz="-1.43718e-47" iyy="3.36781e-07" iyz="-1.59227e-48" izz="1.53458e-06"/>
+    </inertial>
+    <!-- Part outer_adhesive_pad -->
+    <visual>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.72873e-42 3.18057e-42 1.45417e-41"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+      <material name="outer_adhesive_pad_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.72873e-42 3.18057e-42 1.45417e-41"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_no_arms to outer_adhesive_pad -->
+  <joint name="outer_pad_7" type="prismatic">
+    <origin xyz="0.0117 0.00885 -0.05752" rpy="3.69223e-16 2.77556e-17 -3.14159"/>
+    <parent link="motor_with_no_arms"/>
+    <child link="outer_adhesive_pad"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Joint from motor_with_onshape_mounting_6 to motor_with_no_arms -->
+  <joint name="revolute_6" type="revolute">
+    <origin xyz="-3.73908e-18 -0.12 2.01228e-16" rpy="0 -0 8.24094e-33"/>
+    <parent link="motor_with_onshape_mounting_6"/>
+    <child link="motor_with_no_arms"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-2.1" upper="2.1"/>
+    <joint_properties friction="0.1"/>
+  </joint>
+  <!-- Link inner_adhesive_pad_2 -->
+  <link name="inner_adhesive_pad_2">
+    <inertial>
+      <origin xyz="0.0078 0.0157555 -4.33681e-19" rpy="0 0 0"/>
+      <mass value="0.00312037"/>
+      <inertia ixx="2.94104e-07" ixy="-1.73085e-48" ixz="-1.83429e-48" iyy="8.4842e-08" iyz="-1.55984e-48" izz="3.6646e-07"/>
+    </inertial>
+    <!-- Part inner_adhesive_pad_2 -->
+    <visual>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+      <material name="inner_adhesive_pad_2_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_6 to inner_adhesive_pad_2 -->
+  <joint name="inner_pad_6" type="prismatic">
+    <origin xyz="0.0078 0.0009 -0.05752" rpy="1.47178e-16 2.77556e-17 -3.14159"/>
+    <parent link="motor_with_onshape_mounting_6"/>
+    <child link="inner_adhesive_pad_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Link outer_adhesive_pad_2 -->
+  <link name="outer_adhesive_pad_2">
+    <inertial>
+      <origin xyz="0.0117 0.0235675 0" rpy="0 0 0"/>
+      <mass value="0.00381674"/>
+      <inertia ixx="1.21307e-06" ixy="-7.07899e-48" ixz="-7.62981e-48" iyy="3.36781e-07" iyz="-6.44771e-48" izz="1.53458e-06"/>
+    </inertial>
+    <!-- Part outer_adhesive_pad_2 -->
+    <visual>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+      <material name="outer_adhesive_pad_2_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_6 to outer_adhesive_pad_2 -->
+  <joint name="outer_pad_6" type="prismatic">
+    <origin xyz="0.0117 0.00885 -0.05752" rpy="1.47178e-16 2.77556e-17 -3.14159"/>
+    <parent link="motor_with_onshape_mounting_6"/>
+    <child link="outer_adhesive_pad_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Joint from motor_with_onshape_mounting_5 to motor_with_onshape_mounting_6 -->
+  <joint name="revolute_5" type="revolute">
+    <origin xyz="2.00737e-17 -0.12 2.22045e-16" rpy="0 -0 8.24094e-33"/>
+    <parent link="motor_with_onshape_mounting_5"/>
+    <child link="motor_with_onshape_mounting_6"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-2.1" upper="2.1"/>
+    <joint_properties friction="0.1"/>
+  </joint>
+  <!-- Link inner_adhesive_pad_3 -->
+  <link name="inner_adhesive_pad_3">
+    <inertial>
+      <origin xyz="0.0078 0.0157555 0" rpy="0 0 0"/>
+      <mass value="0.00312037"/>
+      <inertia ixx="2.94104e-07" ixy="-1.73085e-48" ixz="-1.83429e-48" iyy="8.4842e-08" iyz="-1.55984e-48" izz="3.6646e-07"/>
+    </inertial>
+    <!-- Part inner_adhesive_pad_3 -->
+    <visual>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+      <material name="inner_adhesive_pad_3_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_5 to inner_adhesive_pad_3 -->
+  <joint name="inner_pad_5" type="prismatic">
+    <origin xyz="0.0078 0.0009 -0.05752" rpy="1.47178e-16 2.77556e-17 -3.14159"/>
+    <parent link="motor_with_onshape_mounting_5"/>
+    <child link="inner_adhesive_pad_3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Link outer_adhesive_pad_3 -->
+  <link name="outer_adhesive_pad_3">
+    <inertial>
+      <origin xyz="0.0117 0.0235675 0" rpy="0 0 0"/>
+      <mass value="0.00381674"/>
+      <inertia ixx="1.21307e-06" ixy="-7.07899e-48" ixz="-7.62981e-48" iyy="3.36781e-07" iyz="-6.44771e-48" izz="1.53458e-06"/>
+    </inertial>
+    <!-- Part outer_adhesive_pad_3 -->
+    <visual>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+      <material name="outer_adhesive_pad_3_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_5 to outer_adhesive_pad_3 -->
+  <joint name="outer_pad_5" type="prismatic">
+    <origin xyz="0.0117 0.00885 -0.05752" rpy="1.47178e-16 2.77556e-17 -3.14159"/>
+    <parent link="motor_with_onshape_mounting_5"/>
+    <child link="outer_adhesive_pad_3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Joint from motor_with_onshape_mounting_4 to motor_with_onshape_mounting_5 -->
+  <joint name="revolute_4" type="revolute">
+    <origin xyz="2.00737e-17 -0.12 2.28983e-16" rpy="0 -0 8.24094e-33"/>
+    <parent link="motor_with_onshape_mounting_4"/>
+    <child link="motor_with_onshape_mounting_5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-2.1" upper="2.1"/>
+    <joint_properties friction="0.1"/>
+  </joint>
+  <!-- Link inner_adhesive_pad_4 -->
+  <link name="inner_adhesive_pad_4">
+    <inertial>
+      <origin xyz="0.0078 0.0157555 0" rpy="0 0 0"/>
+      <mass value="0.00312037"/>
+      <inertia ixx="2.94104e-07" ixy="-1.73085e-48" ixz="-1.83429e-48" iyy="8.4842e-08" iyz="-1.55984e-48" izz="3.6646e-07"/>
+    </inertial>
+    <!-- Part inner_adhesive_pad_4 -->
+    <visual>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+      <material name="inner_adhesive_pad_4_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_4 to inner_adhesive_pad_4 -->
+  <joint name="inner_pad_4" type="prismatic">
+    <origin xyz="0.0078 0.0009 -0.05752" rpy="1.47178e-16 2.77556e-17 -3.14159"/>
+    <parent link="motor_with_onshape_mounting_4"/>
+    <child link="inner_adhesive_pad_4"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Link outer_adhesive_pad_4 -->
+  <link name="outer_adhesive_pad_4">
+    <inertial>
+      <origin xyz="0.0117 0.0235675 4.33681e-19" rpy="0 0 0"/>
+      <mass value="0.00381674"/>
+      <inertia ixx="1.21307e-06" ixy="-7.07899e-48" ixz="-7.62981e-48" iyy="3.36781e-07" iyz="-6.44771e-48" izz="1.53458e-06"/>
+    </inertial>
+    <!-- Part outer_adhesive_pad_4 -->
+    <visual>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+      <material name="outer_adhesive_pad_4_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_4 to outer_adhesive_pad_4 -->
+  <joint name="outer_pad_4" type="prismatic">
+    <origin xyz="0.0117 0.00885 -0.05752" rpy="1.47178e-16 2.77556e-17 -3.14159"/>
+    <parent link="motor_with_onshape_mounting_4"/>
+    <child link="outer_adhesive_pad_4"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Joint from motor_with_onshape_mounting_3 to motor_with_onshape_mounting_4 -->
+  <joint name="revolute_3" type="revolute">
+    <origin xyz="2.00737e-17 -0.12 2.28983e-16" rpy="0 -0 8.24094e-33"/>
+    <parent link="motor_with_onshape_mounting_3"/>
+    <child link="motor_with_onshape_mounting_4"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-2.1" upper="2.1"/>
+    <joint_properties friction="0.1"/>
+  </joint>
+  <!-- Link inner_adhesive_pad_5 -->
+  <link name="inner_adhesive_pad_5">
+    <inertial>
+      <origin xyz="0.0078 0.0157555 0" rpy="0 0 0"/>
+      <mass value="0.00312037"/>
+      <inertia ixx="2.94104e-07" ixy="-2.44504e-48" ixz="1.47586e-45" iyy="8.4842e-08" iyz="-1.55984e-48" izz="3.6646e-07"/>
+    </inertial>
+    <!-- Part inner_adhesive_pad_5 -->
+    <visual>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.55264e-42 -6.66785e-39 -7.98116e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+      <material name="inner_adhesive_pad_5_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="-4.55264e-42 -6.66785e-39 -7.98116e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_3 to inner_adhesive_pad_5 -->
+  <joint name="inner_pad_3" type="prismatic">
+    <origin xyz="0.0078 0.0009 -0.05752" rpy="1.47178e-16 -2.77556e-17 -3.14159"/>
+    <parent link="motor_with_onshape_mounting_3"/>
+    <child link="inner_adhesive_pad_5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Link outer_adhesive_pad_5 -->
+  <link name="outer_adhesive_pad_5">
+    <inertial>
+      <origin xyz="0.0117 0.0235675 4.33681e-19" rpy="0 0 0"/>
+      <mass value="0.00381674"/>
+      <inertia ixx="1.21307e-06" ixy="-7.07899e-48" ixz="-7.62981e-48" iyy="3.36781e-07" iyz="-6.44771e-48" izz="1.53458e-06"/>
+    </inertial>
+    <!-- Part outer_adhesive_pad_5 -->
+    <visual>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+      <material name="outer_adhesive_pad_5_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="-4.55264e-42 2.77686e-42 -4.56754e-42"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_3 to outer_adhesive_pad_5 -->
+  <joint name="outer_pad_3" type="prismatic">
+    <origin xyz="0.0117 0.00885 -0.05752" rpy="1.47178e-16 2.77556e-17 -3.14159"/>
+    <parent link="motor_with_onshape_mounting_3"/>
+    <child link="outer_adhesive_pad_5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Joint from motor_with_onshape_mounting_2 to motor_with_onshape_mounting_3 -->
+  <joint name="revolute_2" type="revolute">
+    <origin xyz="2.35431e-17 -0.12 2.01228e-16" rpy="4.43734e-31 3.57453e-31 1.29737e-33"/>
+    <parent link="motor_with_onshape_mounting_2"/>
+    <child link="motor_with_onshape_mounting_3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-2.1" upper="2.1"/>
+    <joint_properties friction="0.1"/>
+  </joint>
+  <!-- Link inner_adhesive_pad_6 -->
+  <link name="inner_adhesive_pad_6">
+    <inertial>
+      <origin xyz="0.0078 0.0157555 4.33681e-19" rpy="0 0 0"/>
+      <mass value="0.00312037"/>
+      <inertia ixx="2.94104e-07" ixy="2.77067e-38" ixz="-4.10147e-40" iyy="8.4842e-08" iyz="-5.64227e-39" izz="3.6646e-07"/>
+    </inertial>
+    <!-- Part inner_adhesive_pad_6 -->
+    <visual>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="2.00352e-32 -5.66854e-33 9.4456e-32"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+      <material name="inner_adhesive_pad_6_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="2.00352e-32 -5.66854e-33 9.4456e-32"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_2 to inner_adhesive_pad_6 -->
+  <joint name="inner_pad_2" type="prismatic">
+    <origin xyz="0.0078 0.0009 -0.05752" rpy="-2.33786e-17 -5.92139e-17 3.14159"/>
+    <parent link="motor_with_onshape_mounting_2"/>
+    <child link="inner_adhesive_pad_6"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Link outer_adhesive_pad_6 -->
+  <link name="outer_adhesive_pad_6">
+    <inertial>
+      <origin xyz="0.0117 0.0235675 4.33681e-19" rpy="0 0 0"/>
+      <mass value="0.00381674"/>
+      <inertia ixx="1.21307e-06" ixy="1.14291e-37" ixz="-1.82247e-39" iyy="3.36781e-07" iyz="-2.39981e-38" izz="1.53458e-06"/>
+    </inertial>
+    <!-- Part outer_adhesive_pad_6 -->
+    <visual>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="2.00352e-32 -5.66854e-33 9.4456e-32"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+      <material name="outer_adhesive_pad_6_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="2.00352e-32 -5.66854e-33 9.4456e-32"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting_2 to outer_adhesive_pad_6 -->
+  <joint name="outer_pad_2" type="prismatic">
+    <origin xyz="0.0117 0.00885 -0.05752" rpy="-2.33786e-17 -5.92139e-17 3.14159"/>
+    <parent link="motor_with_onshape_mounting_2"/>
+    <child link="outer_adhesive_pad_6"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Joint from motor_with_onshape_mounting to motor_with_onshape_mounting_2 -->
+  <joint name="revolute_1" type="revolute">
+    <origin xyz="-4.0289e-16 0.105344 0.06002" rpy="-2.96911e-16 2.77556e-17 3.14159"/>
+    <parent link="motor_with_onshape_mounting"/>
+    <child link="motor_with_onshape_mounting_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-2.1" upper="2.1"/>
+    <joint_properties friction="0.1"/>
+  </joint>
+  <!-- Link inner_adhesive_pad_7 -->
+  <link name="inner_adhesive_pad_7">
+    <inertial>
+      <origin xyz="0.0078 0.0157555 0" rpy="0 0 0"/>
+      <mass value="0.00312037"/>
+      <inertia ixx="2.94104e-07" ixy="2.5799e-99" ixz="-8.98361e-90" iyy="8.4842e-08" iyz="0" izz="3.6646e-07"/>
+    </inertial>
+    <!-- Part inner_adhesive_pad_7 -->
+    <visual>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="0 3.05457e-83 0"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+      <material name="inner_adhesive_pad_7_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0078 0.0159 -0.00245" rpy="0 3.05457e-83 0"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting to inner_adhesive_pad_7 -->
+  <joint name="inner_pad_1" type="prismatic">
+    <origin xyz="-0.0078 -0.0155564 0.0025" rpy="6.28532e-26 -0 7.69729e-42"/>
+    <parent link="motor_with_onshape_mounting"/>
+    <child link="inner_adhesive_pad_7"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Link outer_adhesive_pad_7 -->
+  <link name="outer_adhesive_pad_7">
+    <inertial>
+      <origin xyz="0.0117 0.0235675 0" rpy="0 0 0"/>
+      <mass value="0.00381674"/>
+      <inertia ixx="1.21307e-06" ixy="0" ixz="0" iyy="3.36781e-07" iyz="0" izz="1.53458e-06"/>
+    </inertial>
+    <!-- Part outer_adhesive_pad_7 -->
+    <visual>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+      <material name="outer_adhesive_pad_7_material">
+        <color rgba="0.74902 0.74902 0.74902 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0117 0.02385 -0.00245" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from motor_with_onshape_mounting to outer_adhesive_pad_7 -->
+  <joint name="outer_pad_1" type="prismatic">
+    <origin xyz="-0.0117 -0.0235064 0.0025" rpy="0 -0 0"/>
+    <parent link="motor_with_onshape_mounting"/>
+    <child link="outer_adhesive_pad_7"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
+  </joint>
+  <!-- Additional frictions_additional_xml.xml -->
+  <!-- Gazebo contact friction parameters -->
+  <!-- Inner pads: Teflon–Wood -->
+  <gazebo reference="inner_adhesive_pad">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.05</mu>
+          <mu2>0.05</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="inner_adhesive_pad_2">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.05</mu>
+          <mu2>0.05</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="inner_adhesive_pad_3">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.05</mu>
+          <mu2>0.05</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="inner_adhesive_pad_4">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.05</mu>
+          <mu2>0.05</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="inner_adhesive_pad_5">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.05</mu>
+          <mu2>0.05</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="inner_adhesive_pad_6">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.05</mu>
+          <mu2>0.05</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="inner_adhesive_pad_7">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.05</mu>
+          <mu2>0.05</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <!-- Outer pads: Rubber–Wood -->
+  <gazebo reference="outer_adhesive_pad">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.9</mu>
+          <mu2>0.9</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="outer_adhesive_pad_2">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.9</mu>
+          <mu2>0.9</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="outer_adhesive_pad_3">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.9</mu>
+          <mu2>0.9</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="outer_adhesive_pad_4">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.9</mu>
+          <mu2>0.9</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="outer_adhesive_pad_5">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.9</mu>
+          <mu2>0.9</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="outer_adhesive_pad_6">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.9</mu>
+          <mu2>0.9</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <gazebo reference="outer_adhesive_pad_7">
+    <surface>
+      <friction>
+        <ode>
+          <mu>0.9</mu>
+          <mu2>0.9</mu2>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  <!-- Gazebo ROS joint state plugin -->
+  <gazebo>
+    <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>/home/filip/ros2_ws/install/snake_sim/share/snake_sim/config/controllers.yaml</parameters>
+      <ros>
+        <namespace>/</namespace>
+      </ros>
+    </plugin>
+  </gazebo>
+  <ros2_control name="SnakeSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <!-- Revolute joints between the modules -->
+    <joint name="revolute_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="revolute_2">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="revolute_3">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="revolute_4">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="revolute_5">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="revolute_6">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <!-- Outer adhesive pad sliding joints -->
+    <joint name="outer_pad_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="outer_pad_2">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="outer_pad_3">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="outer_pad_4">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="outer_pad_5">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="outer_pad_6">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="outer_pad_7">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <!-- Inner adhesive pad sliding joints -->
+    <joint name="inner_pad_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="inner_pad_2">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="inner_pad_3">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="inner_pad_4">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="inner_pad_5">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="inner_pad_6">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="inner_pad_7">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+</robot>
