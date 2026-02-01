@@ -46,6 +46,7 @@ setup(
     entry_points={
         'console_scripts': [
             'movement_controller = snake_sim.movement_controller:main',
+            'concertina_movement_controller = snake_sim.concertina_movement_controller:main',
         ],
     },
 )

@@ -66,7 +66,7 @@ def generate_launch_description():
     # Movement controller node
     movement_controller_node = Node(
         package="snake_sim",
-        executable="movement_controller",
+        executable="concertina_movement_controller",
         name="movement_controller_node",
         output="screen",
         parameters=[{"use_sim_time": True}]
