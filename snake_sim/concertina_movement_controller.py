@@ -41,7 +41,7 @@ class ConcertinaMovementController(Node):
                 {self.sliding_pad_joint_count} x2 sliding joints")
         
         self.phase = 0
-        self.phase_duration_s = 3
+        self.phase_duration_s = 6
 
     def update(self):
         t = time.time() - self.start_time
@@ -51,44 +51,72 @@ class ConcertinaMovementController(Node):
         msg.data = []
         # swivel joints (between modules)
         for i in range(self.swivel_joint_count):
-            if self.phase == 0:
-                # 0
-                if i < 1:
+            match self.phase:
+                case 0:
                     angle = 0
-                # 1
-                elif i == 1:
-                    angle = -math.pi/4
-                # 2, 3, ....
-                else:
-                    if i % 2 == 0:
-                        angle = math.pi/2
+                case 1 | 2:
+                    # 0
+                    if i < 1:
+                        angle = 0
+                    # 1
+                    elif i == 1:
+                        angle = -math.pi/4
+                    # 2, 3, ....
                     else:
-                        angle = -math.pi/2
-                msg.data.append(angle)
+                        if i % 2 == 0:
+                            angle = math.pi/2
+                        else:
+                            angle = -math.pi/2
+                case 3:
+                    if i < (self.sliding_pad_joint_count - 3):
+                        angle = 0
+                    elif i == (self.sliding_pad_joint_count - 3):
+                        angle = -math.pi/4
+                    else:
+                        if i % 2 == 0:
+                            angle = math.pi/2
+                        else:
+                            angle = -math.pi/2
+            msg.data.append(angle)
         # sliding joints -- outer HIGH friction pads
+        # the value is in coordinates with axis pointing to the top of the robot
+        # that means, values > 0 will hide the pad,
+        # and values < 0 will stick out the pad
         for i in range(self.sliding_pad_joint_count):
-            if self.phase == 0:
-                # 0, 1
-                if i < 2:
-                    protrusion = 1
-                    # +max
-                # 2, 3, 4, ....
-                else:
-                    protrusion = -1
-                    # -max
-                msg.data.append(protrusion)
+            match self.phase:
+                case 0 | 1:
+                    # 0, 1
+                    if i < 2:
+                        protrusion_outer = -1
+                        # +max
+                    # 2, 3, 4, ....
+                    else:
+                        protrusion_outer = 1
+                        # -max
+                case 2 | 3:
+                    if i < (self.sliding_pad_joint_count - 2):
+                        protrusion_outer = 1
+                    else:
+                        protrusion_outer = -1
+            msg.data.append(protrusion_outer)
         # sliding joints -- inner LOW friction pads
         for i in range(self.sliding_pad_joint_count):
-            if self.phase == 0:
-                # 0, 1
-                if i < 2:
-                    protrusion = -1
-                    # -max
-                # 2, 3, 4, ....
-                else:
-                    protrusion = 1
-                    # +max
-                msg.data.append(protrusion)
+            match self.phase:
+                case 0 | 1:
+                    # 0, 1
+                    if i < 2:
+                        protrusion_inner = 1
+                        # -max
+                    # 2, 3, 4, ....
+                    else:
+                        protrusion_inner = -1
+                        # +max
+                case 2 | 3:
+                    if i < (self.sliding_pad_joint_count - 2):
+                        protrusion_inner = -1
+                    else:
+                        protrusion_inner = 1
+            msg.data.append(protrusion_inner)
 
         self.publisher.publish(msg)
 
