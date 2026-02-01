@@ -1640,7 +1640,7 @@
         <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
       </geometry>
       <material name="inner_adhesive_pad_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="0.372549 0.654902 0.239216 1"/>
       </material>
     </visual>
     <collision>
@@ -1672,7 +1672,7 @@
         <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
       </geometry>
       <material name="outer_adhesive_pad_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="1 0 0 1"/>
       </material>
     </visual>
     <collision>
@@ -1713,7 +1713,7 @@
         <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
       </geometry>
       <material name="inner_adhesive_pad_2_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="0.372549 0.654902 0.239216 1"/>
       </material>
     </visual>
     <collision>
@@ -1745,7 +1745,7 @@
         <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
       </geometry>
       <material name="outer_adhesive_pad_2_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="1 0 0 1"/>
       </material>
     </visual>
     <collision>
@@ -1786,7 +1786,7 @@
         <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
       </geometry>
       <material name="inner_adhesive_pad_3_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="0.372549 0.654902 0.239216 1"/>
       </material>
     </visual>
     <collision>
@@ -1818,7 +1818,7 @@
         <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
       </geometry>
       <material name="outer_adhesive_pad_3_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="1 0 0 1"/>
       </material>
     </visual>
     <collision>
@@ -1859,7 +1859,7 @@
         <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
       </geometry>
       <material name="inner_adhesive_pad_4_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="0.372549 0.654902 0.239216 1"/>
       </material>
     </visual>
     <collision>
@@ -1891,7 +1891,7 @@
         <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
       </geometry>
       <material name="outer_adhesive_pad_4_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="1 0 0 1"/>
       </material>
     </visual>
     <collision>
@@ -1932,7 +1932,7 @@
         <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
       </geometry>
       <material name="inner_adhesive_pad_5_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="0.372549 0.654902 0.239216 1"/>
       </material>
     </visual>
     <collision>
@@ -1964,7 +1964,7 @@
         <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
       </geometry>
       <material name="outer_adhesive_pad_5_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="1 0 0 1"/>
       </material>
     </visual>
     <collision>
@@ -2005,7 +2005,7 @@
         <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
       </geometry>
       <material name="inner_adhesive_pad_6_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="0.372549 0.654902 0.239216 1"/>
       </material>
     </visual>
     <collision>
@@ -2037,7 +2037,7 @@
         <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
       </geometry>
       <material name="outer_adhesive_pad_6_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="1 0 0 1"/>
       </material>
     </visual>
     <collision>
@@ -2078,7 +2078,7 @@
         <mesh filename="package://snake_sim/urdf/assets/inner_adhesive_pad.stl"/>
       </geometry>
       <material name="inner_adhesive_pad_7_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="0.372549 0.654902 0.239216 1"/>
       </material>
     </visual>
     <collision>
@@ -2110,7 +2110,7 @@
         <mesh filename="package://snake_sim/urdf/assets/outer_adhesive_pad.stl"/>
       </geometry>
       <material name="outer_adhesive_pad_7_material">
-        <color rgba="0.74902 0.74902 0.74902 1"/>
+        <color rgba="1 0 0 1"/>
       </material>
     </visual>
     <collision>

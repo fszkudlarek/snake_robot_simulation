@@ -5,7 +5,7 @@
     "output_format": "urdf",
         // Package name (for ROS) (default: "")
     "package_name": "snake_sim/urdf",
-    "additional_xml": "frictions_additional_xml.xml",
+    "additional_xml": "frictions_joints_additional.xml",
     "joint_properties": {
         // Default properties for all joints
         "*": {
