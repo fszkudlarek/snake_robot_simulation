@@ -11,9 +11,26 @@ controller_manager:
 movement_controller:
   ros__parameters:
     joints:
+      # Revolute joints between modules
       - revolute_1
       - revolute_2
       - revolute_3
       - revolute_4
       - revolute_5
       - revolute_6
+      # Outer adhesive pad sliding joints (high friction)
+      - outer_pad_1
+      - outer_pad_2
+      - outer_pad_3
+      - outer_pad_4
+      - outer_pad_5
+      - outer_pad_6
+      - outer_pad_7
+      # Inner adhesive pad sliding joints (low friction)
+      - inner_pad_1
+      - inner_pad_2
+      - inner_pad_3
+      - inner_pad_4
+      - inner_pad_5
+      - inner_pad_6
+      - inner_pad_7

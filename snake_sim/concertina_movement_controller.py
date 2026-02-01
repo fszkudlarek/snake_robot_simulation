@@ -17,11 +17,14 @@ class ConcertinaMovementController(Node):
         )
 
         # ---- PARAMETERS ----
-        self.declare_parameter('joint_count', 6)
+        self.declare_parameter('swivel_joint_count', 6)
+        self.declare_parameter('sliding_pad_joint_count', 7)
         self.declare_parameter('publish_rate', 50.0)   # Hz
 
-        self.joint_count = self.get_parameter(
-            'joint_count').value
+        self.swivel_joint_count = self.get_parameter(
+            'swivel_joint_count').value
+        self.sliding_pad_joint_count = self.get_parameter(
+            'sliding_pad_joint_count').value
         self.publish_rate = self.get_parameter(
             'publish_rate').value
 
@@ -33,19 +36,21 @@ class ConcertinaMovementController(Node):
         )
 
         self.get_logger().info(
-            f"Concertina movement controller started with {self.joint_count} joints")
+            f"Concertina movement controller started with:\n\
+                {self.swivel_joint_count} swivel joints\n\
+                {self.sliding_pad_joint_count} x2 sliding joints")
         
         self.phase = 0
         self.phase_duration_s = 3
 
     def update(self):
         t = time.time() - self.start_time
-        phase = int((t / self.phase_duration) % 4)
+        self.phase = int((t / self.phase_duration_s) % 4)
 
         msg = Float64MultiArray()
         msg.data = []
-
-        for i in range(self.joint_count):
+        # swivel joints (between modules)
+        for i in range(self.swivel_joint_count):
             if self.phase == 0:
                 # 0
                 if i < 1:
@@ -60,6 +65,30 @@ class ConcertinaMovementController(Node):
                     else:
                         angle = -math.pi/2
                 msg.data.append(angle)
+        # sliding joints -- outer HIGH friction pads
+        for i in range(self.sliding_pad_joint_count):
+            if self.phase == 0:
+                # 0, 1
+                if i < 2:
+                    protrusion = 1
+                    # +max
+                # 2, 3, 4, ....
+                else:
+                    protrusion = -1
+                    # -max
+                msg.data.append(protrusion)
+        # sliding joints -- inner LOW friction pads
+        for i in range(self.sliding_pad_joint_count):
+            if self.phase == 0:
+                # 0, 1
+                if i < 2:
+                    protrusion = -1
+                    # -max
+                # 2, 3, 4, ....
+                else:
+                    protrusion = 1
+                    # +max
+                msg.data.append(protrusion)
 
         self.publisher.publish(msg)
 
