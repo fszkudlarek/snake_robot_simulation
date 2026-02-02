@@ -71,7 +71,7 @@ class ConcertinaMovementController(Node):
                     if i < (self.sliding_pad_joint_count - 3):
                         angle = 0
                     elif i == (self.sliding_pad_joint_count - 3):
-                        angle = -math.pi/4
+                        angle = math.pi/4
                     else:
                         if i % 2 == 0:
                             angle = math.pi/2

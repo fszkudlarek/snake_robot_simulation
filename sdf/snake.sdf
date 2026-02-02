@@ -2404,7 +2404,7 @@
             <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.05</mu><mu2>0.05</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="inner_pad_7" type="prismatic">
@@ -2462,7 +2462,7 @@
             <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="outer_pad_7" type="prismatic">
@@ -2539,7 +2539,7 @@
             <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.05</mu><mu2>0.05</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="inner_pad_6" type="prismatic">
@@ -2597,7 +2597,7 @@
             <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="outer_pad_6" type="prismatic">
@@ -2674,7 +2674,7 @@
             <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.05</mu><mu2>0.05</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="inner_pad_5" type="prismatic">
@@ -2732,7 +2732,7 @@
             <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="outer_pad_5" type="prismatic">
@@ -2809,7 +2809,7 @@
             <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.05</mu><mu2>0.05</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="inner_pad_4" type="prismatic">
@@ -2867,7 +2867,7 @@
             <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="outer_pad_4" type="prismatic">
@@ -2944,7 +2944,7 @@
             <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.05</mu><mu2>0.05</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="inner_pad_3" type="prismatic">
@@ -3002,7 +3002,7 @@
             <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="outer_pad_3" type="prismatic">
@@ -3079,7 +3079,7 @@
             <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.05</mu><mu2>0.05</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="inner_pad_2" type="prismatic">
@@ -3137,7 +3137,7 @@
             <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="outer_pad_2" type="prismatic">
@@ -3214,7 +3214,7 @@
             <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.05</mu><mu2>0.05</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="inner_pad_1" type="prismatic">
@@ -3272,7 +3272,7 @@
             <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
           </mesh>
         </geometry>
-      <surface><friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction></surface></collision>
+      <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
     
     <joint name="outer_pad_1" type="prismatic">
