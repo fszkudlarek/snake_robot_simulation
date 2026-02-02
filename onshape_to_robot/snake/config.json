@@ -1,44 +1,89 @@
 {
     // Onshape URL of the assembly
-    "url": "https://cad.onshape.com/documents/2f8d19c43f1b817c7ff32a2e/w/5f254ec270ad323016b0722c/e/0a66a33b4483ec246f7b557chttps://cad.onshape.com/documents/2f8d19c43f1b817c7ff32a2e/w/5f254ec270ad323016b0722c/e/0a66a33b4483ec246f7b557c",
-    // Output format
-    "output_format": "urdf",
-        // Package name (for ROS) (default: "")
-    "package_name": "snake_sim/urdf",
+    "url": "https://cad.onshape.com/documents/2f8d19c43f1b817c7ff32a2e/w/5f254ec270ad323016b0722c/e/0a66a33b4483ec246f7b557c",
+    
+    // Output format - CHANGED TO SDF
+    "output_format": "sdf",
+    
+    // Package name (for ROS)
+    "package_name": "snake_sim/sdf",
+    
+    // Additional XML file (you can keep this or remove it - your choice)
     "additional_xml": "frictions_joints_additional.xml",
+    
+    // Joint properties
     "joint_properties": {
         // Default properties for all joints
         "*": {
+            "max_effort": 10.0,
+            "max_velocity": 10.0
         },
-        // Set the properties for a specific joint
-        // Limits for revolute joints: +-120deg
+        
+        // Revolute joints between modules
         "revolute_1": {
             "friction": 0.1,
-            "limits": [-2.1, 2.1]
+            "limits": [-2.1, 2.1],
+            "max_effort": 10.0,
+            "max_velocity": 10.0
         },
         "revolute_2": {
             "friction": 0.1,
-            "limits": [-2.1, 2.1]
+            "limits": [-2.1, 2.1],
+            "max_effort": 10.0,
+            "max_velocity": 10.0
         },
         "revolute_3": {
             "friction": 0.1,
-            "limits": [-2.1, 2.1]
+            "limits": [-2.1, 2.1],
+            "max_effort": 10.0,
+            "max_velocity": 10.0
         },
         "revolute_4": {
             "friction": 0.1,
-            "limits": [-2.1, 2.1]
+            "limits": [-2.1, 2.1],
+            "max_effort": 10.0,
+            "max_velocity": 10.0
         },
         "revolute_5": {
             "friction": 0.1,
-            "limits": [-2.1, 2.1]
+            "limits": [-2.1, 2.1],
+            "max_effort": 10.0,
+            "max_velocity": 10.0
         },
         "revolute_6": {
             "friction": 0.1,
-            "limits": [-2.1, 2.1]
+            "limits": [-2.1, 2.1],
+            "max_effort": 10.0,
+            "max_velocity": 10.0
         },
+        
+        // Sliding pad joints (prismatic)
+        "outer_pad_*": {
+            "max_effort": 10.0,
+            "max_velocity": 10.0
+        },
+        "inner_pad_*": {
+            "max_effort": 10.0,
+            "max_velocity": 10.0
+        }
     },
+    
+    // Geometry properties - THIS IS WHERE WE SET FRICTION COEFFICIENTS
+    "geom_properties": {
+        // Inner adhesive pads - Low friction (Teflon-Wood: μ = 0.05)
+        "inner_adhesive_pad*": {
+            "collision": {
+                "mu": "0.05",
+                "mu2": "0.05"
+            }
+        },
+        
+        // Outer adhesive pads - High friction (Rubber-Wood: μ = 0.9)
+        "outer_adhesive_pad*": {
+            "collision": {
+                "mu": "0.9",
+                "mu2": "0.9"
+            }
+        }
+    }
 }
-
-// Frictions:
-// Teflon -- wood: 0.05-0.1
-// Rubber -- wood: 0.7-0.9

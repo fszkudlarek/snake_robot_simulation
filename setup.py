@@ -24,6 +24,12 @@ setup(
         (os.path.join('share', package_name, 'urdf', 'assets'),
             glob('urdf/assets/*')),
 
+        # ADD: SDF files
+        (os.path.join('share', package_name, 'sdf', 'snake'),
+            glob('sdf/*.sdf') + ['sdf/model.config']),
+        (os.path.join('share', package_name, 'sdf', 'snake', 'assets'),
+            glob('sdf/assets/*')),
+
         # Install world files
         (os.path.join('share', package_name, 'worlds'),
             glob('worlds/*')),
