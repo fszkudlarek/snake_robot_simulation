@@ -1,90 +1,95 @@
+import os
 from launch import LaunchDescription
-from launch.actions import ExecuteProcess, TimerAction
+from launch.actions import IncludeLaunchDescription, ExecuteProcess
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
-import os
-
-package_name = "snake_sim"
 
 def generate_launch_description():
-    pkg_share = get_package_share_directory(package_name)
+    pkg_share = get_package_share_directory('snake_sim')
+    
+    # IMPORTANT: Set Gazebo resource path so it can find meshes
+    sdf_dir = os.path.join(pkg_share, 'sdf')
+    if 'GZ_SIM_RESOURCE_PATH' in os.environ:
+        os.environ['GZ_SIM_RESOURCE_PATH'] = sdf_dir + ':' + os.environ['GZ_SIM_RESOURCE_PATH']
+    else:
+        os.environ['GZ_SIM_RESOURCE_PATH'] = sdf_dir
 
-    urdf_path = os.path.join(pkg_share, "urdf", "snake.urdf")
-    world_path = os.path.join(pkg_share, "worlds", "empty.world")
-    controllers = os.path.join(pkg_share, "config", "controllers.yaml")
-
+    # Path to SDF file
+    sdf_path = os.path.join(pkg_share, 'sdf', 'snake', 'snake.sdf')
+    
+    # Path to world file
+    world_path = os.path.join(pkg_share, 'worlds', 'empty.world')
+    
+    # Launch Gazebo with empty world
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
+        ]),
+        launch_arguments={'gz_args': ['-r ', world_path]}.items(),
+    )
+    
     # Robot State Publisher
     robot_state_publisher = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        parameters=[
-            {
-                "robot_description": open(urdf_path).read(),
-                "use_sim_time": True,
-            }
-        ],
-        output="screen",
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[{'robot_description': open(sdf_path).read()}]
     )
-
-    # Gazebo Simulation
-    gazebo = ExecuteProcess(
-        cmd=["gz", "sim", "-r", world_path],
-        output="screen"
-    )
-
-    # Spawn robot into Gazebo
+    
+    # Spawn robot in Gazebo
     spawn_entity = Node(
-        package="ros_gz_sim",
-        executable="create",
-        arguments=["-name", "snake", "-topic", "robot_description"],
-        output="screen",
+        package='ros_gz_sim',
+        executable='create',
+        arguments=[
+            '-name', 'snake',
+            '-file', sdf_path,
+            '-x', '0',
+            '-y', '0',
+            '-z', '0.1',
+        ],
+        output='screen',
     )
-
-    # Bridge for clock (optional but recommended)
-    gz_ros2_bridge_clock = Node(
+    
+    # Bridge for clock
+    bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
         output='screen'
     )
-
-    # Spawner nodes for controllers (delayed to allow Gazebo to initialize)
-    spawn_jsb = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster"],
-        output="screen",
-    )
-
-    spawn_snake = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["movement_controller"],
-        output="screen",
-    )
-
-    # Movement controller node
-    movement_controller_node = Node(
-        package="snake_sim",
-        executable="movement_controller",
-        name="movement_controller_node",
-        output="screen",
-        parameters=[{"use_sim_time": True}]
-    )
-
-    # Delay spawners to allow Gazebo's controller_manager to initialize
-    spawn_jsb_delayed = TimerAction(period=5.0, actions=[spawn_jsb])
-    spawn_snake_delayed = TimerAction(period=6.0, actions=[spawn_snake])
     
-    # Delay movement controller to start after controllers are spawned
-    movement_controller_delayed = TimerAction(period=8.0, actions=[movement_controller_node])
-
+    # Load joint state broadcaster
+    joint_state_broadcaster_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_state_broadcaster'],
+        output='screen',
+    )
+    
+    # Load movement controller
+    movement_controller_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['movement_controller'],
+        output='screen',
+    )
+    
+    # Start the concertina movement controller node
+    concertina_controller = Node(
+        package='snake_sim',
+        executable='concertina_movement_controller',
+        name='movement_controller_node',
+        output='screen',
+    )
+    
     return LaunchDescription([
         gazebo,
         robot_state_publisher,
         spawn_entity,
-        gz_ros2_bridge_clock,
-        spawn_jsb_delayed,
-        spawn_snake_delayed,
-        movement_controller_delayed,
+        bridge,
+        joint_state_broadcaster_spawner,
+        movement_controller_spawner,
+        concertina_controller,
     ])

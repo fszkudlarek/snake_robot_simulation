@@ -2128,149 +2128,65 @@
     <axis xyz="0 0 1"/>
     <limit effort="10" velocity="10" lower="-0.0025" upper="0"/>
   </joint>
-  <!-- Additional frictions_additional_xml.xml -->
+  <!-- Additional frictions_joints_additional.xml -->
   <!-- Gazebo contact friction parameters -->
-  <!-- Inner pads: Teflon–Wood -->
+  <!-- Inner pads: Teflon–Wood (low friction μ ≈ 0.05) -->
   <gazebo reference="inner_adhesive_pad">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.05</mu>
-          <mu2>0.05</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.05</mu1>
+    <mu2>0.05</mu2>
   </gazebo>
   <gazebo reference="inner_adhesive_pad_2">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.05</mu>
-          <mu2>0.05</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.05</mu1>
+    <mu2>0.05</mu2>
   </gazebo>
   <gazebo reference="inner_adhesive_pad_3">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.05</mu>
-          <mu2>0.05</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.05</mu1>
+    <mu2>0.05</mu2>
   </gazebo>
   <gazebo reference="inner_adhesive_pad_4">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.05</mu>
-          <mu2>0.05</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.05</mu1>
+    <mu2>0.05</mu2>
   </gazebo>
   <gazebo reference="inner_adhesive_pad_5">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.05</mu>
-          <mu2>0.05</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.05</mu1>
+    <mu2>0.05</mu2>
   </gazebo>
   <gazebo reference="inner_adhesive_pad_6">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.05</mu>
-          <mu2>0.05</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.05</mu1>
+    <mu2>0.05</mu2>
   </gazebo>
   <gazebo reference="inner_adhesive_pad_7">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.05</mu>
-          <mu2>0.05</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.05</mu1>
+    <mu2>0.05</mu2>
   </gazebo>
-  <!-- Outer pads: Rubber–Wood -->
+  <!-- Outer pads: Rubber–Wood (high friction μ ≈ 0.9) -->
   <gazebo reference="outer_adhesive_pad">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.9</mu>
-          <mu2>0.9</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
   </gazebo>
   <gazebo reference="outer_adhesive_pad_2">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.9</mu>
-          <mu2>0.9</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
   </gazebo>
   <gazebo reference="outer_adhesive_pad_3">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.9</mu>
-          <mu2>0.9</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
   </gazebo>
   <gazebo reference="outer_adhesive_pad_4">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.9</mu>
-          <mu2>0.9</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
   </gazebo>
   <gazebo reference="outer_adhesive_pad_5">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.9</mu>
-          <mu2>0.9</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
   </gazebo>
   <gazebo reference="outer_adhesive_pad_6">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.9</mu>
-          <mu2>0.9</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
   </gazebo>
   <gazebo reference="outer_adhesive_pad_7">
-    <surface>
-      <friction>
-        <ode>
-          <mu>0.9</mu>
-          <mu2>0.9</mu2>
-        </ode>
-      </friction>
-    </surface>
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
   </gazebo>
   <!-- Gazebo ROS joint state plugin -->
   <gazebo>

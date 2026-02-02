@@ -24,6 +24,12 @@ setup(
         (os.path.join('share', package_name, 'urdf', 'assets'),
             glob('urdf/assets/*')),
 
+        # ADD: SDF files
+        (os.path.join('share', package_name, 'sdf', 'snake'),
+            glob('sdf/*.sdf') + ['sdf/model.config']),
+        (os.path.join('share', package_name, 'sdf', 'snake', 'assets'),
+            glob('sdf/assets/*')),
+
         # Install world files
         (os.path.join('share', package_name, 'worlds'),
             glob('worlds/*')),
@@ -46,6 +52,7 @@ setup(
     entry_points={
         'console_scripts': [
             'movement_controller = snake_sim.movement_controller:main',
+            'concertina_movement_controller = snake_sim.concertina_movement_controller:main',
         ],
     },
 )
