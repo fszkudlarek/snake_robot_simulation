@@ -41,8 +41,10 @@ class WaveMovementController(Node):
                 {self.sliding_pad_joint_count} x2 sliding joints")
         
         self.phase = 0
-        self.phase_duration_s = 3
+        self.prev_phase = 0
+        self.phase_duration_s = 4
         self.number_of_phases = 5 + self.sliding_pad_joint_count
+        self.direction_multiplier = 1
 
         # send initial position command and sleep 1 second in order to get there
         self.go_to_initial_position()
@@ -50,6 +52,11 @@ class WaveMovementController(Node):
     def update(self):
         t = time.time() - self.start_time
         self.phase = int((t / self.phase_duration_s) % self.number_of_phases)
+        bend_angle = math.pi/3
+
+        if self.phase < self.prev_phase:
+            self.direction_multiplier *= -1
+        self.prev_phase = self.phase
 
         msg = Float64MultiArray()
         msg.data = []
@@ -57,9 +64,9 @@ class WaveMovementController(Node):
         for i in range(self.swivel_joint_count):
             magic_ration = self.phase - 2*i
             if 1 <= magic_ration < 3:
-                angle = math.pi/4
+                angle = bend_angle * self.direction_multiplier
             elif 3 <= magic_ration < 5:
-                angle = -math.pi/4
+                angle = -bend_angle * self.direction_multiplier
             else:
                 angle = 0
             msg.data.append(angle)
