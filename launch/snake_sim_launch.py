@@ -79,7 +79,7 @@ def generate_launch_description():
     # Start the concertina movement controller node
     concertina_controller = Node(
         package='snake_sim',
-        executable='wave_movement_controller',
+        executable='concertina_movement_controller',
         name='movement_controller_node',
         output='screen',
     )

@@ -42,10 +42,17 @@ class ConcertinaMovementController(Node):
         
         self.phase = 0
         self.phase_duration_s = 6
+        self.prev_phase = 0
+        self.direction_multiplier = 1
 
     def update(self):
         t = time.time() - self.start_time
         self.phase = int((t / self.phase_duration_s) % 4)
+        bend_angle = math.pi/2
+
+        if self.phase < self.prev_phase:
+            self.direction_multiplier *= -1
+        self.prev_phase = self.phase
 
         msg = Float64MultiArray()
         msg.data = []
@@ -60,23 +67,23 @@ class ConcertinaMovementController(Node):
                         angle = 0
                     # 1
                     elif i == 1:
-                        angle = -math.pi/4
+                        angle = -bend_angle/2 * self.direction_multiplier
                     # 2, 3, ....
                     else:
                         if i % 2 == 0:
-                            angle = math.pi/2
+                            angle = bend_angle * self.direction_multiplier
                         else:
-                            angle = -math.pi/2
+                            angle = -bend_angle * self.direction_multiplier
                 case 3:
                     if i < (self.sliding_pad_joint_count - 3):
                         angle = 0
                     elif i == (self.sliding_pad_joint_count - 3):
-                        angle = math.pi/4
+                        angle = bend_angle/2 * self.direction_multiplier
                     else:
                         if i % 2 == 0:
-                            angle = math.pi/2
+                            angle = bend_angle * self.direction_multiplier
                         else:
-                            angle = -math.pi/2
+                            angle = -bend_angle * self.direction_multiplier
             msg.data.append(angle)
         # sliding joints -- outer HIGH friction pads
         # the value is in coordinates with axis pointing to the top of the robot
