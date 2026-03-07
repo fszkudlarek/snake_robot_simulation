@@ -17,14 +17,17 @@ class MovementController(Node):
         )
 
         # ---- PARAMETERS ----
-        self.declare_parameter('joint_count', 6)
+        self.declare_parameter('swivel_joint_count', 6)
+        self.declare_parameter('sliding_pad_joint_count', 7)
         self.declare_parameter('amplitude', 0.4)       # radians
         self.declare_parameter('frequency', 0.8)       # Hz
         self.declare_parameter('phase_offset', 0.6)    # radians
         self.declare_parameter('publish_rate', 50.0)   # Hz
 
-        self.joint_count = self.get_parameter(
-            'joint_count').value
+        self.swivel_joint_count = self.get_parameter(
+            'swivel_joint_count').value
+        self.sliding_pad_joint_count = self.get_parameter(
+            'sliding_pad_joint_count').value
         self.amplitude = self.get_parameter(
             'amplitude').value
         self.frequency = self.get_parameter(
@@ -42,7 +45,8 @@ class MovementController(Node):
         )
 
         self.get_logger().info(
-            f"Movement controller started with {self.joint_count} joints")
+            f"Movement controller started with {self.swivel_joint_count} swivel joints"
+            f" and {self.sliding_pad_joint_count} x2 sliding pad joints")
 
     def update(self):
         t = time.time() - self.start_time
@@ -50,12 +54,18 @@ class MovementController(Node):
         msg = Float64MultiArray()
         msg.data = []
 
-        for i in range(self.joint_count):
+        for i in range(self.swivel_joint_count):
             angle = self.amplitude * math.sin(
                 2.0 * math.pi * self.frequency * t
                 - i * self.phase_offset
             )
             msg.data.append(angle)
+        # outer HIGH friction pads: protruding (-1)
+        for _ in range(self.sliding_pad_joint_count):
+            msg.data.append(-1.0)
+        # inner LOW friction pads: retracted (1)
+        for _ in range(self.sliding_pad_joint_count):
+            msg.data.append(1.0)
 
         self.publisher.publish(msg)
 

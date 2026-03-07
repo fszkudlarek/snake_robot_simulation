@@ -76,10 +76,24 @@ def generate_launch_description():
         output='screen',
     )
     
+    basic_sinusoidal_controller = Node(
+        package='snake_sim',
+        executable='basic_sinusoidal_movement_controller',
+        name='movement_controller_node',
+        output='screen',
+    )
+
     # Start the concertina movement controller node
     concertina_controller = Node(
         package='snake_sim',
         executable='concertina_movement_controller',
+        name='movement_controller_node',
+        output='screen',
+    )
+
+    wave_controller = Node(
+        package='snake_sim',
+        executable='wave_movement_controller',
         name='movement_controller_node',
         output='screen',
     )
