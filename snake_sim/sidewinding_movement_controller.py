@@ -19,8 +19,8 @@ class MovementController(Node):
         # ---- PARAMETERS ----
         self.declare_parameter('swivel_joint_count', 6)
         self.declare_parameter('sliding_pad_joint_count', 7)
-        self.declare_parameter('amplitude', 0.4)       # radians
-        self.declare_parameter('frequency', 0.4)       # Hz
+        self.declare_parameter('amplitude', 0.8)       # radians
+        self.declare_parameter('frequency', 0.2)       # Hz
         self.declare_parameter('phase_offset', 1.2)    # radians
         self.declare_parameter('publish_rate', 50.0)   # Hz
 
@@ -60,12 +60,42 @@ class MovementController(Node):
                 - i * self.phase_offset
             )
             msg.data.append(angle)
-        # outer HIGH friction pads: protruding (1)
-        for _ in range(self.sliding_pad_joint_count):
-            msg.data.append(1.0)
-        # inner LOW friction pads: retracted (-1)
-        for _ in range(self.sliding_pad_joint_count):
-            msg.data.append(-1.0)
+
+        # assumes, that number of sliding pads is equal to
+        # number of swivel joints plus one 
+        for i in range(self.sliding_pad_joint_count):
+            prev_angle = self.amplitude * math.sin(
+                2.0 * math.pi * self.frequency * t
+                - (i-1) * self.phase_offset
+            )            
+            next_angle = self.amplitude * math.sin(
+                2.0 * math.pi * self.frequency * t
+                - i * self.phase_offset
+            )
+            average_angle = (prev_angle + next_angle) / 2
+            # outer HIGH friction pads: retracting (1)
+            if average_angle >= 0:
+                msg.data.append(1.0)
+            # outer HIGH friction pads: protruding (-1)
+            else:
+                msg.data.append(-1.0)
+
+        for i in range(self.sliding_pad_joint_count):
+            prev_angle = self.amplitude * math.sin(
+                2.0 * math.pi * self.frequency * t
+                - (i-1) * self.phase_offset
+            )            
+            next_angle = self.amplitude * math.sin(
+                2.0 * math.pi * self.frequency * t
+                - i * self.phase_offset
+            )
+            average_angle = (prev_angle + next_angle) / 2
+            # inner LOW friction pads: protruding (-1)
+            if average_angle >= 0:
+                msg.data.append(-1.0)
+            # inner LOW friction pads: retracting (1)
+            else:
+                msg.data.append(1.0)
 
         self.publisher.publish(msg)
 

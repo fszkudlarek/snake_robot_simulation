@@ -97,6 +97,13 @@ def generate_launch_description():
         name='movement_controller_node',
         output='screen',
     )
+
+    sidewinding_controller = Node(
+        package='snake_sim',
+        executable='sidewinding_movement_controller',
+        name='movement_controller_node',
+        output='screen',
+    )
     
     return LaunchDescription([
         gazebo,
@@ -105,5 +112,5 @@ def generate_launch_description():
         bridge,
         joint_state_broadcaster_spawner,
         movement_controller_spawner,
-        concertina_controller,
+        sidewinding_controller,
     ])
