@@ -22,6 +22,7 @@ class MovementController(Node):
         self.declare_parameter('amplitude', 0.8)       # radians
         self.declare_parameter('frequency', 0.2)       # Hz
         self.declare_parameter('phase_offset', 1.2)    # radians
+        self.declare_parameter('friction_phase_offset', math.pi / 2)  # radians
         self.declare_parameter('publish_rate', 50.0)   # Hz
 
         self.swivel_joint_count = self.get_parameter(
@@ -34,6 +35,8 @@ class MovementController(Node):
             'frequency').value
         self.phase_offset = self.get_parameter(
             'phase_offset').value
+        self.friction_phase_offset = self.get_parameter(
+            'friction_phase_offset').value
         self.publish_rate = self.get_parameter(
             'publish_rate').value
 
@@ -61,41 +64,29 @@ class MovementController(Node):
             )
             msg.data.append(angle)
 
-        # assumes, that number of sliding pads is equal to
-        # number of swivel joints plus one 
+        # Friction wave uses an independent phase offset from the bending wave
+        # to control which segments grip vs slide
+        outer_pad_values = []
+        inner_pad_values = []
         for i in range(self.sliding_pad_joint_count):
-            prev_angle = self.amplitude * math.sin(
+            # Pad position is between joint i-1 and joint i;
+            # use midpoint (i - 0.5) to center the friction signal
+            friction_signal = math.sin(
                 2.0 * math.pi * self.frequency * t
-                - (i-1) * self.phase_offset
-            )            
-            next_angle = self.amplitude * math.sin(
-                2.0 * math.pi * self.frequency * t
-                - i * self.phase_offset
+                - (i - 0.5) * self.phase_offset
+                + self.friction_phase_offset
             )
-            average_angle = (prev_angle + next_angle) / 2
-            # outer HIGH friction pads: retracting (1)
-            if average_angle >= 0:
-                msg.data.append(1.0)
-            # outer HIGH friction pads: protruding (-1)
+            if friction_signal >= 0:
+                # Grip: outer HIGH friction pads protruding, inner retracted
+                outer_pad_values.append(-1.0)
+                inner_pad_values.append(1.0)
             else:
-                msg.data.append(-1.0)
+                # Slide: inner LOW friction pads protruding, outer retracted
+                outer_pad_values.append(1.0)
+                inner_pad_values.append(-1.0)
 
-        for i in range(self.sliding_pad_joint_count):
-            prev_angle = self.amplitude * math.sin(
-                2.0 * math.pi * self.frequency * t
-                - (i-1) * self.phase_offset
-            )            
-            next_angle = self.amplitude * math.sin(
-                2.0 * math.pi * self.frequency * t
-                - i * self.phase_offset
-            )
-            average_angle = (prev_angle + next_angle) / 2
-            # inner LOW friction pads: protruding (-1)
-            if average_angle >= 0:
-                msg.data.append(-1.0)
-            # inner LOW friction pads: retracting (1)
-            else:
-                msg.data.append(1.0)
+        msg.data.extend(outer_pad_values)
+        msg.data.extend(inner_pad_values)
 
         self.publisher.publish(msg)
 
