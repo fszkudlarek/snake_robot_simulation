@@ -55,6 +55,7 @@ setup(
             'concertina_movement_controller = snake_sim.concertina_movement_controller:main',
             'wave_movement_controller = snake_sim.wave_movement_controller:main',
             'sidewinding_movement_controller = snake_sim.sidewinding_movement_controller:main',
+            'center_of_mass_calculator = snake_sim.center_of_mass_calculator:main',
         ],
     },
 )

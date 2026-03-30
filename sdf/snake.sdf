@@ -3295,6 +3295,13 @@
     </joint>
     
     
+    <plugin filename="gz-sim-odometry-publisher-system"
+            name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>world</odom_frame>
+      <robot_base_frame>motor_with_onshape_mounting</robot_base_frame>
+      <odom_publish_frequency>50</odom_publish_frequency>
+    </plugin>
+
     <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>/home/filip/ros2_ws/install/snake_sim/share/snake_sim/config/controllers.yaml</parameters>
       <ros>

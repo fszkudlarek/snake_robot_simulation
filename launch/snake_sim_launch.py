@@ -52,11 +52,14 @@ def generate_launch_description():
         output='screen',
     )
     
-    # Bridge for clock
+    # Bridge for clock and model odometry
     bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
-        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+        arguments=[
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+            '/model/snake/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+        ],
         output='screen'
     )
     
@@ -104,7 +107,14 @@ def generate_launch_description():
         name='movement_controller_node',
         output='screen',
     )
-    
+
+    center_of_mass_calculator = Node(
+        package='snake_sim',
+        executable='center_of_mass_calculator',
+        name='center_of_mass_calculator',
+        output='screen',
+    )
+
     return LaunchDescription([
         gazebo,
         robot_state_publisher,
@@ -113,4 +123,5 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         movement_controller_spawner,
         sidewinding_controller,
+        center_of_mass_calculator,
     ])
