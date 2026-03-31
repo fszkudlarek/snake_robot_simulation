@@ -47,7 +47,7 @@ Visualization Manager:
         All Enabled: true
       Tree:
         {}
-    - Class: rviz_default_plugins/MarkerArray
+    - Class: rviz_default_plugins/Marker
       Name: CenterOfMass
       Enabled: true
       Value: true

@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import PointStamped
+from visualization_msgs.msg import Marker
 from nav_msgs.msg import Odometry
 import tf2_ros
 import numpy as np
@@ -35,7 +35,7 @@ class CenterOfMassCalculator(Node):
 
         # Publisher
         self.com_pub = self.create_publisher(
-            PointStamped, '/snake/center_of_mass', 10
+            Marker, '/snake/center_of_mass', 10
         )
 
         # Link data from SDF: (name, mass, com_offset_xyz)
@@ -123,12 +123,23 @@ class CenterOfMassCalculator(Node):
         world_q = (o.x, o.y, o.z, o.w)
         com_world = quaternion_rotate(world_q, com_root) + world_pos
 
-        msg = PointStamped()
+        msg = Marker()
         msg.header.stamp = self.get_clock().now().to_msg()
-        msg.header.frame_id = 'world'
-        msg.point.x = com_world[0]
-        msg.point.y = com_world[1]
-        msg.point.z = com_world[2]
+        msg.header.frame_id = 'odom'
+        msg.ns = 'center_of_mass'
+        msg.id = 0
+        msg.type = Marker.CYLINDER
+        msg.action = Marker.ADD
+        msg.pose.position.x = com_world[0]
+        msg.pose.position.y = com_world[1]
+        msg.pose.position.z = 0.25
+        msg.scale.x = 0.01
+        msg.scale.y = 0.01
+        msg.scale.z = 0.5
+        msg.color.r = 1.0
+        msg.color.g = 0.0
+        msg.color.b = 0.0
+        msg.color.a = 0.8
         self.com_pub.publish(msg)
 
 
