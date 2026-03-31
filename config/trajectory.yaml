@@ -1,0 +1,26 @@
+trajectory_publisher:
+  ros__parameters:
+    # Trajectory type: 'waypoints', 'line', 'circle', 'sine'
+    type: 'circle'
+
+    # --- Waypoints mode ---
+    # Flat list of [x1, y1, x2, y2, ...] pairs
+    # waypoints: [0.0, 0.0, 0.5, 0.1, 1.0, 0.0, 1.5, -0.1, 2.0, 0.0]
+
+    # --- Parametric shape parameters ---
+    # Line / Sine: total length along X axis
+    length: 2.0
+
+    # Circle: radius
+    radius: 0.5
+
+    # Sine: amplitude and wavelength
+    amplitude: 0.3
+    wavelength: 1.0
+
+    # Number of interpolation points
+    num_points: 100
+
+    # Origin offset for all parametric shapes
+    origin_x: 0.0
+    origin_y: 0.0

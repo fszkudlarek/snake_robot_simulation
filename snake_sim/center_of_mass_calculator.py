@@ -1,7 +1,9 @@
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import QoSProfile, DurabilityPolicy
 from visualization_msgs.msg import Marker
-from nav_msgs.msg import Odometry
+from nav_msgs.msg import Odometry, Path
+from geometry_msgs.msg import PoseStamped
 import tf2_ros
 import numpy as np
 
@@ -33,10 +35,18 @@ class CenterOfMassCalculator(Node):
             Odometry, '/model/snake/odometry', self._odom_callback, 10
         )
 
-        # Publisher
+        # Publisher for CoM marker
         self.com_pub = self.create_publisher(
             Marker, '/snake/center_of_mass', 10
         )
+
+        # Publisher for actual CoM path trace
+        latched_qos = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)
+        self.path_pub = self.create_publisher(
+            Path, '/snake/actual_trajectory', latched_qos
+        )
+        self.actual_path = Path()
+        self.actual_path.header.frame_id = 'odom'
 
         # Link data from SDF: (name, mass, com_offset_xyz)
         self.link_data = self._build_link_data()
@@ -123,8 +133,11 @@ class CenterOfMassCalculator(Node):
         world_q = (o.x, o.y, o.z, o.w)
         com_world = quaternion_rotate(world_q, com_root) + world_pos
 
+        now = self.get_clock().now().to_msg()
+
+        # Publish CoM cylinder marker
         msg = Marker()
-        msg.header.stamp = self.get_clock().now().to_msg()
+        msg.header.stamp = now
         msg.header.frame_id = 'odom'
         msg.ns = 'center_of_mass'
         msg.id = 0
@@ -141,6 +154,18 @@ class CenterOfMassCalculator(Node):
         msg.color.b = 0.0
         msg.color.a = 0.8
         self.com_pub.publish(msg)
+
+        # Append to actual path trace and publish
+        pose = PoseStamped()
+        pose.header.stamp = now
+        pose.header.frame_id = 'odom'
+        pose.pose.position.x = com_world[0]
+        pose.pose.position.y = com_world[1]
+        pose.pose.position.z = 0.0
+        pose.pose.orientation.w = 1.0
+        self.actual_path.header.stamp = now
+        self.actual_path.poses.append(pose)
+        self.path_pub.publish(self.actual_path)
 
 
 def main():

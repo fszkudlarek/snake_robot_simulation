@@ -65,6 +65,7 @@ setup(
             'sidewinding_movement_controller = snake_sim.sidewinding_movement_controller:main',
             'center_of_mass_calculator = snake_sim.center_of_mass_calculator:main',
             'odometry_tf_broadcaster = snake_sim.odometry_tf_broadcaster:main',
+            'trajectory_publisher = snake_sim.trajectory_publisher:main',
         ],
     },
 )

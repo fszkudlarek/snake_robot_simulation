@@ -138,6 +138,16 @@ def generate_launch_description():
         output='screen',
     )
 
+    # Desired trajectory publisher (configured via config/trajectory.yaml)
+    trajectory_config = os.path.join(pkg_share, 'config', 'trajectory.yaml')
+    trajectory_publisher = Node(
+        package='snake_sim',
+        executable='trajectory_publisher',
+        name='trajectory_publisher',
+        output='screen',
+        parameters=[trajectory_config],
+    )
+
     return LaunchDescription([
         gazebo,
         robot_state_publisher,
@@ -148,5 +158,6 @@ def generate_launch_description():
         sidewinding_controller,
         center_of_mass_calculator,
         odometry_tf_broadcaster,
+        trajectory_publisher,
         rviz,
     ])
