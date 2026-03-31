@@ -17,25 +17,40 @@ def generate_launch_description():
 
     # Path to SDF file
     sdf_path = os.path.join(pkg_share, 'sdf', 'snake', 'snake.sdf')
-    
+
+    # Path to URDF file (needed for robot_state_publisher and RViz)
+    urdf_path = os.path.join(pkg_share, 'urdf', 'snake.urdf')
+
+    # Path to RViz config
+    rviz_config_path = os.path.join(pkg_share, 'rviz', 'snake.rviz')
+
     # Path to world file
     world_path = os.path.join(pkg_share, 'worlds', 'empty.world')
-    
-    # Launch Gazebo with empty world
+
+    # Launch Gazebo headless (no GUI) — using RViz for visualization instead
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
         ]),
-        launch_arguments={'gz_args': ['-r ', world_path]}.items(),
+        launch_arguments={'gz_args': ['-r -s ', world_path]}.items(),
     )
-    
-    # Robot State Publisher
+
+    # Robot State Publisher — publishes URDF to /robot_description and TF tree
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
-        parameters=[{'robot_description': open(sdf_path).read()}]
+        parameters=[{'robot_description': open(urdf_path).read()}]
+    )
+
+    # RViz visualization
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', rviz_config_path],
     )
     
     # Spawn robot in Gazebo
@@ -124,4 +139,5 @@ def generate_launch_description():
         movement_controller_spawner,
         sidewinding_controller,
         center_of_mass_calculator,
+        rviz,
     ])

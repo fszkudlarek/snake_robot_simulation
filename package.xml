@@ -10,6 +10,8 @@
   <depend>rclpy</depend>
   <depend>robot_state_publisher</depend>
   <depend>ros_gz_sim</depend>
+  <depend>rviz2</depend>
+  <depend>joint_state_publisher_gui</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

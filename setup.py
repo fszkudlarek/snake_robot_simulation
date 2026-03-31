@@ -24,10 +24,14 @@ setup(
         (os.path.join('share', package_name, 'urdf', 'assets'),
             glob('urdf/assets/*')),
 
-        # ADD: SDF files
+        # SDF files (for Gazebo)
         (os.path.join('share', package_name, 'sdf', 'snake'),
             glob('sdf/*.sdf') + ['sdf/model.config']),
         (os.path.join('share', package_name, 'sdf', 'snake', 'assets'),
+            glob('sdf/assets/*')),
+
+        # SDF assets also at sdf/assets/ (for URDF package:// mesh resolution)
+        (os.path.join('share', package_name, 'sdf', 'assets'),
             glob('sdf/assets/*')),
 
         # Install world files
@@ -35,7 +39,11 @@ setup(
             glob('worlds/*')),
         # Install config files
         (os.path.join('share', package_name, 'config'),
-            glob('config/*')),
+            glob('config/*.yaml')),
+
+        # Install RViz config
+        (os.path.join('share', package_name, 'rviz'),
+            glob('rviz/*.rviz')),
 
     ],
     install_requires=['setuptools'],

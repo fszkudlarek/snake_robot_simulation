@@ -3,7 +3,7 @@
     "url": "https://cad.onshape.com/documents/2f8d19c43f1b817c7ff32a2e/w/5f254ec270ad323016b0722c/e/0a66a33b4483ec246f7b557c",
     
     // Output format - CHANGED TO SDF
-    "output_format": "sdf",
+    "output_format": "urdf",
     
     // Package name (for ROS)
     "package_name": "snake_sim/sdf",
