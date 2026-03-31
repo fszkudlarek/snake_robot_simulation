@@ -130,6 +130,14 @@ def generate_launch_description():
         output='screen',
     )
 
+    # Broadcast odom -> root link TF from Gazebo odometry
+    odometry_tf_broadcaster = Node(
+        package='snake_sim',
+        executable='odometry_tf_broadcaster',
+        name='odometry_tf_broadcaster',
+        output='screen',
+    )
+
     return LaunchDescription([
         gazebo,
         robot_state_publisher,
@@ -139,5 +147,6 @@ def generate_launch_description():
         movement_controller_spawner,
         sidewinding_controller,
         center_of_mass_calculator,
+        odometry_tf_broadcaster,
         rviz,
     ])

@@ -59,7 +59,7 @@ Visualization Manager:
         Reliability Policy: Reliable
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: motor_with_onshape_mounting
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
