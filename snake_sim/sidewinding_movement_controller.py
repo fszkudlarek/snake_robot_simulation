@@ -16,29 +16,30 @@ class MovementController(Node):
             10
         )
 
-        # ---- PARAMETERS ----
+        # ---- PARAMETERS (H2 solution space) ----
         self.declare_parameter('swivel_joint_count', 6)
         self.declare_parameter('sliding_pad_joint_count', 7)
-        self.declare_parameter('amplitude', 0.8)       # radians
-        self.declare_parameter('frequency', 0.2)       # Hz
-        self.declare_parameter('phase_offset', 1.2)    # radians
-        self.declare_parameter('friction_phase_offset', math.pi / 2)  # radians
-        self.declare_parameter('publish_rate', 50.0)   # Hz
+        self.declare_parameter('A_v', 1.0)                       # vertical wave amplitude (radians) -- only sign matters
+        self.declare_parameter('A_h', 0.8)                       # horizontal wave amplitude (radians)
+        self.declare_parameter('delta_phi_v', 1.2)                # vertical inter-module phase diff (radians)
+        self.declare_parameter('delta_phi_h', 1.2)                # horizontal inter-module phase diff (radians)
+        self.declare_parameter('delta_phi_vh', math.pi / 2)      # vertical-to-horizontal phase offset (radians)
+        self.declare_parameter('O_h', 0.0)                       # horizontal wave offset (radians)
+        self.declare_parameter('T', 5.0)                         # wave period (seconds)
+        self.declare_parameter('publish_rate', 50.0)             # Hz
 
         self.swivel_joint_count = self.get_parameter(
             'swivel_joint_count').value
         self.sliding_pad_joint_count = self.get_parameter(
             'sliding_pad_joint_count').value
-        self.amplitude = self.get_parameter(
-            'amplitude').value
-        self.frequency = self.get_parameter(
-            'frequency').value
-        self.phase_offset = self.get_parameter(
-            'phase_offset').value
-        self.friction_phase_offset = self.get_parameter(
-            'friction_phase_offset').value
-        self.publish_rate = self.get_parameter(
-            'publish_rate').value
+        self.A_v = self.get_parameter('A_v').value
+        self.A_h = self.get_parameter('A_h').value
+        self.delta_phi_v = self.get_parameter('delta_phi_v').value
+        self.delta_phi_h = self.get_parameter('delta_phi_h').value
+        self.delta_phi_vh = self.get_parameter('delta_phi_vh').value
+        self.O_h = self.get_parameter('O_h').value
+        self.T = self.get_parameter('T').value
+        self.publish_rate = self.get_parameter('publish_rate').value
 
         self.start_time = time.time()
 
@@ -57,26 +58,27 @@ class MovementController(Node):
         msg = Float64MultiArray()
         msg.data = []
 
+        # Horizontal wave — swivel/yaw joints — H2 equation (4):
+        # φ_h_i(t) = A_h * sin(2π/T * t + (i-1) * ΔΦ_h + ΔΦ_vh) + O_h
         for i in range(self.swivel_joint_count):
-            angle = self.amplitude * math.sin(
-                2.0 * math.pi * self.frequency * t
-                - i * self.phase_offset
-            )
+            angle = self.A_h * math.sin(
+                (2.0 * math.pi / self.T) * t
+                + i * self.delta_phi_h
+                + self.delta_phi_vh
+            ) + self.O_h
             msg.data.append(angle)
 
-        # Friction wave uses an independent phase offset from the bending wave
-        # to control which segments grip vs slide
+        # Vertical wave — friction pads — H2 equation (3), thresholded:
+        # φ_v_i(t) = A_v * sin(2π/T * t + (i-1) * ΔΦ_v)
+        # Pad sits between joints → midpoint index (i - 0.5)
         outer_pad_values = []
         inner_pad_values = []
         for i in range(self.sliding_pad_joint_count):
-            # Pad position is between joint i-1 and joint i;
-            # use midpoint (i - 0.5) to center the friction signal
-            friction_signal = math.sin(
-                2.0 * math.pi * self.frequency * t
-                - (i - 0.5) * self.phase_offset
-                + self.friction_phase_offset
+            vertical_signal = self.A_v * math.sin(
+                (2.0 * math.pi / self.T) * t
+                + (i - 0.5) * self.delta_phi_v
             )
-            if friction_signal >= 0:
+            if vertical_signal >= 0:
                 # Grip: outer HIGH friction pads protruding, inner retracted
                 outer_pad_values.append(-1.0)
                 inner_pad_values.append(1.0)
