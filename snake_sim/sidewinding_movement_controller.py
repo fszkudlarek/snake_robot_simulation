@@ -20,10 +20,11 @@ class MovementController(Node):
         self.declare_parameter('swivel_joint_count', 6)
         self.declare_parameter('sliding_pad_joint_count', 7)
         self.declare_parameter('A_v', 1.0)                       # vertical wave amplitude (radians) -- only sign matters
-        self.declare_parameter('A_h', 0.8)                       # horizontal wave amplitude (radians)
-        self.declare_parameter('delta_phi_v', 1.2)                # vertical inter-module phase diff (radians)
-        self.declare_parameter('delta_phi_h', 1.2)                # horizontal inter-module phase diff (radians)
-        self.declare_parameter('delta_phi_vh', math.pi / 2)      # vertical-to-horizontal phase offset (radians)
+        self.declare_parameter('A_h', math.pi / 6)                       # horizontal wave amplitude (radians)
+        self.declare_parameter('delta_phi_v', -1.2)                # vertical inter-module phase diff (radians)
+        self.declare_parameter('delta_phi_h', -1.2)                # horizontal inter-module phase diff (radians)
+        self.declare_parameter('delta_phi_vh', -math.pi / 2)      # vertical-to-horizontal phase offset (radians)
+        self.declare_parameter('O_v', 0.0)                       # vertical wave phase offset (radians)
         self.declare_parameter('O_h', 0.0)                       # horizontal wave offset (radians)
         self.declare_parameter('T', 5.0)                         # wave period (seconds)
         self.declare_parameter('publish_rate', 50.0)             # Hz
@@ -37,6 +38,7 @@ class MovementController(Node):
         self.delta_phi_v = self.get_parameter('delta_phi_v').value
         self.delta_phi_h = self.get_parameter('delta_phi_h').value
         self.delta_phi_vh = self.get_parameter('delta_phi_vh').value
+        self.O_v = self.get_parameter('O_v').value
         self.O_h = self.get_parameter('O_h').value
         self.T = self.get_parameter('T').value
         self.publish_rate = self.get_parameter('publish_rate').value
@@ -77,6 +79,7 @@ class MovementController(Node):
             vertical_signal = self.A_v * math.sin(
                 (2.0 * math.pi / self.T) * t
                 + (i - 0.5) * self.delta_phi_v
+                + self.O_v
             )
             if vertical_signal >= 0:
                 # Grip: outer HIGH friction pads protruding, inner retracted
