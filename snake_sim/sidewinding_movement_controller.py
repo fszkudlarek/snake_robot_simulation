@@ -2,7 +2,6 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
 import math
-import time
 
 
 class MovementController(Node):
@@ -43,7 +42,7 @@ class MovementController(Node):
         self.T = self.get_parameter('T').value
         self.publish_rate = self.get_parameter('publish_rate').value
 
-        self.start_time = time.time()
+        self.start_time = None
 
         self.timer = self.create_timer(
             1.0 / self.publish_rate,
@@ -55,7 +54,10 @@ class MovementController(Node):
             f" and {self.sliding_pad_joint_count} x2 sliding pad joints")
 
     def update(self):
-        t = time.time() - self.start_time
+        now = self.get_clock().now()
+        if self.start_time is None:
+            self.start_time = now
+        t = (now - self.start_time).nanoseconds / 1e9
 
         msg = Float64MultiArray()
         msg.data = []

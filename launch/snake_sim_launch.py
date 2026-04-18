@@ -1,11 +1,19 @@
 import os
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, ExecuteProcess
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
+    use_rviz_arg = DeclareLaunchArgument(
+        'use_rviz', default_value='true',
+        description='Launch RViz visualization'
+    )
+    use_rviz = LaunchConfiguration('use_rviz')
+
     pkg_share = get_package_share_directory('snake_sim')
     
     # IMPORTANT: Set Gazebo resource path so it can find meshes
@@ -51,6 +59,7 @@ def generate_launch_description():
         name='rviz2',
         output='screen',
         arguments=['-d', rviz_config_path],
+        condition=IfCondition(use_rviz),
     )
     
     # Spawn robot in Gazebo
@@ -121,6 +130,7 @@ def generate_launch_description():
         executable='sidewinding_movement_controller',
         name='movement_controller_node',
         output='screen',
+        parameters=[{'use_sim_time': True}],
     )
 
     center_of_mass_calculator = Node(
@@ -139,6 +149,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        use_rviz_arg,
         gazebo,
         robot_state_publisher,
         spawn_entity,
