@@ -1,15 +1,22 @@
 #!/bin/bash
 # Launches the snake simulation, waits, captures a scene snapshot, then repeats.
 #
-# Usage: ./run_and_capture.sh [NUM_RUNS] [WAIT_SECONDS] [PREFIX]
+# Usage: ./run_and_capture.sh [NUM_RUNS] [WAIT_SECONDS] [OUTPUT_NAME]
 #   NUM_RUNS     - number of simulation runs (default: 5)
 #   WAIT_SECONDS - how long to let each run execute before snapshot (default: 300 = 5 min)
-#   PREFIX       - filename prefix for all snapshots (default: "run")
+#   OUTPUT_NAME  - folder name under ./screenshots/ for all outputs (default: "run")
+#
+# For each run, the following files are saved to OUTPUT_DIR:
+#   run_<i>_<timestamp>.png                          — top-down snapshot
+#   run_<i>_<timestamp>_desired_trajectory.csv       — desired (x,y) path
+#   run_<i>_<timestamp>_actual_trajectory.csv        — actual (x,y) path
+#   run_<i>_<timestamp>_center_of_mass.csv           — COM (x,y) at snapshot time
+#   run_<i>_<timestamp>_robot_body.csv               — per-link (frame,x,y)
 
 NUM_RUNS=${1:-5}
 WAIT_SECONDS=${2:-300}
-PREFIX=${3:-run}
-OUTPUT_DIR="$(pwd)/screenshots"
+OUTPUT_NAME=${3:-run}
+OUTPUT_DIR="$(pwd)/screenshots/$OUTPUT_NAME"
 
 # Executables owned by the simulation pipeline. Used to verify clean shutdown.
 # Matched against full command line via pgrep -f, so entries can be substrings.
@@ -100,7 +107,7 @@ for i in $(seq 1 "$NUM_RUNS"); do
 
     # Capture the scene via the headless snapshot node (collects data for 3s, then saves).
     TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-    SCREENSHOT_FILE="$OUTPUT_DIR/${PREFIX}_${i}_${TIMESTAMP}.png"
+    SCREENSHOT_FILE="$OUTPUT_DIR/run_${i}_${TIMESTAMP}.png"
 
     echo "Capturing scene snapshot..."
     ros2 run snake_sim scene_snapshot --ros-args \

@@ -5,6 +5,8 @@ by subscribing to the same topics as RViz, then rendering with matplotlib.
 Usage:
   ros2 run snake_sim scene_snapshot --ros-args -p output_path:=/path/to/screenshot.png -p wait_seconds:=5.0
 """
+import csv
+import os
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, DurabilityPolicy
@@ -69,20 +71,63 @@ class SceneSnapshot(Node):
         self.com_marker = msg
 
     def _get_robot_link_positions(self):
-        """Get world-frame positions of all motor links via TF."""
+        """Get world-frame positions of all motor links via TF.
+
+        Returns a list of (frame, x, y) tuples, skipping any frames whose TF
+        lookup failed so the caller can keep frame↔position alignment.
+        """
         positions = []
         for frame in LINK_FRAMES:
             try:
                 t = self.tf_buffer.lookup_transform('odom', frame, rclpy.time.Time())
                 p = t.transform.translation
-                positions.append((p.x, p.y))
+                positions.append((frame, p.x, p.y))
             except (tf2_ros.LookupException, tf2_ros.ConnectivityException,
                     tf2_ros.ExtrapolationException):
                 pass
         return positions
 
+    def _csv_path(self, suffix):
+        base, _ = os.path.splitext(self.output_path)
+        return f'{base}_{suffix}.csv'
+
+    def _save_xy_csv(self, path, xs, ys):
+        with open(path, 'w', newline='') as f:
+            w = csv.writer(f)
+            w.writerow(['x', 'y'])
+            for x, y in zip(xs, ys):
+                w.writerow([x, y])
+
+    def _save_csvs(self, robot_links):
+        out_dir = os.path.dirname(self.output_path)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
+
+        if self.desired_path and len(self.desired_path.poses) > 0:
+            xs = [p.pose.position.x for p in self.desired_path.poses]
+            ys = [p.pose.position.y for p in self.desired_path.poses]
+            self._save_xy_csv(self._csv_path('desired_trajectory'), xs, ys)
+
+        if self.actual_path and len(self.actual_path.poses) > 0:
+            xs = [p.pose.position.x for p in self.actual_path.poses]
+            ys = [p.pose.position.y for p in self.actual_path.poses]
+            self._save_xy_csv(self._csv_path('actual_trajectory'), xs, ys)
+
+        if self.com_marker:
+            p = self.com_marker.pose.position
+            self._save_xy_csv(self._csv_path('center_of_mass'), [p.x], [p.y])
+
+        if robot_links:
+            with open(self._csv_path('robot_body'), 'w', newline='') as f:
+                w = csv.writer(f)
+                w.writerow(['frame', 'x', 'y'])
+                for frame, x, y in robot_links:
+                    w.writerow([frame, x, y])
+
     def _render_and_exit(self):
         robot_links = self._get_robot_link_positions()
+
+        self._save_csvs(robot_links)
 
         fig, ax = plt.subplots(1, 1, figsize=(10, 10))
         ax.set_aspect('equal')
@@ -118,7 +163,8 @@ class SceneSnapshot(Node):
 
         # Plot robot body (link positions connected by a line)
         if robot_links:
-            rxs, rys = zip(*robot_links)
+            rxs = [x for _, x, _ in robot_links]
+            rys = [y for _, _, y in robot_links]
             ax.plot(rxs, rys, 'o-', color='#4a9eff', linewidth=3,
                     markersize=6, label='Robot body')
             has_data = True
