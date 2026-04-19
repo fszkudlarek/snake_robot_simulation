@@ -1,0 +1,86 @@
+# Example parameter sweep for the sidewinding movement controller.
+#
+# Run with:
+#   python3 scripts/run_sweep.py config/sweeps/example_sweep.yaml
+#
+# Each run launches the simulation with its `params` applied on top of the
+# controller's built-in defaults, waits `wait_seconds`, captures a snapshot
+# (PNG + CSVs) to screenshots/<output_name>/<run.name>/, then cleans up.
+
+# Default wait time per run (seconds). Can be overridden per-run.
+wait_seconds: 600
+
+# Output folder under ./screenshots/
+output_name: delta_phi_vh_sweep
+
+# Parameters not listed here keep their defaults from the controller.
+# Available parameters (see sidewinding_movement_controller.py):
+#   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate
+runs:
+  - name: phi_vh_20_deg
+    params:
+      delta_phi_vh: 0.3491
+
+  - name: phi_vh_30_deg
+    params:
+      delta_phi_vh: 0.5236
+
+  # - name: phi_vh_40_deg
+  #   params:
+  #     delta_phi_vh: 0.6981
+
+  - name: phi_vh_50_deg
+    params:
+      delta_phi_vh: 0.8727
+
+  # - name: phi_vh_60_deg
+  #   params:
+  #     delta_phi_vh: 1.0472
+
+  # - name: phi_vh_70_deg
+  #   params:
+  #     delta_phi_vh: 1.2217
+
+  - name: phi_vh_80_deg
+    params:
+      delta_phi_vh: 1.3963
+
+  # - name: phi_vh_90_deg
+  #   params:
+  #     delta_phi_vh: 1.5708
+
+  # - name: phi_vh_100_deg
+  #   params:
+  #     delta_phi_vh: 1.7453
+
+  - name: phi_vh_110_deg
+    params:
+      delta_phi_vh: 1.9199
+
+  # - name: phi_vh_120_deg
+  #   params:
+  #     delta_phi_vh: 2.0944
+
+  # - name: phi_vh_130_deg
+  #   params:
+  #     delta_phi_vh: 2.2689
+
+  - name: phi_vh_140_deg
+    params:
+      delta_phi_vh: 2.4435
+
+  # - name: phi_vh_150_deg
+  #   params:
+  #     delta_phi_vh: 2.6180
+
+  # - name: phi_vh_160_deg
+  #   params:
+  #     delta_phi_vh: 2.7925
+
+  - name: phi_vh_170_deg
+    params:
+      delta_phi_vh: 2.9671
+
+  - name: phi_vh_180_deg
+    params:
+      delta_phi_vh: 3.1416

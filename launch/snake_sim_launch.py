@@ -16,6 +16,13 @@ def generate_launch_description():
     use_rviz = LaunchConfiguration('use_rviz')
 
     pkg_share = get_package_share_directory('snake_sim')
+
+    controller_params_arg = DeclareLaunchArgument(
+        'controller_params_file',
+        default_value=os.path.join(pkg_share, 'config', 'default_controller_params.yaml'),
+        description='Path to ROS params YAML file overriding movement controller parameters'
+    )
+    controller_params_file = LaunchConfiguration('controller_params_file')
     
     # IMPORTANT: Set Gazebo resource path so it can find meshes
     sdf_dir = os.path.join(pkg_share, 'sdf')
@@ -131,7 +138,7 @@ def generate_launch_description():
         executable='sidewinding_movement_controller',
         name='movement_controller_node',
         output='screen',
-        parameters=[{'use_sim_time': True}],
+        parameters=[{'use_sim_time': True}, controller_params_file],
     )
 
     center_of_mass_calculator = Node(
@@ -176,6 +183,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         use_rviz_arg,
+        controller_params_arg,
         gazebo,
         robot_state_publisher,
         spawn_entity,

@@ -1,0 +1,26 @@
+# Example parameter sweep for the sidewinding movement controller.
+#
+# Run with:
+#   python3 scripts/run_sweep.py config/sweeps/example_sweep.yaml
+#
+# Each run launches the simulation with its `params` applied on top of the
+# controller's built-in defaults, waits `wait_seconds`, captures a snapshot
+# (PNG + CSVs) to screenshots/<output_name>/<run.name>/, then cleans up.
+
+# Default wait time per run (seconds). Can be overridden per-run.
+wait_seconds: 180
+
+# Output folder under ./screenshots/
+output_name: amplitude_sweep_3rd
+
+# Parameters not listed here keep their defaults from the controller.
+# Available parameters (see sidewinding_movement_controller.py):
+#   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate
+runs:
+  - name: A_v_1.0
+    params:
+      A_v: 1.0
+
+  - name: A_v_-1.0
+    params:
+      A_v: -1.0
