@@ -3,6 +3,9 @@ from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
 import math
 
+SVIWEL_JOINT_TO_PREV_FRICTION_PAD_DISTANCE = 115.25
+DISTANCE_BETWEEN_JOINTS = 120
+PAD_SHIFT_RELATIVE_MAGIC_NUMBER = SVIWEL_JOINT_TO_PREV_FRICTION_PAD_DISTANCE/DISTANCE_BETWEEN_JOINTS
 
 class MovementController(Node):
     def __init__(self):
@@ -80,7 +83,7 @@ class MovementController(Node):
         for i in range(self.sliding_pad_joint_count):
             vertical_signal = self.A_v * math.sin(
                 (2.0 * math.pi / self.T) * t
-                + (i - 0.5) * self.delta_phi_v
+                + (i - PAD_SHIFT_RELATIVE_MAGIC_NUMBER) * self.delta_phi_v
                 + self.O_v
             )
             if vertical_signal >= 0:

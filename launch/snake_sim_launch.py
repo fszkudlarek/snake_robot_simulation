@@ -1,7 +1,8 @@
 import os
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, RegisterEventHandler
 from launch.conditions import IfCondition
+from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -148,16 +149,39 @@ def generate_launch_description():
         output='screen',
     )
 
+    # Startup chain: spawn robot → load joint_state_broadcaster
+    # → load movement_controller → start sidewinding controller and friends
+    load_jsb_after_spawn = RegisterEventHandler(
+        OnProcessExit(
+            target_action=spawn_entity,
+            on_exit=[joint_state_broadcaster_spawner],
+        )
+    )
+    load_mc_after_jsb = RegisterEventHandler(
+        OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[movement_controller_spawner],
+        )
+    )
+    start_app_nodes_after_mc = RegisterEventHandler(
+        OnProcessExit(
+            target_action=movement_controller_spawner,
+            on_exit=[
+                sidewinding_controller,
+                center_of_mass_calculator,
+                odometry_tf_broadcaster,
+            ],
+        )
+    )
+
     return LaunchDescription([
         use_rviz_arg,
         gazebo,
         robot_state_publisher,
         spawn_entity,
         bridge,
-        joint_state_broadcaster_spawner,
-        movement_controller_spawner,
-        sidewinding_controller,
-        center_of_mass_calculator,
-        odometry_tf_broadcaster,
+        load_jsb_after_spawn,
+        load_mc_after_jsb,
+        start_app_nodes_after_mc,
         rviz,
     ])
