@@ -42,6 +42,7 @@ import yaml
 # default_controller_params.yaml effective without requiring a colcon build.
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULTS_FILE = REPO_ROOT / 'config' / 'default_controller_params.yaml'
+CREATE_GIF_SCRIPT = REPO_ROOT / 'scripts' / 'create_gif.py'
 
 # Node name used inside the ROS params YAML files.
 CONTROLLER_NODE_NAME = 'movement_controller_node'
@@ -58,6 +59,7 @@ SIM_PROCESS_PATTERNS = [
     'sidewinding_movement_controller',
     'center_of_mass_calculator',
     'odometry_tf_broadcaster',
+    'robot_body_logger',
     'controller_manager',
     'joint_state_broadcaster',
     'movement_controller',
@@ -159,6 +161,8 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path)
     write_params_file(params_file, effective)
 
     snapshot_path = output_dir / f'{run_name}.png'
+    trajectory_log_path = output_dir / f'{run_name}_body_trajectory.csv'
+    gif_path = output_dir / f'{run_name}.gif'
 
     print(f'  Launching simulation (params file: {params_file.name})...', flush=True)
     proc = subprocess.Popen(
@@ -166,6 +170,7 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path)
             'ros2', 'launch', 'snake_sim', 'snake_sim_launch.py',
             'use_rviz:=false',
             f'controller_params_file:={params_file}',
+            f'trajectory_log_path:={trajectory_log_path}',
         ],
         preexec_fn=os.setsid,
         stdin=subprocess.DEVNULL,
@@ -195,6 +200,15 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path)
         assert_clean()
         # Let DDS multicast state unwind before next run.
         time.sleep(3)
+
+    if trajectory_log_path.exists():
+        print('  Rendering GIF...', flush=True)
+        subprocess.run(
+            ['python3', str(CREATE_GIF_SCRIPT), str(trajectory_log_path), str(gif_path)],
+            check=False,
+        )
+    else:
+        print(f'  Skipping GIF: {trajectory_log_path.name} not found.', flush=True)
 
 
 def main() -> int:

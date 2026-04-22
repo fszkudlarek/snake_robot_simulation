@@ -17,70 +17,94 @@ output_name: delta_phi_vh_sweep
 # Available parameters (see sidewinding_movement_controller.py):
 #   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate
 runs:
-  - name: phi_vh_20_deg
+  - name: phi_vh_-20_deg
     params:
-      delta_phi_vh: 0.3491
+      delta_phi_vh: -0.3491
 
-  - name: phi_vh_30_deg
+  - name: phi_vh_-30_deg
     params:
-      delta_phi_vh: 0.5236
+      delta_phi_vh: -0.5236
 
-  # - name: phi_vh_40_deg
-  #   params:
-  #     delta_phi_vh: 0.6981
-
-  - name: phi_vh_50_deg
+  - name: phi_vh_-35_deg
     params:
-      delta_phi_vh: 0.8727
+      delta_phi_vh: -0.6109
 
-  # - name: phi_vh_60_deg
+  # - name: phi_vh_-36_deg
   #   params:
-  #     delta_phi_vh: 1.0472
+  #     delta_phi_vh: -0.6283
 
-  # - name: phi_vh_70_deg
+  # - name: phi_vh_-37_deg
   #   params:
-  #     delta_phi_vh: 1.2217
+  #     delta_phi_vh: -0.6458
 
-  - name: phi_vh_80_deg
+  # - name: phi_vh_-38_deg
+  #   params:
+  #     delta_phi_vh: -0.6632
+
+  # - name: phi_vh_-39_deg
+  #   params:
+  #     delta_phi_vh: -0.6807
+
+  - name: phi_vh_-40_deg
     params:
-      delta_phi_vh: 1.3963
+      delta_phi_vh: -0.6981
 
-  # - name: phi_vh_90_deg
-  #   params:
-  #     delta_phi_vh: 1.5708
-
-  # - name: phi_vh_100_deg
-  #   params:
-  #     delta_phi_vh: 1.7453
-
-  - name: phi_vh_110_deg
+  - name: phi_vh_-45_deg
     params:
-      delta_phi_vh: 1.9199
+      delta_phi_vh: -0.7854
 
-  # - name: phi_vh_120_deg
-  #   params:
-  #     delta_phi_vh: 2.0944
-
-  # - name: phi_vh_130_deg
-  #   params:
-  #     delta_phi_vh: 2.2689
-
-  - name: phi_vh_140_deg
+  - name: phi_vh_-50_deg
     params:
-      delta_phi_vh: 2.4435
+      delta_phi_vh: -0.8727
 
-  # - name: phi_vh_150_deg
-  #   params:
-  #     delta_phi_vh: 2.6180
-
-  # - name: phi_vh_160_deg
-  #   params:
-  #     delta_phi_vh: 2.7925
-
-  - name: phi_vh_170_deg
+  - name: phi_vh_-60_deg
     params:
-      delta_phi_vh: 2.9671
+      delta_phi_vh: -1.0472
 
-  - name: phi_vh_180_deg
+  - name: phi_vh_-70_deg
     params:
-      delta_phi_vh: 3.1416
+      delta_phi_vh: -1.2217
+
+  - name: phi_vh_-80_deg
+    params:
+      delta_phi_vh: -1.3963
+
+  - name: phi_vh_-90_deg
+    params:
+      delta_phi_vh: -1.5708
+
+  - name: phi_vh_-100_deg
+    params:
+      delta_phi_vh: -1.7453
+
+  - name: phi_vh_-110_deg
+    params:
+      delta_phi_vh: -1.9199
+
+  - name: phi_vh_-120_deg
+    params:
+      delta_phi_vh: -2.0944
+
+  - name: phi_vh_-130_deg
+    params:
+      delta_phi_vh: -2.2689
+
+  - name: phi_vh_-140_deg
+    params:
+      delta_phi_vh: -2.4435
+
+  - name: phi_vh_-150_deg
+    params:
+      delta_phi_vh: -2.6180
+
+  - name: phi_vh_-160_deg
+    params:
+      delta_phi_vh: -2.7925
+
+  - name: phi_vh_-170_deg
+    params:
+      delta_phi_vh: -2.9671
+
+  - name: phi_vh_-180_deg
+    params:
+      delta_phi_vh: -3.1416

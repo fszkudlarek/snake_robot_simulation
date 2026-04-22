@@ -4,7 +4,7 @@ from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaun
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
@@ -23,6 +23,14 @@ def generate_launch_description():
         description='Path to ROS params YAML file overriding movement controller parameters'
     )
     controller_params_file = LaunchConfiguration('controller_params_file')
+
+    trajectory_log_arg = DeclareLaunchArgument(
+        'trajectory_log_path',
+        default_value='',
+        description='If non-empty, stream every robot body link + COM position to '
+                    'this CSV file for the full simulation duration.'
+    )
+    trajectory_log_path = LaunchConfiguration('trajectory_log_path')
     
     # IMPORTANT: Set Gazebo resource path so it can find meshes
     sdf_dir = os.path.join(pkg_share, 'sdf')
@@ -156,6 +164,22 @@ def generate_launch_description():
         output='screen',
     )
 
+    # Optional: stream per-tick body link + COM positions to CSV for the full run.
+    # Only launched when `trajectory_log_path` is non-empty.
+    robot_body_logger = Node(
+        package='snake_sim',
+        executable='robot_body_logger',
+        name='robot_body_logger',
+        output='screen',
+        parameters=[
+            {'use_sim_time': True},
+            {'output_path': trajectory_log_path},
+        ],
+        condition=IfCondition(
+            PythonExpression(["'", trajectory_log_path, "' != ''"])
+        ),
+    )
+
     # Startup chain: spawn robot → load joint_state_broadcaster
     # → load movement_controller → start sidewinding controller and friends
     load_jsb_after_spawn = RegisterEventHandler(
@@ -177,6 +201,7 @@ def generate_launch_description():
                 sidewinding_controller,
                 center_of_mass_calculator,
                 odometry_tf_broadcaster,
+                robot_body_logger,
             ],
         )
     )
@@ -184,6 +209,7 @@ def generate_launch_description():
     return LaunchDescription([
         use_rviz_arg,
         controller_params_arg,
+        trajectory_log_arg,
         gazebo,
         robot_state_publisher,
         spawn_entity,

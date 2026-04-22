@@ -67,6 +67,7 @@ setup(
             'odometry_tf_broadcaster = snake_sim.odometry_tf_broadcaster:main',
             'trajectory_publisher = snake_sim.trajectory_publisher:main',
             'scene_snapshot = snake_sim.scene_snapshot:main',
+            'robot_body_logger = snake_sim.robot_body_logger:main',
         ],
     },
 )
