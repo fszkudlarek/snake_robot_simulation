@@ -44,6 +44,11 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULTS_FILE = REPO_ROOT / 'config' / 'default_controller_params.yaml'
 CREATE_GIF_SCRIPT = REPO_ROOT / 'scripts' / 'create_gif.py'
 
+# create_gif.py needs pandas/matplotlib which live in the scripts/.venv
+# virtualenv, while this script itself needs yaml/rclpy from system Python.
+# Invoke the GIF renderer with the venv's interpreter when it exists.
+VENV_PYTHON = REPO_ROOT / 'scripts' / '.venv' / 'bin' / 'python3'
+
 # Node name used inside the ROS params YAML files.
 CONTROLLER_NODE_NAME = 'movement_controller_node'
 
@@ -202,9 +207,10 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path)
         time.sleep(3)
 
     if trajectory_log_path.exists():
-        print('  Rendering GIF...', flush=True)
+        gif_python = str(VENV_PYTHON) if VENV_PYTHON.exists() else 'python3'
+        print(f'  Rendering GIF (via {gif_python})...', flush=True)
         subprocess.run(
-            ['python3', str(CREATE_GIF_SCRIPT), str(trajectory_log_path), str(gif_path)],
+            [gif_python, str(CREATE_GIF_SCRIPT), str(trajectory_log_path), str(gif_path)],
             check=False,
         )
     else:
