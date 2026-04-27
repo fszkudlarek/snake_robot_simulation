@@ -31,6 +31,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_white_side_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">0.00356934 0.0482941 0.013 3.14159 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_white_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="robot_mount_black_side_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">-0.00356934 0.0482941 0.06002 0 6.46654e-25 -3.14159</pose>
@@ -46,6 +54,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_black_side_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">-0.00356934 0.0482941 0.06002 0 6.46654e-25 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_black_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">0.0148 -0.0211564 0.02452 -3.3476e-15 -8.5054e-17 2.77598e-51</pose>
@@ -61,6 +77,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">0.0148 -0.0211564 0.02452 -3.3476e-15 -8.5054e-17 2.77598e-51</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_2_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">-0.0148 0.000843576 0.04852 3.14159 8.5054e-17 -3.14159</pose>
@@ -76,6 +100,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_2_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">-0.0148 0.000843576 0.04852 3.14159 8.5054e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_3_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">-0.0148 0.00584358 0.02452 -1.87044e-15 8.5054e-17 -3.14159</pose>
@@ -91,6 +123,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_3_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">-0.0148 0.00584358 0.02452 -1.87044e-15 8.5054e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_4_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">-0.0148 -0.0161564 0.02452 -2.37004e-15 8.5054e-17 -3.14159</pose>
@@ -106,6 +146,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_4_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">-0.0148 -0.0161564 0.02452 -2.37004e-15 8.5054e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_5_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">-0.0148 -0.0211564 0.04852 3.14159 8.5054e-17 -3.14159</pose>
@@ -121,6 +169,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_5_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">-0.0148 -0.0211564 0.04852 3.14159 8.5054e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_6_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">0.0148 0.000843576 0.02452 1.87044e-15 -8.5054e-17 2.06795e-25</pose>
@@ -136,6 +192,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_6_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">0.0148 0.000843576 0.02452 1.87044e-15 -8.5054e-17 2.06795e-25</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_7_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">0.0198 0.000843576 0.04852 3.14159 8.5054e-17 -3.14159</pose>
@@ -151,6 +215,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_7_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">0.0198 0.000843576 0.04852 3.14159 8.5054e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_8_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">0.0148 -0.0161564 0.04852 3.14159 -8.5054e-17 2.06795e-25</pose>
@@ -166,6 +238,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_8_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">0.0148 -0.0161564 0.04852 3.14159 -8.5054e-17 2.06795e-25</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="rx64_cap_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">-3.81639e-16 -0.0146564 0.01452 3.14159 6.0124e-16 -1.64292</pose>
@@ -181,6 +261,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="rx64_cap_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">-3.81639e-16 -0.0146564 0.01452 3.14159 6.0124e-16 -1.64292</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/rx64_cap.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mf128zz_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">-3.81639e-16 -0.0146564 0.01324 -7.73067e-15 4.47619e-16 -1.1654</pose>
@@ -196,6 +284,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mf128zz_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">-3.81639e-16 -0.0146564 0.01324 -7.73067e-15 4.47619e-16 -1.1654</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mf128zz.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="hn05_i101_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">-3.81639e-16 -0.0146564 0.0168 3.14159 -1.30022e-14 -2.80509</pose>
@@ -211,6 +307,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="hn05_i101_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">-3.81639e-16 -0.0146564 0.0168 3.14159 -1.30022e-14 -2.80509</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/hn05_i101.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mx64_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting">-3.88578e-16 -0.0146564 0.03652 0 2.46519e-32 3.14159</pose>
@@ -226,6 +330,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mx64_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting">-3.88578e-16 -0.0146564 0.03652 0 2.46519e-32 3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mx64.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
     </link>
     
     <link name="motor_with_onshape_mounting_2">
@@ -257,6 +369,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_white_side_2_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">-0.00356934 -0.0629505 -0.04702 3.14159 2.60157e-16 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_white_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="robot_mount_black_side_2_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">0.00356934 -0.0629505 1.8735e-16 4.36256e-17 -2.60157e-16 -1.5611e-16</pose>
@@ -272,6 +392,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_black_side_2_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">0.00356934 -0.0629505 1.8735e-16 4.36256e-17 -2.60157e-16 -1.5611e-16</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_black_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_9_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">-0.0148 0.0065 -0.0355 -3.57559e-15 -3.57148e-17 -3.14159</pose>
@@ -287,6 +415,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_9_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">-0.0148 0.0065 -0.0355 -3.57559e-15 -3.57148e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_10_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">0.0148 -0.0155 -0.0115 3.14159 3.57148e-17 1.21446e-16</pose>
@@ -302,6 +438,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_10_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">0.0148 -0.0155 -0.0115 3.14159 3.57148e-17 1.21446e-16</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_11_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">0.0148 -0.0205 -0.0355 -1.64246e-15 3.57148e-17 1.21446e-16</pose>
@@ -317,6 +461,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_11_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">0.0148 -0.0205 -0.0355 -1.64246e-15 3.57148e-17 1.21446e-16</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_12_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">0.0148 0.0015 -0.0355 -2.14206e-15 3.57148e-17 1.76957e-16</pose>
@@ -332,6 +484,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_12_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">0.0148 0.0015 -0.0355 -2.14206e-15 3.57148e-17 1.76957e-16</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_13_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">0.0148 0.0065 -0.0115 3.14159 3.57148e-17 1.21446e-16</pose>
@@ -347,6 +507,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_13_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">0.0148 0.0065 -0.0115 3.14159 3.57148e-17 1.21446e-16</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_14_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">-0.0148 -0.0155 -0.0355 1.64246e-15 -3.57148e-17 -3.14159</pose>
@@ -362,6 +530,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_14_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">-0.0148 -0.0155 -0.0355 1.64246e-15 -3.57148e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_15_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">-0.0198 -0.0155 -0.0115 3.14159 3.57148e-17 1.21446e-16</pose>
@@ -377,6 +553,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_15_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">-0.0198 -0.0155 -0.0115 3.14159 3.57148e-17 1.21446e-16</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_16_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">-0.0148 0.0015 -0.0115 3.14159 -3.57148e-17 -3.14159</pose>
@@ -392,6 +576,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_16_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">-0.0148 0.0015 -0.0115 3.14159 -3.57148e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="rx64_cap_2_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">8.29198e-19 0 -0.0455 3.14159 3.03101e-16 1.49867</pose>
@@ -407,6 +599,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="rx64_cap_2_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">8.29198e-19 0 -0.0455 3.14159 3.03101e-16 1.49867</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/rx64_cap.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mf128zz_2_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">8.64725e-19 0 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
@@ -422,6 +622,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mf128zz_2_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">8.64725e-19 0 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mf128zz.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="hn05_i101_2_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">7.65915e-19 0 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
@@ -437,6 +645,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="hn05_i101_2_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">7.65915e-19 0 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/hn05_i101.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mx64_2_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_2">-4.93038e-32 -1.38778e-17 -0.0235 0 -0 1.29737e-33</pose>
@@ -452,6 +668,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mx64_2_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_2">-4.93038e-32 -1.38778e-17 -0.0235 0 -0 1.29737e-33</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mx64.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
     </link>
     
     <link name="motor_with_onshape_mounting_3">
@@ -483,6 +707,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_white_side_3_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">-0.00356934 -0.0629505 -0.04702 -3.14159 2.77556e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_white_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="robot_mount_black_side_3_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">0.00356934 -0.0629505 1.94289e-16 -3.33067e-16 -2.77556e-17 5.04629e-26</pose>
@@ -498,6 +730,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_black_side_3_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">0.00356934 -0.0629505 1.94289e-16 -3.33067e-16 -2.77556e-17 5.04629e-26</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_black_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_17_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
@@ -513,6 +753,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_17_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_18_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -528,6 +776,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_18_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_19_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
@@ -543,6 +799,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_19_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_20_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 3.49433e-17</pose>
@@ -558,6 +822,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_20_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 3.49433e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_21_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 6.98867e-17</pose>
@@ -573,6 +845,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_21_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 6.98867e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_22_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
@@ -588,6 +868,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_22_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_23_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -603,6 +891,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_23_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_24_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
@@ -618,6 +914,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_24_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="rx64_cap_3_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">-1.20151e-18 -2.77556e-17 -0.0455 3.14159 3.03101e-16 1.49867</pose>
@@ -633,6 +937,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="rx64_cap_3_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">-1.20151e-18 -2.77556e-17 -0.0455 3.14159 3.03101e-16 1.49867</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/rx64_cap.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mf128zz_3_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">-1.16598e-18 -2.77556e-17 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
@@ -648,6 +960,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mf128zz_3_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">-1.16598e-18 -2.77556e-17 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mf128zz.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="hn05_i101_3_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">-1.26479e-18 -2.77556e-17 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
@@ -663,6 +983,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="hn05_i101_3_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">-1.26479e-18 -2.77556e-17 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/hn05_i101.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mx64_3_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_3">0 2.77556e-17 -0.0235 0 -0 8.24094e-33</pose>
@@ -678,6 +1006,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mx64_3_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_3">0 2.77556e-17 -0.0235 0 -0 8.24094e-33</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mx64.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
     </link>
     
     <link name="motor_with_onshape_mounting_4">
@@ -709,6 +1045,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_white_side_4_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">-0.00356934 -0.0629505 -0.04702 -3.14159 2.77556e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_white_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="robot_mount_black_side_4_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">0.00356934 -0.0629505 1.94289e-16 -3.33067e-16 -2.77556e-17 5.04629e-26</pose>
@@ -724,6 +1068,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_black_side_4_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">0.00356934 -0.0629505 1.94289e-16 -3.33067e-16 -2.77556e-17 5.04629e-26</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_black_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_25_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
@@ -739,6 +1091,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_25_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_26_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -754,6 +1114,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_26_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_27_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
@@ -769,6 +1137,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_27_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_28_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 1.04237e-17</pose>
@@ -784,6 +1160,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_28_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_29_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -799,6 +1183,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_29_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_30_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
@@ -814,6 +1206,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_30_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_31_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -829,6 +1229,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_31_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_32_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
@@ -844,6 +1252,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_32_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="rx64_cap_4_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">-6.70167e-18 -5.55112e-17 -0.0455 3.14159 3.03101e-16 1.49867</pose>
@@ -859,6 +1275,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="rx64_cap_4_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">-6.70167e-18 -5.55112e-17 -0.0455 3.14159 3.03101e-16 1.49867</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/rx64_cap.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mf128zz_4_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">-6.66614e-18 -5.55112e-17 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
@@ -874,6 +1298,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mf128zz_4_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">-6.66614e-18 -5.55112e-17 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mf128zz.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="hn05_i101_4_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">-6.76495e-18 -5.55112e-17 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
@@ -889,6 +1321,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="hn05_i101_4_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">-6.76495e-18 -5.55112e-17 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/hn05_i101.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mx64_4_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_4">0 0 -0.0235 0 -0 8.24094e-33</pose>
@@ -904,6 +1344,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mx64_4_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_4">0 0 -0.0235 0 -0 8.24094e-33</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mx64.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
     </link>
     
     <link name="motor_with_onshape_mounting_5">
@@ -935,6 +1383,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_white_side_5_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">-0.00356934 -0.0629505 -0.04702 -3.14159 2.77556e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_white_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="robot_mount_black_side_5_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">0.00356934 -0.0629505 1.80411e-16 -3.33067e-16 -2.77556e-17 5.04629e-26</pose>
@@ -950,6 +1406,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_black_side_5_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">0.00356934 -0.0629505 1.80411e-16 -3.33067e-16 -2.77556e-17 5.04629e-26</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_black_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_33_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
@@ -965,6 +1429,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_33_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_34_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -980,6 +1452,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_34_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_35_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
@@ -995,6 +1475,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_35_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_36_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 1.04237e-17</pose>
@@ -1010,6 +1498,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_36_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_37_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -1025,6 +1521,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_37_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_38_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
@@ -1040,6 +1544,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_38_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_39_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -1055,6 +1567,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_39_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_40_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
@@ -1070,6 +1590,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_40_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="rx64_cap_5_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">-1.22018e-17 -5.55112e-17 -0.0455 3.14159 3.03101e-16 1.49867</pose>
@@ -1085,6 +1613,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="rx64_cap_5_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">-1.22018e-17 -5.55112e-17 -0.0455 3.14159 3.03101e-16 1.49867</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/rx64_cap.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mf128zz_5_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">-1.21663e-17 -5.55112e-17 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
@@ -1100,6 +1636,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mf128zz_5_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">-1.21663e-17 -5.55112e-17 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mf128zz.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="hn05_i101_5_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">-1.22651e-17 -5.55112e-17 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
@@ -1115,6 +1659,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="hn05_i101_5_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">-1.22651e-17 -5.55112e-17 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/hn05_i101.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mx64_5_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_5">0 0 -0.0235 0 -0 8.24094e-33</pose>
@@ -1130,6 +1682,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mx64_5_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_5">0 0 -0.0235 0 -0 8.24094e-33</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mx64.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
     </link>
     
     <link name="motor_with_onshape_mounting_6">
@@ -1161,6 +1721,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_white_side_6_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">-0.00356934 -0.0629505 -0.04702 -3.14159 2.77556e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_white_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="robot_mount_black_side_6_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">0.00356934 -0.0629505 1.80411e-16 -3.33067e-16 -2.77556e-17 5.04629e-26</pose>
@@ -1176,6 +1744,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_black_side_6_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">0.00356934 -0.0629505 1.80411e-16 -3.33067e-16 -2.77556e-17 5.04629e-26</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_black_side.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_41_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
@@ -1191,6 +1767,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_41_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_42_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -1206,6 +1790,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_42_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_43_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
@@ -1221,6 +1813,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_43_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_44_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 1.04237e-17</pose>
@@ -1236,6 +1836,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_44_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_45_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -1251,6 +1859,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_45_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_46_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
@@ -1266,6 +1882,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_46_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_47_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -1281,6 +1905,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_47_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_48_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
@@ -1296,6 +1928,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_48_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="rx64_cap_6_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">-1.7702e-17 -1.11022e-16 -0.0455 3.14159 3.03101e-16 1.49867</pose>
@@ -1311,6 +1951,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="rx64_cap_6_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">-1.7702e-17 -1.11022e-16 -0.0455 3.14159 3.03101e-16 1.49867</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/rx64_cap.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mf128zz_6_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">-1.76665e-17 -1.11022e-16 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
@@ -1326,6 +1974,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mf128zz_6_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">-1.76665e-17 -1.11022e-16 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mf128zz.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="hn05_i101_6_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">-1.77653e-17 -1.11022e-16 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
@@ -1341,6 +1997,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="hn05_i101_6_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">-1.77653e-17 -1.11022e-16 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/hn05_i101.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mx64_6_visual_mesh_1">
         <pose relative_to="motor_with_onshape_mounting_6">0 0 -0.0235 0 -0 8.24094e-33</pose>
@@ -1356,6 +2020,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mx64_6_collision_mesh_2">
+        <pose relative_to="motor_with_onshape_mounting_6">0 0 -0.0235 0 -0 8.24094e-33</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mx64.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
     </link>
     
     <link name="motor_with_no_arms">
@@ -1387,6 +2059,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_black_side_7_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">0.00356934 -0.0629505 7.63278e-17 -1.47178e-16 -5.82867e-16 1.21446e-16</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_black_side__2.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="robot_mount_white_side_7_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">-0.00356934 -0.0629505 -0.04702 -3.14159 2.77556e-17 -3.14159</pose>
@@ -1402,6 +2082,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="robot_mount_white_side_7_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">-0.00356934 -0.0629505 -0.04702 -3.14159 2.77556e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/robot_mount_white_side__2.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_49_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
@@ -1417,6 +2105,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_49_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">-0.0148 0.0065 -0.0355 -3.64452e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_50_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -1432,6 +2128,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_50_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">0.0148 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_51_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
@@ -1447,6 +2151,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_51_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">0.0148 -0.0205 -0.0355 -1.57353e-15 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_52_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 1.04237e-17</pose>
@@ -1462,6 +2174,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_52_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">0.0148 0.0015 -0.0355 -2.07313e-15 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_53_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -1477,6 +2197,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_53_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">0.0148 0.0065 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_54_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
@@ -1492,6 +2220,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_54_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">-0.0148 -0.0155 -0.0355 1.57353e-15 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_55_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
@@ -1507,6 +2243,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_55_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">-0.0198 -0.0155 -0.0115 3.14159 5.72984e-17 1.04237e-17</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mounting_cube_25_30_56_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
@@ -1522,6 +2266,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mounting_cube_25_30_56_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">-0.0148 0.0015 -0.0115 3.14159 -5.72984e-17 -3.14159</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mounting_cube_25_30.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="rx64_cap_7_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">6.10623e-19 0 -0.0455 3.14159 3.03101e-16 1.49867</pose>
@@ -1537,6 +2289,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="rx64_cap_7_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">6.10623e-19 0 -0.0455 3.14159 3.03101e-16 1.49867</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/rx64_cap.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mf128zz_7_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">6.4615e-19 0 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
@@ -1552,6 +2312,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mf128zz_7_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">6.4615e-19 0 -0.04678 -7.87327e-15 1.85721e-16 1.9762</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mf128zz.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="hn05_i101_7_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">5.4734e-19 0 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
@@ -1567,6 +2335,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="hn05_i101_7_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">5.4734e-19 0 -0.04322 3.14159 -1.31264e-14 0.336505</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/hn05_i101.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
       
       <visual name="mx64_7_visual_mesh_1">
         <pose relative_to="motor_with_no_arms">0 0 -0.0235 0 -0 8.24094e-33</pose>
@@ -1582,6 +2358,14 @@
           <emissive>0 0 0 0</emissive>
         </material>
       </visual>
+      <collision name="mx64_7_collision_mesh_2">
+        <pose relative_to="motor_with_no_arms">0 0 -0.0235 0 -0 8.24094e-33</pose>
+        <geometry>
+          <mesh>
+            <uri>model://snake/assets/mx64.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
     </link>
     
     <link name="inner_adhesive_pad">
@@ -1614,11 +2398,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad">0.0078 0.0159 -0.00245 -4.72873e-42 3.18057e-42 1.45417e-41</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -1672,11 +2456,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad">0.0117 0.02385 -0.00245 -4.72873e-42 3.18057e-42 1.45417e-41</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -1749,11 +2533,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_2_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_2">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_2">0.0078 0.0159 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -1807,11 +2591,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_2_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_2">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_2">0.0117 0.02385 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -1884,11 +2668,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_3_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_3">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_3">0.0078 0.0159 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -1942,11 +2726,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_3_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_3">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_3">0.0117 0.02385 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -2019,11 +2803,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_4_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_4">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_4">0.0078 0.0159 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -2077,11 +2861,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_4_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_4">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_4">0.0117 0.02385 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -2154,11 +2938,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_5_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_5">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_5">0.0078 0.0159 -0.00245 -4.55264e-42 -6.66785e-39 -7.98116e-42</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -2212,11 +2996,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_5_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_5">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_5">0.0117 0.02385 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -2289,11 +3073,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_6_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_6">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_6">0.0078 0.0159 -0.00245 2.00352e-32 -5.66854e-33 9.4456e-32</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -2347,11 +3131,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_6_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_6">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_6">0.0117 0.02385 -0.00245 2.00352e-32 -5.66854e-33 9.4456e-32</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -2424,11 +3208,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_7_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_7">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_7">0.0078 0.0159 -0.00245 0 3.05457e-83 0</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -2482,11 +3266,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_7_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_7">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_7">0.0117 0.02385 -0.00245 0 -0 0</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>

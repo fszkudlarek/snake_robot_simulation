@@ -1614,11 +1614,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad">0.0078 0.0159 -0.00245 -4.72873e-42 3.18057e-42 1.45417e-41</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -1672,11 +1672,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad">0.0117 0.02385 -0.00245 -4.72873e-42 3.18057e-42 1.45417e-41</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -1749,11 +1749,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_2_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_2">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_2">0.0078 0.0159 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -1807,11 +1807,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_2_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_2">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_2">0.0117 0.02385 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -1884,11 +1884,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_3_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_3">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_3">0.0078 0.0159 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -1942,11 +1942,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_3_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_3">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_3">0.0117 0.02385 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -2019,11 +2019,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_4_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_4">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_4">0.0078 0.0159 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -2077,11 +2077,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_4_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_4">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_4">0.0117 0.02385 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -2154,11 +2154,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_5_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_5">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_5">0.0078 0.0159 -0.00245 -4.55264e-42 -6.66785e-39 -7.98116e-42</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -2212,11 +2212,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_5_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_5">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_5">0.0117 0.02385 -0.00245 -4.55264e-42 2.77686e-42 -4.56754e-42</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -2289,11 +2289,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_6_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_6">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_6">0.0078 0.0159 -0.00245 2.00352e-32 -5.66854e-33 9.4456e-32</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -2347,11 +2347,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_6_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_6">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_6">0.0117 0.02385 -0.00245 2.00352e-32 -5.66854e-33 9.4456e-32</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
@@ -2424,11 +2424,11 @@
         </material>
       </visual>
       <collision name="inner_adhesive_pad_7_collision_mesh_2">
-        <pose relative_to="inner_adhesive_pad_7">0.0078 0.0157500003 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="inner_adhesive_pad_7">0.0078 0.0159 -0.00245 0 3.05457e-83 0</pose>
         <geometry>
-          <box>
-            <size>0.017400 0.033300 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/inner_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.001</mu><mu2>0.001</mu2></ode></friction></surface></collision>
     </link>
@@ -2482,11 +2482,11 @@
         </material>
       </visual>
       <collision name="outer_adhesive_pad_7_collision_mesh_2">
-        <pose relative_to="outer_adhesive_pad_7">0.0117 0.0236249999 2.90572644e-11 0 0 0</pose>
+        <pose relative_to="outer_adhesive_pad_7">0.0117 0.02385 -0.00245 0 -0 0</pose>
         <geometry>
-          <box>
-            <size>0.026100 0.049950 0.004900</size>
-          </box>
+          <mesh>
+            <uri>model://snake/assets/outer_adhesive_pad.stl</uri>
+          </mesh>
         </geometry>
       <surface><friction><ode><mu>0.99</mu><mu2>0.99</mu2></ode></friction></surface></collision>
     </link>
