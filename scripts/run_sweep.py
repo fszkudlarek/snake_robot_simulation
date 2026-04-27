@@ -158,7 +158,17 @@ def write_params_file(path: Path, params: dict) -> None:
         yaml.safe_dump(ros_params, f, default_flow_style=False, sort_keys=False)
 
 
-def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path) -> None:
+def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path,
+            *, take_snapshot: bool = True, render_gif: bool = True,
+            quiet: bool = False) -> Path:
+    """Run one simulation. Returns the path to the body trajectory CSV.
+
+    `take_snapshot` and `render_gif` are off-switches for the optimizer driver,
+    which evaluates many parameter sets back-to-back and only needs the CSV.
+    `quiet` redirects ros2 launch + snapshot stdout/stderr to a per-eval log
+    file, so the optimizer's own progress output isn't drowned out. The log
+    is still written to disk under output_dir for post-mortem inspection.
+    """
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # This file is both the input to the launch and the record of what ran.
@@ -168,8 +178,14 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path)
     snapshot_path = output_dir / f'{run_name}.png'
     trajectory_log_path = output_dir / f'{run_name}_body_trajectory.csv'
     gif_path = output_dir / f'{run_name}.gif'
+    sim_log_path = output_dir / f'{run_name}_sim.log'
 
     print(f'  Launching simulation (params file: {params_file.name})...', flush=True)
+
+    log_handle = open(sim_log_path, 'w') if quiet else None
+    sim_stdout = log_handle if quiet else None
+    sim_stderr = subprocess.STDOUT if quiet else None
+
     proc = subprocess.Popen(
         [
             'ros2', 'launch', 'snake_sim', 'snake_sim_launch.py',
@@ -179,6 +195,8 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path)
         ],
         preexec_fn=os.setsid,
         stdin=subprocess.DEVNULL,
+        stdout=sim_stdout,
+        stderr=sim_stderr,
     )
     pgid = proc.pid
 
@@ -186,16 +204,19 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path)
         print(f'  Simulating for {wait_seconds}s (pgid={pgid})...', flush=True)
         time.sleep(wait_seconds)
 
-        print('  Capturing snapshot...', flush=True)
-        subprocess.run(
-            [
-                'ros2', 'run', 'snake_sim', 'scene_snapshot',
-                '--ros-args',
-                '-p', f'output_path:={snapshot_path}',
-                '-p', 'wait_seconds:=3.0',
-            ],
-            check=False,
-        )
+        if take_snapshot:
+            print('  Capturing snapshot...', flush=True)
+            subprocess.run(
+                [
+                    'ros2', 'run', 'snake_sim', 'scene_snapshot',
+                    '--ros-args',
+                    '-p', f'output_path:={snapshot_path}',
+                    '-p', 'wait_seconds:=3.0',
+                ],
+                check=False,
+                stdout=sim_stdout,
+                stderr=sim_stderr,
+            )
         print(f'  Saved outputs to: {output_dir}', flush=True)
     finally:
         print('  Stopping simulation...', flush=True)
@@ -203,18 +224,23 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path)
         sweep_residuals()
         stop_ros2_daemon()
         assert_clean()
+        if log_handle is not None:
+            log_handle.close()
         # Let DDS multicast state unwind before next run.
         time.sleep(3)
 
-    if trajectory_log_path.exists():
-        gif_python = str(VENV_PYTHON) if VENV_PYTHON.exists() else 'python3'
-        print(f'  Rendering GIF (via {gif_python})...', flush=True)
-        subprocess.run(
-            [gif_python, str(CREATE_GIF_SCRIPT), str(trajectory_log_path), str(gif_path)],
-            check=False,
-        )
-    else:
-        print(f'  Skipping GIF: {trajectory_log_path.name} not found.', flush=True)
+    if render_gif:
+        if trajectory_log_path.exists():
+            gif_python = str(VENV_PYTHON) if VENV_PYTHON.exists() else 'python3'
+            print(f'  Rendering GIF (via {gif_python})...', flush=True)
+            subprocess.run(
+                [gif_python, str(CREATE_GIF_SCRIPT), str(trajectory_log_path), str(gif_path)],
+                check=False,
+            )
+        else:
+            print(f'  Skipping GIF: {trajectory_log_path.name} not found.', flush=True)
+
+    return trajectory_log_path
 
 
 def main() -> int:
