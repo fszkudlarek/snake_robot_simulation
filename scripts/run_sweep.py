@@ -271,6 +271,8 @@ def main() -> int:
     sweep_residuals()
     stop_ros2_daemon()
 
+    run_durations = []
+
     for i, run in enumerate(runs, start=1):
         run_name = run['name']
         overrides = run.get('params', {})
@@ -283,9 +285,16 @@ def main() -> int:
         print(f'  Effective params: {effective}')
 
         run_dir = base_output_dir / run_name
-        run_one(run_name, effective, wait_seconds, run_dir)
+        t_start = time.time()
+        run_one(run_name, effective, wait_seconds, run_dir,
+                render_gif=False, quiet=True)
+        wall = time.time() - t_start
+        run_durations.append(wall)
 
-        print(f'  Run {run_name} complete.')
+        avg = sum(run_durations) / len(run_durations)
+        eta_s = avg * (len(runs) - i)
+        print(f'  Run {run_name} complete.  '
+              f'wall {wall:.0f}s  ETA {eta_s / 60:.1f} min')
 
     print('')
     print(f'All {len(runs)} runs complete. Results in: {base_output_dir}')

@@ -8,7 +8,7 @@
 # (PNG + CSVs) to screenshots/<output_name>/<run.name>/, then cleans up.
 
 # Default wait time per run (seconds). Can be overridden per-run.
-wait_seconds: 600
+wait_seconds: 120
 
 # Output folder under ./screenshots/
 output_name: amplitude_horizontal_sweep
@@ -17,46 +17,118 @@ output_name: amplitude_horizontal_sweep
 # Available parameters (see sidewinding_movement_controller.py):
 #   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate
 runs:
-  # - name: A_h_17.5_deg
-  #   params:
-  #     A_h: 0.3054
-
-  # - name: A_h_20_deg
-  #   params:
-  #     A_h: 0.3491
-
-  # - name: A_h_22.5_deg
-  #   params:
-  #     A_h: 0.3927
-
-  # - name: A_h_25_deg
-  #   params:
-  #     A_h: 0.4363
-
-  # - name: A_h_27.5_deg
-  #   params:
-  #     A_h: 0.4800
-
-  # - name: A_h_30_deg
-  #   params:
-  #     A_h: 0.5236
-
-  # - name: A_h_32.5_deg
-  #   params:
-  #     A_h: 0.5672
-
-  # - name: A_h_35_deg
-  #   params:
-  #     A_h: 0.6109
-
-  # - name: A_h_37.5_deg
-  #   params:
-  #     A_h: 0.6545
-
-  # - name: A_h_40_deg
-  #   params:
-  #     A_h: 0.6981
-
-  - name: A_h_42.5_deg_simplified_collisions
+  - name: A_h_4_deg
     params:
-      A_h: 0.7418
+      A_h: 0.0698
+
+  - name: A_h_6_deg
+    params:
+      A_h: 0.1047
+
+  - name: A_h_8_deg
+    params:
+      A_h: 0.1396
+
+  - name: A_h_10_deg
+    params:
+      A_h: 0.1745
+
+  - name: A_h_12_deg
+    params:
+      A_h: 0.2094
+
+  - name: A_h_14_deg
+    params:
+      A_h: 0.2443
+
+  - name: A_h_16_deg
+    params:
+      A_h: 0.2793
+
+  - name: A_h_18_deg
+    params:
+      A_h: 0.3142
+
+  - name: A_h_20_deg
+    params:
+      A_h: 0.3491
+
+  - name: A_h_22_deg
+    params:
+      A_h: 0.3840
+
+  - name: A_h_24_deg
+    params:
+      A_h: 0.4189
+
+  - name: A_h_26_deg
+    params:
+      A_h: 0.4538
+
+  - name: A_h_28_deg
+    params:
+      A_h: 0.4887
+
+  - name: A_h_30_deg
+    params:
+      A_h: 0.5236
+
+  - name: A_h_32_deg
+    params:
+      A_h: 0.5585
+
+  - name: A_h_34_deg
+    params:
+      A_h: 0.5934
+
+  - name: A_h_36_deg
+    params:
+      A_h: 0.6283
+
+  - name: A_h_38_deg
+    params:
+      A_h: 0.6632
+
+  - name: A_h_40_deg
+    params:
+      A_h: 0.6981
+
+  - name: A_h_42_deg
+    params:
+      A_h: 0.7330
+
+  - name: A_h_44_deg
+    params:
+      A_h: 0.7679
+
+  - name: A_h_46_deg
+    params:
+      A_h: 0.8029
+
+  - name: A_h_48_deg
+    params:
+      A_h: 0.8378
+
+  - name: A_h_50_deg
+    params:
+      A_h: 0.8727
+
+  - name: A_h_52_deg
+    params:
+      A_h: 0.9076
+
+  - name: A_h_54_deg
+    params:
+      A_h: 0.9425
+
+  - name: A_h_56_deg
+    params:
+      A_h: 0.9774
+
+  - name: A_h_58_deg
+    params:
+      A_h: 1.0123
+
+  - name: A_h_60_deg
+    params:
+      A_h: 1.0472
