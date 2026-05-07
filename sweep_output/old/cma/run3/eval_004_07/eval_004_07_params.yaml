@@ -1,0 +1,13 @@
+movement_controller_node:
+  ros__parameters:
+    swivel_joint_count: 6
+    sliding_pad_joint_count: 7
+    A_v: 1.0
+    A_h: 0.861475692393477
+    delta_phi_v: 4.047813120570412
+    delta_phi_h: 3.949855973266086
+    delta_phi_vh: 0.5805484268299276
+    O_v: -0.8583905725539661
+    O_h: 0.33685503697167274
+    T: 5.0
+    publish_rate: 50.0

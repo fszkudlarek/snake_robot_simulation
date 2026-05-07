@@ -269,3 +269,7 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+
+# Sweep images and gifs
+sweep_output/*/**/*.png
+sweep_output/**/*.gif
