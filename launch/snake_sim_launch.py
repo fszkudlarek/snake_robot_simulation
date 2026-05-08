@@ -154,6 +154,7 @@ def generate_launch_description():
         executable='center_of_mass_calculator',
         name='center_of_mass_calculator',
         output='screen',
+        parameters=[{'use_sim_time': True}],
     )
 
     # Broadcast odom -> root link TF from Gazebo odometry
@@ -187,7 +188,10 @@ def generate_launch_description():
         executable='trajectory_publisher',
         name='trajectory_publisher',
         output='screen',
-        parameters=[trajectory_config],
+        parameters=[
+            {'use_sim_time': True},
+            trajectory_config,
+        ],
     )
 
     # Startup chain: spawn robot → load joint_state_broadcaster

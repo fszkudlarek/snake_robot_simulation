@@ -13,6 +13,7 @@
   <depend>rviz2</depend>
   <depend>joint_state_publisher_gui</depend>
   <depend>tf2_ros</depend>
+  <depend>trajectory_msgs</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

@@ -192,6 +192,19 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /snake/center_of_mass
       Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: DesiredPosition
+      Namespaces:
+        desired_position: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /snake/desired_position
+      Value: true
     - Alpha: 1
       Buffer Length: 1
       Class: rviz_default_plugins/Path
@@ -218,7 +231,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /snake/desired_trajectory
+        Value: /snake/desired_path
       Value: true
     - Alpha: 1
       Buffer Length: 1

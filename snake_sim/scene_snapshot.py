@@ -50,7 +50,7 @@ class SceneSnapshot(Node):
         self.create_subscription(
             Path, '/snake/actual_trajectory', self._actual_cb, latched_qos)
         self.create_subscription(
-            Path, '/snake/desired_trajectory', self._desired_cb, latched_qos)
+            Path, '/snake/desired_path', self._desired_cb, latched_qos)
         self.create_subscription(
             Marker, '/snake/center_of_mass', self._com_cb, 10)
 

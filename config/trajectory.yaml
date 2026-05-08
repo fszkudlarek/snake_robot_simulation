@@ -24,4 +24,8 @@ trajectory_publisher:
     # Origin offset for all parametric shapes
     origin_x: 0.0
     origin_y: -0.14
-  # The initial position of robot COM is ~(0; 0.36)
+    # The initial position of robot COM is ~(0; 0.36)
+
+    # Speed (m/s) along the curve. Each trajectory point's time_from_start
+    # is set to (cumulative arc length up to that point) / linear_speed.
+    linear_speed: 0.05
