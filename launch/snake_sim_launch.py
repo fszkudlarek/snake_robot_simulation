@@ -2,7 +2,7 @@ import os
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, RegisterEventHandler
 from launch.conditions import IfCondition
-from launch.event_handlers import OnProcessExit
+from launch.event_handlers import OnProcessExit, OnProcessStart
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
@@ -180,6 +180,16 @@ def generate_launch_description():
         ),
     )
 
+    # Desired trajectory publisher (configured via config/trajectory.yaml)
+    trajectory_config = os.path.join(pkg_share, 'config', 'trajectory.yaml')
+    trajectory_publisher = Node(
+        package='snake_sim',
+        executable='trajectory_publisher',
+        name='trajectory_publisher',
+        output='screen',
+        parameters=[trajectory_config],
+    )
+
     # Startup chain: spawn robot → load joint_state_broadcaster
     # → load movement_controller → start sidewinding controller and friends
     load_jsb_after_spawn = RegisterEventHandler(
@@ -194,15 +204,31 @@ def generate_launch_description():
             on_exit=[movement_controller_spawner],
         )
     )
-    start_app_nodes_after_mc = RegisterEventHandler(
+    # After the movement_controller spawner exits, bring up the helper nodes
+    # (CoM calculator, odometry TF broadcaster, optional body logger).
+    start_helpers_after_mc = RegisterEventHandler(
         OnProcessExit(
             target_action=movement_controller_spawner,
             on_exit=[
-                sidewinding_controller,
                 center_of_mass_calculator,
                 odometry_tf_broadcaster,
                 robot_body_logger,
             ],
+        )
+    )
+    # Then start the sidewinding controller — using CoM calc as the trigger
+    # since it's unconditional (robot_body_logger only launches when logging is on).
+    start_sidewinding_after_helpers = RegisterEventHandler(
+        OnProcessStart(
+            target_action=center_of_mass_calculator,
+            on_start=[sidewinding_controller],
+        )
+    )
+    # Finally start the trajectory publisher, so the controller is up first.
+    start_trajectory_after_sidewinding = RegisterEventHandler(
+        OnProcessStart(
+            target_action=sidewinding_controller,
+            on_start=[trajectory_publisher],
         )
     )
 
@@ -216,6 +242,8 @@ def generate_launch_description():
         bridge,
         load_jsb_after_spawn,
         load_mc_after_jsb,
-        start_app_nodes_after_mc,
+        start_helpers_after_mc,
+        start_sidewinding_after_helpers,
+        start_trajectory_after_sidewinding,
         rviz,
     ])

@@ -23,4 +23,5 @@ trajectory_publisher:
 
     # Origin offset for all parametric shapes
     origin_x: 0.0
-    origin_y: 0.0
+    origin_y: -0.14
+  # The initial position of robot COM is ~(0; 0.36)
