@@ -1,12 +1,36 @@
 import os
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, ExecuteProcess
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, RegisterEventHandler
+from launch.conditions import IfCondition
+from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
+    use_rviz_arg = DeclareLaunchArgument(
+        'use_rviz', default_value='true',
+        description='Launch RViz visualization'
+    )
+    use_rviz = LaunchConfiguration('use_rviz')
+
     pkg_share = get_package_share_directory('snake_sim')
+
+    controller_params_arg = DeclareLaunchArgument(
+        'controller_params_file',
+        default_value=os.path.join(pkg_share, 'config', 'default_controller_params.yaml'),
+        description='Path to ROS params YAML file overriding movement controller parameters'
+    )
+    controller_params_file = LaunchConfiguration('controller_params_file')
+
+    trajectory_log_arg = DeclareLaunchArgument(
+        'trajectory_log_path',
+        default_value='',
+        description='If non-empty, stream every robot body link + COM position to '
+                    'this CSV file for the full simulation duration.'
+    )
+    trajectory_log_path = LaunchConfiguration('trajectory_log_path')
     
     # IMPORTANT: Set Gazebo resource path so it can find meshes
     sdf_dir = os.path.join(pkg_share, 'sdf')
@@ -51,6 +75,7 @@ def generate_launch_description():
         name='rviz2',
         output='screen',
         arguments=['-d', rviz_config_path],
+        condition=IfCondition(use_rviz),
     )
     
     # Spawn robot in Gazebo
@@ -121,6 +146,7 @@ def generate_launch_description():
         executable='sidewinding_movement_controller',
         name='movement_controller_node',
         output='screen',
+        parameters=[{'use_sim_time': True}, controller_params_file],
     )
 
     center_of_mass_calculator = Node(
@@ -138,26 +164,58 @@ def generate_launch_description():
         output='screen',
     )
 
-    # Desired trajectory publisher (configured via config/trajectory.yaml)
-    trajectory_config = os.path.join(pkg_share, 'config', 'trajectory.yaml')
-    trajectory_publisher = Node(
+    # Optional: stream per-tick body link + COM positions to CSV for the full run.
+    # Only launched when `trajectory_log_path` is non-empty.
+    robot_body_logger = Node(
         package='snake_sim',
-        executable='trajectory_publisher',
-        name='trajectory_publisher',
+        executable='robot_body_logger',
+        name='robot_body_logger',
         output='screen',
-        parameters=[trajectory_config],
+        parameters=[
+            {'use_sim_time': True},
+            {'output_path': trajectory_log_path},
+        ],
+        condition=IfCondition(
+            PythonExpression(["'", trajectory_log_path, "' != ''"])
+        ),
+    )
+
+    # Startup chain: spawn robot → load joint_state_broadcaster
+    # → load movement_controller → start sidewinding controller and friends
+    load_jsb_after_spawn = RegisterEventHandler(
+        OnProcessExit(
+            target_action=spawn_entity,
+            on_exit=[joint_state_broadcaster_spawner],
+        )
+    )
+    load_mc_after_jsb = RegisterEventHandler(
+        OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[movement_controller_spawner],
+        )
+    )
+    start_app_nodes_after_mc = RegisterEventHandler(
+        OnProcessExit(
+            target_action=movement_controller_spawner,
+            on_exit=[
+                sidewinding_controller,
+                center_of_mass_calculator,
+                odometry_tf_broadcaster,
+                robot_body_logger,
+            ],
+        )
     )
 
     return LaunchDescription([
+        use_rviz_arg,
+        controller_params_arg,
+        trajectory_log_arg,
         gazebo,
         robot_state_publisher,
         spawn_entity,
         bridge,
-        joint_state_broadcaster_spawner,
-        movement_controller_spawner,
-        sidewinding_controller,
-        center_of_mass_calculator,
-        odometry_tf_broadcaster,
-        trajectory_publisher,
+        load_jsb_after_spawn,
+        load_mc_after_jsb,
+        start_app_nodes_after_mc,
         rviz,
     ])

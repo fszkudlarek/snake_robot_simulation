@@ -1,0 +1,310 @@
+# Example parameter sweep for the sidewinding movement controller.
+#
+# Run with:
+#   python3 scripts/run_sweep.py config/sweeps/example_sweep.yaml
+#
+# Each run launches the simulation with its `params` applied on top of the
+# controller's built-in defaults, waits `wait_seconds`, captures a snapshot
+# (PNG + CSVs) to screenshots/<output_name>/<run.name>/, then cleans up.
+
+# Default wait time per run (seconds). Can be overridden per-run.
+wait_seconds: 120
+
+# Output folder under ./screenshots/
+output_name: delta_phi_vh_sweep
+
+# Parameters not listed here keep their defaults from the controller.
+# Available parameters (see sidewinding_movement_controller.py):
+#   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate
+runs:
+  - name: phi_vh_0_deg
+    params:
+      delta_phi_vh: 0.0000
+
+  - name: phi_vh_5_deg
+    params:
+      delta_phi_vh: 0.0873
+
+  - name: phi_vh_10_deg
+    params:
+      delta_phi_vh: 0.1745
+
+  - name: phi_vh_15_deg
+    params:
+      delta_phi_vh: 0.2618
+
+  - name: phi_vh_20_deg
+    params:
+      delta_phi_vh: 0.3491
+
+  - name: phi_vh_25_deg
+    params:
+      delta_phi_vh: 0.4363
+
+  - name: phi_vh_30_deg
+    params:
+      delta_phi_vh: 0.5236
+
+  - name: phi_vh_35_deg
+    params:
+      delta_phi_vh: 0.6109
+
+  - name: phi_vh_40_deg
+    params:
+      delta_phi_vh: 0.6981
+
+  - name: phi_vh_45_deg
+    params:
+      delta_phi_vh: 0.7854
+
+  - name: phi_vh_50_deg
+    params:
+      delta_phi_vh: 0.8727
+
+  - name: phi_vh_55_deg
+    params:
+      delta_phi_vh: 0.9599
+
+  - name: phi_vh_60_deg
+    params:
+      delta_phi_vh: 1.0472
+
+  - name: phi_vh_65_deg
+    params:
+      delta_phi_vh: 1.1345
+
+  - name: phi_vh_70_deg
+    params:
+      delta_phi_vh: 1.2217
+
+  - name: phi_vh_75_deg
+    params:
+      delta_phi_vh: 1.3090
+
+  - name: phi_vh_80_deg
+    params:
+      delta_phi_vh: 1.3963
+
+  - name: phi_vh_85_deg
+    params:
+      delta_phi_vh: 1.4835
+
+  - name: phi_vh_90_deg
+    params:
+      delta_phi_vh: 1.5708
+
+  - name: phi_vh_95_deg
+    params:
+      delta_phi_vh: 1.6581
+
+  - name: phi_vh_100_deg
+    params:
+      delta_phi_vh: 1.7453
+
+  - name: phi_vh_105_deg
+    params:
+      delta_phi_vh: 1.8326
+
+  - name: phi_vh_110_deg
+    params:
+      delta_phi_vh: 1.9199
+
+  - name: phi_vh_115_deg
+    params:
+      delta_phi_vh: 2.0071
+
+  - name: phi_vh_120_deg
+    params:
+      delta_phi_vh: 2.0944
+
+  - name: phi_vh_125_deg
+    params:
+      delta_phi_vh: 2.1817
+
+  - name: phi_vh_130_deg
+    params:
+      delta_phi_vh: 2.2689
+
+  - name: phi_vh_135_deg
+    params:
+      delta_phi_vh: 2.3562
+
+  - name: phi_vh_140_deg
+    params:
+      delta_phi_vh: 2.4435
+
+  - name: phi_vh_145_deg
+    params:
+      delta_phi_vh: 2.5307
+
+  - name: phi_vh_150_deg
+    params:
+      delta_phi_vh: 2.6180
+
+  - name: phi_vh_155_deg
+    params:
+      delta_phi_vh: 2.7053
+
+  - name: phi_vh_160_deg
+    params:
+      delta_phi_vh: 2.7925
+
+  - name: phi_vh_165_deg
+    params:
+      delta_phi_vh: 2.8798
+
+  - name: phi_vh_170_deg
+    params:
+      delta_phi_vh: 2.9671
+
+  - name: phi_vh_175_deg
+    params:
+      delta_phi_vh: 3.0543
+
+  - name: phi_vh_180_deg
+    params:
+      delta_phi_vh: 3.1416
+
+  - name: phi_vh_185_deg
+    params:
+      delta_phi_vh: 3.2289
+
+  - name: phi_vh_190_deg
+    params:
+      delta_phi_vh: 3.3161
+
+  - name: phi_vh_195_deg
+    params:
+      delta_phi_vh: 3.4034
+
+  - name: phi_vh_200_deg
+    params:
+      delta_phi_vh: 3.4907
+
+  - name: phi_vh_205_deg
+    params:
+      delta_phi_vh: 3.5779
+
+  - name: phi_vh_210_deg
+    params:
+      delta_phi_vh: 3.6652
+
+  - name: phi_vh_215_deg
+    params:
+      delta_phi_vh: 3.7525
+
+  - name: phi_vh_220_deg
+    params:
+      delta_phi_vh: 3.8397
+
+  - name: phi_vh_225_deg
+    params:
+      delta_phi_vh: 3.9270
+
+  - name: phi_vh_230_deg
+    params:
+      delta_phi_vh: 4.0143
+
+  - name: phi_vh_235_deg
+    params:
+      delta_phi_vh: 4.1015
+
+  - name: phi_vh_240_deg
+    params:
+      delta_phi_vh: 4.1888
+
+  - name: phi_vh_245_deg
+    params:
+      delta_phi_vh: 4.2761
+
+  - name: phi_vh_250_deg
+    params:
+      delta_phi_vh: 4.3633
+
+  - name: phi_vh_255_deg
+    params:
+      delta_phi_vh: 4.4506
+
+  - name: phi_vh_260_deg
+    params:
+      delta_phi_vh: 4.5379
+
+  - name: phi_vh_265_deg
+    params:
+      delta_phi_vh: 4.6251
+
+  - name: phi_vh_270_deg
+    params:
+      delta_phi_vh: 4.7124
+
+  - name: phi_vh_275_deg
+    params:
+      delta_phi_vh: 4.7997
+
+  - name: phi_vh_280_deg
+    params:
+      delta_phi_vh: 4.8869
+
+  - name: phi_vh_285_deg
+    params:
+      delta_phi_vh: 4.9742
+
+  - name: phi_vh_290_deg
+    params:
+      delta_phi_vh: 5.0615
+
+  - name: phi_vh_295_deg
+    params:
+      delta_phi_vh: 5.1487
+
+  - name: phi_vh_300_deg
+    params:
+      delta_phi_vh: 5.2360
+
+  - name: phi_vh_305_deg
+    params:
+      delta_phi_vh: 5.3233
+
+  - name: phi_vh_310_deg
+    params:
+      delta_phi_vh: 5.4105
+
+  - name: phi_vh_315_deg
+    params:
+      delta_phi_vh: 5.4978
+
+  - name: phi_vh_320_deg
+    params:
+      delta_phi_vh: 5.5851
+
+  - name: phi_vh_325_deg
+    params:
+      delta_phi_vh: 5.6723
+
+  - name: phi_vh_330_deg
+    params:
+      delta_phi_vh: 5.7596
+
+  - name: phi_vh_335_deg
+    params:
+      delta_phi_vh: 5.8469
+
+  - name: phi_vh_340_deg
+    params:
+      delta_phi_vh: 5.9341
+
+  - name: phi_vh_345_deg
+    params:
+      delta_phi_vh: 6.0214
+
+  - name: phi_vh_350_deg
+    params:
+      delta_phi_vh: 6.1087
+
+  - name: phi_vh_355_deg
+    params:
+      delta_phi_vh: 6.1959
+
+  - name: phi_vh_360_deg
+    params:
+      delta_phi_vh: 6.2832
