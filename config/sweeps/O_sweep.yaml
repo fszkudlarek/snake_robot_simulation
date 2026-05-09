@@ -1,0 +1,330 @@
+# Example parameter sweep for the sidewinding movement controller.
+#
+# Run with:
+#   python3 scripts/run_sweep.py config/sweeps/example_sweep.yaml
+#
+# Each run launches the simulation with its `params` applied on top of the
+# controller's built-in defaults, waits `wait_seconds`, captures a snapshot
+# (PNG + CSVs) to screenshots/<output_name>/<run.name>/, then cleans up.
+
+# Default wait time per run (seconds). Can be overridden per-run.
+wait_seconds: 120
+
+# Output folder under ./screenshots/
+output_name: offset_sweep
+
+# Parameters not listed here keep their defaults from the controller.
+# Available parameters (see sidewinding_movement_controller.py):
+#   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate
+runs:
+  - name: O_h_-40_deg
+    params:
+      O_h: -0.6981
+
+  - name: O_h_-38_deg
+    params:
+      O_h: -0.6632
+
+  - name: O_h_-36_deg
+    params:
+      O_h: -0.6283
+
+  - name: O_h_-34_deg
+    params:
+      O_h: -0.5934
+
+  - name: O_h_-32_deg
+    params:
+      O_h: -0.5585
+
+  - name: O_h_-30_deg
+    params:
+      O_h: -0.5236
+
+  - name: O_h_-28_deg
+    params:
+      O_h: -0.4887
+
+  - name: O_h_-26_deg
+    params:
+      O_h: -0.4538
+
+  - name: O_h_-24_deg
+    params:
+      O_h: -0.4189
+
+  - name: O_h_-22_deg
+    params:
+      O_h: -0.3840
+
+  - name: O_h_-20_deg
+    params:
+      O_h: -0.3491
+
+  - name: O_h_-18_deg
+    params:
+      O_h: -0.3142
+
+  - name: O_h_-16_deg
+    params:
+      O_h: -0.2793
+
+  - name: O_h_-14_deg
+    params:
+      O_h: -0.2443
+
+  - name: O_h_-12_deg
+    params:
+      O_h: -0.2094
+
+  - name: O_h_-10_deg
+    params:
+      O_h: -0.1745
+
+  - name: O_h_-8_deg
+    params:
+      O_h: -0.1396
+
+  - name: O_h_-6_deg
+    params:
+      O_h: -0.1047
+
+  - name: O_h_-4_deg
+    params:
+      O_h: -0.0698
+
+  - name: O_h_-2_deg
+    params:
+      O_h: -0.0349
+
+  - name: O_h_0_deg
+    params:
+      O_h: 0.0000
+
+  - name: O_h_2_deg
+    params:
+      O_h: 0.0349
+
+  - name: O_h_4_deg
+    params:
+      O_h: 0.0698
+
+  - name: O_h_6_deg
+    params:
+      O_h: 0.1047
+
+  - name: O_h_8_deg
+    params:
+      O_h: 0.1396
+
+  - name: O_h_10_deg
+    params:
+      O_h: 0.1745
+
+  - name: O_h_12_deg
+    params:
+      O_h: 0.2094
+
+  - name: O_h_14_deg
+    params:
+      O_h: 0.2443
+
+  - name: O_h_16_deg
+    params:
+      O_h: 0.2793
+
+  - name: O_h_18_deg
+    params:
+      O_h: 0.3142
+
+  - name: O_h_20_deg
+    params:
+      O_h: 0.3491
+
+  - name: O_h_22_deg
+    params:
+      O_h: 0.3840
+
+  - name: O_h_24_deg
+    params:
+      O_h: 0.4189
+
+  - name: O_h_26_deg
+    params:
+      O_h: 0.4538
+
+  - name: O_h_28_deg
+    params:
+      O_h: 0.4887
+
+  - name: O_h_30_deg
+    params:
+      O_h: 0.5236
+
+  - name: O_h_32_deg
+    params:
+      O_h: 0.5585
+
+  - name: O_h_34_deg
+    params:
+      O_h: 0.5934
+
+  - name: O_h_36_deg
+    params:
+      O_h: 0.6283
+
+  - name: O_h_38_deg
+    params:
+      O_h: 0.6632
+
+  - name: O_h_40_deg
+    params:
+      O_h: 0.6981
+
+  - name: O_v_-180_deg
+    params:
+      O_v: -3.1416
+
+  - name: O_v_-170_deg
+    params:
+      O_v: -2.9671
+
+  - name: O_v_-160_deg
+    params:
+      O_v: -2.7925
+
+  - name: O_v_-150_deg
+    params:
+      O_v: -2.6180
+
+  - name: O_v_-140_deg
+    params:
+      O_v: -2.4435
+
+  - name: O_v_-130_deg
+    params:
+      O_v: -2.2689
+
+  - name: O_v_-120_deg
+    params:
+      O_v: -2.0944
+
+  - name: O_v_-110_deg
+    params:
+      O_v: -1.9199
+
+  - name: O_v_-100_deg
+    params:
+      O_v: -1.7453
+
+  - name: O_v_-90_deg
+    params:
+      O_v: -1.5708
+
+  - name: O_v_-80_deg
+    params:
+      O_v: -1.3963
+
+  - name: O_v_-70_deg
+    params:
+      O_v: -1.2217
+
+  - name: O_v_-60_deg
+    params:
+      O_v: -1.0472
+
+  - name: O_v_-50_deg
+    params:
+      O_v: -0.8727
+
+  - name: O_v_-40_deg
+    params:
+      O_v: -0.6981
+
+  - name: O_v_-30_deg
+    params:
+      O_v: -0.5236
+
+  - name: O_v_-20_deg
+    params:
+      O_v: -0.3491
+
+  - name: O_v_-10_deg
+    params:
+      O_v: -0.1745
+
+  - name: O_v_0_deg
+    params:
+      O_v: 0.0000
+
+  - name: O_v_10_deg
+    params:
+      O_v: 0.1745
+
+  - name: O_v_20_deg
+    params:
+      O_v: 0.3491
+
+  - name: O_v_30_deg
+    params:
+      O_v: 0.5236
+
+  - name: O_v_40_deg
+    params:
+      O_v: 0.6981
+
+  - name: O_v_50_deg
+    params:
+      O_v: 0.8727
+
+  - name: O_v_60_deg
+    params:
+      O_v: 1.0472
+
+  - name: O_v_70_deg
+    params:
+      O_v: 1.2217
+
+  - name: O_v_80_deg
+    params:
+      O_v: 1.3963
+
+  - name: O_v_90_deg
+    params:
+      O_v: 1.5708
+
+  - name: O_v_100_deg
+    params:
+      O_v: 1.7453
+
+  - name: O_v_110_deg
+    params:
+      O_v: 1.9199
+
+  - name: O_v_120_deg
+    params:
+      O_v: 2.0944
+
+  - name: O_v_130_deg
+    params:
+      O_v: 2.2689
+
+  - name: O_v_140_deg
+    params:
+      O_v: 2.4435
+
+  - name: O_v_150_deg
+    params:
+      O_v: 2.6180
+
+  - name: O_v_160_deg
+    params:
+      O_v: 2.7925
+
+  - name: O_v_170_deg
+    params:
+      O_v: 2.9671
+
+  - name: O_v_180_deg
+    params:
+      O_v: 3.1416
