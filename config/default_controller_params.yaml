@@ -16,3 +16,34 @@ movement_controller_node:
     O_h: 0.0                       # horizontal wave offset (radians)
     T: 5.0                         # wave period (seconds)
     publish_rate: 50.0             # Hz
+
+    # ---- Asymmetric amplitude distribution (eq. 3.26, 3.27) ----
+    # Per-joint horizontal amplitude is computed as:
+    #   A_h_i = clip(A_h + alpha_distribution[i] * delta + delta_offset, a_min, a_max)
+    # With delta=0 and delta_offset=0 the gait reduces to the original symmetric
+    # sidewinding (A_h_i == A_h for every joint), so existing sweep configs that
+    # omit these fields keep their original behavior.
+    #
+    # alpha_distribution: weighting α_i along the body. Length must equal
+    #   swivel_joint_count. The paper uses [2.0, 1.0, 0.0, -1.0, -2.0] for 5
+    #   horizontal joints; here it is extended symmetrically about the midline
+    #   for the 6 swivel joints.
+    alpha_distribution: [2.5, 1.5, 0.5, -0.5, -1.5, -2.5]
+
+    # delta: steering correction magnitude δ (radians). Modulated at runtime by
+    # the trajectory tracking controller via std_msgs/Float64 on
+    # /movement_controller/delta. The value here is the open-loop initial value
+    # used until the first message arrives.
+    delta: 0.0
+
+    # delta_offset: feed-forward bias compensating systematic heading drift in
+    # the nominal gait (eq. 3.31). Static; not modulated at runtime.
+    delta_offset: 0.0
+
+    # ---- Safety saturation (eq. 3.29, 3.30) ----
+    # a_min/a_max bound the per-joint corrected horizontal amplitude.
+    # delta_max bounds δ (whether from the parameter above or the topic).
+    # Paper defaults for COBRA (Dynamixel XH540): 5° / 50° / 15°. In radians:
+    a_min: 0.08727                 # 5 degrees
+    a_max: 0.87266                 # 50 degrees
+    delta_max: 0.26180             # 15 degrees

@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import Float64, Float64MultiArray
 import math
 
 SVIWEL_JOINT_TO_PREV_FRICTION_PAD_DISTANCE = 115.25
@@ -31,6 +31,22 @@ class MovementController(Node):
         self.declare_parameter('T', 5.0)                         # wave period (seconds)
         self.declare_parameter('publish_rate', 50.0)             # Hz
 
+        # ---- Asymmetric amplitude distribution (eq. 3.26, 3.27) ----
+        # alpha_distribution: per-joint weighting α_i, length must equal swivel_joint_count.
+        # delta: steering correction magnitude δ — updated at runtime by the trajectory
+        #        tracking controller via the /movement_controller/delta topic.
+        # delta_offset: feed-forward bias compensating systematic heading drift.
+        # With delta=0 and delta_offset=0 the per-joint amplitude reduces to A_h,
+        # i.e. the original symmetric sidewinding gait.
+        self.declare_parameter('alpha_distribution', [2.5, 1.5, 0.5, -0.5, -1.5, -2.5])
+        self.declare_parameter('delta', 0.0)
+        self.declare_parameter('delta_offset', 0.0)
+        # Saturation bounds (eq. 3.29, 3.30). Paper defaults for COBRA in radians:
+        # a_min = 5° ≈ 0.0873, a_max = 50° ≈ 0.8727, delta_max = 15° ≈ 0.2618.
+        self.declare_parameter('a_min', 5.0 * math.pi / 180.0)
+        self.declare_parameter('a_max', 50.0 * math.pi / 180.0)
+        self.declare_parameter('delta_max', 15.0 * math.pi / 180.0)
+
         self.swivel_joint_count = self.get_parameter(
             'swivel_joint_count').value
         self.sliding_pad_joint_count = self.get_parameter(
@@ -45,6 +61,29 @@ class MovementController(Node):
         self.T = self.get_parameter('T').value
         self.publish_rate = self.get_parameter('publish_rate').value
 
+        self.alpha_distribution = list(
+            self.get_parameter('alpha_distribution').value)
+        self.delta_offset = float(self.get_parameter('delta_offset').value)
+        self.a_min = float(self.get_parameter('a_min').value)
+        self.a_max = float(self.get_parameter('a_max').value)
+        self.delta_max = float(self.get_parameter('delta_max').value)
+        self.delta = self._clip_delta(
+            float(self.get_parameter('delta').value))
+
+        if len(self.alpha_distribution) != self.swivel_joint_count:
+            raise ValueError(
+                f"alpha_distribution length ({len(self.alpha_distribution)}) "
+                f"must equal swivel_joint_count ({self.swivel_joint_count})")
+
+        # Closed-loop steering input. The trajectory tracking controller publishes
+        # an updated δ on this topic (eq. 3.26); δ_offset and α_i stay fixed.
+        self.delta_subscription = self.create_subscription(
+            Float64,
+            '/movement_controller/delta',
+            self._on_delta_update,
+            10
+        )
+
         self.start_time = None
 
         self.timer = self.create_timer(
@@ -56,6 +95,13 @@ class MovementController(Node):
             f"Movement controller started with {self.swivel_joint_count} swivel joints"
             f" and {self.sliding_pad_joint_count} x2 sliding pad joints")
 
+    def _on_delta_update(self, msg: Float64) -> None:
+        self.delta = self._clip_delta(float(msg.data))
+
+    def _clip_delta(self, value: float) -> float:
+        # Eq. 3.30: δ = clip(δ_raw, -δ_max, +δ_max)
+        return max(-self.delta_max, min(self.delta_max, value))
+
     def update(self):
         now = self.get_clock().now()
         if self.start_time is None:
@@ -65,10 +111,18 @@ class MovementController(Node):
         msg = Float64MultiArray()
         msg.data = []
 
-        # Horizontal wave — swivel/yaw joints — H2 equation (4):
-        # φ_h_i(t) = A_h * sin(2π/T * t + (i-1) * ΔΦ_h + ΔΦ_vh) + O_h
+        # Horizontal wave — swivel/yaw joints — H2 equation (4) with per-joint
+        # amplitude from eq. 3.26 saturated by eq. 3.29:
+        #   A_h_i = clip(A_h + α_i · δ + δ_offset, a_min, a_max)
+        # φ_h_i(t) = A_h_i * sin(2π/T * t + (i-1) * ΔΦ_h + ΔΦ_vh) + O_h
         for i in range(self.swivel_joint_count):
-            angle = self.A_h * math.sin(
+            A_h_i_raw = (
+                self.A_h
+                + self.alpha_distribution[i] * self.delta
+                + self.delta_offset
+            )
+            A_h_i = max(self.a_min, min(self.a_max, A_h_i_raw))
+            angle = A_h_i * math.sin(
                 (2.0 * math.pi / self.T) * t
                 + i * self.delta_phi_h
                 + self.delta_phi_vh
