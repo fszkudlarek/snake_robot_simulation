@@ -1,45 +1,53 @@
 #!/usr/bin/env python3
 """
-CMA-ES optimization of the sidewinding gait controller parameters.
+CMA-ES tuning of the sidewinding gait so the robot's center-of-mass path
+geometrically matches the desired trajectory.
 
-Search space (6 dims) — each chosen to keep the optimizer inside the
-"alternating sidewinding gait" regime by construction:
+The simulation runs OPEN-LOOP: snake_sim_launch.py is invoked with
+`use_trajectory_publisher:=true` so the trajectory marker is visible (and the
+desired polyline is well-defined for scoring), but no `trajectory_tracker` is
+started. CMA only sees the feedforward gait parameters and the resulting COM
+path; the controller never receives the trajectory.
+
+Search space (6 dims) — same parameterization as before, chosen to keep the
+optimizer inside the "alternating sidewinding gait" regime by construction:
 
     A_h               horizontal wave amplitude (rad)
     delta_phi_h       horizontal inter-module phase difference (rad)
-    delta_phi_diff    delta_phi_v - delta_phi_h, bounded to ±pi/5
-                      (the H2 paper assumes delta_phi_v == delta_phi_h;
-                       we explore small symmetric deviations)
+    delta_phi_v       vertical inter-module phase difference (rad)
     delta_phi_vh      vertical-to-horizontal phase offset (rad)
-    O_v_frac          O_v / A_v ∈ (-0.9, 0.9). Keeps |O_v| < A_v so the
-                      vertical wave crosses zero and pads alternate grip/slide.
-    O_h_frac          O_h / A_h ∈ (-0.9, 0.9). Keeps |O_h| < A_h so the
-                      horizontal wave crosses zero — prevents persistent
-                      same-direction bend that causes module overlap.
+    O_v_frac          O_v / A_v ∈ (-0.9, 0.9)
+    O_h_frac          O_h / A_h ∈ (-0.9, 0.9)
 
-The controller still receives all 7 physical params (A_v, A_h, delta_phi_v,
-delta_phi_h, delta_phi_vh, O_v, O_h, T); CMA only sees these 6 and the rest
-are reconstructed in vector_to_params() with the constraints structurally
-satisfied.
+Fixed: A_v = 1.0, T = 5.0.
 
-Fixed:
-    A_v = 1.0   (only the sign matters in the controller logic)
-    T   = 5.0   (gait period — speed knob, not gait shape)
+Objective (minimize):
 
-Objective: J = v * S^alpha (maximize), where v is forward speed of the COM
-and S is path straightness. Computed by compute_metrics.compute_metrics().
+    J = sqrt(mean(||COM(t) - desired(t)||^2))
 
-Per-evaluation output is written under
-    <repo>/sweep_output/cma/<session_name>/eval_<gen>_<idx>/
-including the params YAML and the body trajectory CSV. The CMA-ES state is
-checkpointed to <session_name>/cma_state.pkl after every generation, so an
-interrupted run can be resumed by re-invoking with the same --session-name.
+The desired trajectory is time-parametrized: trajectory_publisher's
+`linear_speed` (m/s along the curve) maps each polyline vertex to a
+`time_from_start`, exactly the parametrization the moving marker uses in
+RViz. At every COM timestamp the desired (x, y) is linearly interpolated
+from that parametrization, and J is the RMS distance between the two.
+
+The body-CSV clock is rebased so t=0 corresponds to the first post-transient
+sample — i.e. the desired trajectory effectively restarts after the gait has
+settled. This penalizes both geometric error AND speed mismatch: a snake
+moving too slowly drifts behind the moving target every timestep and
+accumulates distance, so a stationary snake can no longer be a degenerate
+optimum.
+
+Per-evaluation output: <repo>/sweep_output/cma/<session_name>/eval_<gen>_<idx>/
+The CMA-ES state is checkpointed to <session_name>/cma_state.pkl after every
+generation, so an interrupted run can be resumed by re-invoking with the
+same --session-name.
 
 Usage:
     python3 scripts/optimize_cma.py --session-name run1 --budget 60
 
 Resume:
-    python3 scripts/optimize_cma.py --session-name run1 --budget 60   # detects state, continues
+    python3 scripts/optimize_cma.py --session-name run1 --budget 60
 
 Dependencies: pip install cma
 """
@@ -52,6 +60,8 @@ import sys
 import time
 from pathlib import Path
 
+import numpy as np
+import pandas as pd
 import yaml
 
 try:
@@ -64,12 +74,17 @@ except ImportError:
 # Local imports — both scripts live in scripts/.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from run_sweep import run_one, load_default_params, REPO_ROOT
-from compute_metrics import compute_metrics
 
+
+# Source-tree trajectory definition. Mirrors the same file the installed
+# share serves to trajectory_publisher — when the user edits it they need
+# `colcon build` for the sim to pick it up; the optimizer reads from source
+# so it sees edits immediately.
+TRAJECTORY_FILE = REPO_ROOT / 'config' / 'trajectory.yaml'
+TRAJECTORY_NODE_NAME = 'trajectory_publisher'
 
 # Hardcoded physical-param values used by the reparameterization.
 A_V_FIXED = 1.0
-DELTA_PHI_DIFF_LIMIT = math.pi / 6     # |delta_phi_v - delta_phi_h| ≤ this
 OFFSET_FRAC_LIMIT = 0.9                # |O_h|/A_h and |O_v|/A_v ≤ this
 
 # Order matters — defines the CMA vector layout. Don't reorder without
@@ -79,17 +94,17 @@ OFFSET_FRAC_LIMIT = 0.9                # |O_h|/A_h and |O_v|/A_v ≤ this
 PARAM_NAMES = [
     'A_h',
     'delta_phi_h',
-    'delta_phi_diff',   # delta_phi_v - delta_phi_h
+    'delta_phi_v',
     'delta_phi_vh',
-    'O_v_frac',         # O_v / A_v
-    'O_h_frac',         # O_h / A_h
+    'O_v_frac',
+    'O_h_frac',
 ]
 
 PARAM_BOUNDS = {
-    'A_h':            (0.05, 5 * math.pi / 18),                      # ~3° to ~50° (to avoid the robot segments overlaping)
-    'delta_phi_h':    (0.50, 2 * math.pi),                           # ~28° to ~180°
-    'delta_phi_diff': (-DELTA_PHI_DIFF_LIMIT, DELTA_PHI_DIFF_LIMIT),
-    'delta_phi_vh':   (- math.pi,  math.pi),                               # sidewinding lives near π/2
+    'A_h':            (0.05, 5 * math.pi / 18),                      # ~3° to ~50°
+    'delta_phi_h':    (0.50, 3 * math.pi),
+    'delta_phi_v':    (0.50, 3 * math.pi),
+    'delta_phi_vh':   (-math.pi, math.pi),
     'O_v_frac':       (-OFFSET_FRAC_LIMIT, OFFSET_FRAC_LIMIT),
     'O_h_frac':       (-OFFSET_FRAC_LIMIT, OFFSET_FRAC_LIMIT),
 }
@@ -101,72 +116,153 @@ PHYSICAL_PARAM_NAMES = [
     'A_h', 'delta_phi_v', 'delta_phi_h', 'delta_phi_vh', 'O_v', 'O_h',
 ]
 
-SUPPORTED_GAITS = ('sidewinding', 'rotating')
+LOG_COLUMNS = (
+    ['gen', 'eval', 'wall_seconds']
+    + PHYSICAL_PARAM_NAMES
+    + ['n_samples', 'duration_s', 'mean_distance_m',
+       'rms_distance_m', 'max_distance_m', 'J', 'status']
+)
 
-# Per-gait CSV tail columns. The leading columns (gen, eval, wall_seconds,
-# physical params) are common to both. The order here is the order written.
-GAIT_LOG_TAIL = {
-    'sidewinding': ['n_cycles', 'duration_s', 'net_disp_m', 'S', 'v', 'J', 'status'],
-    'rotating':    ['n_cycles', 'duration_s', 'net_rotation_rad',
-                    'drift_distance_m', 'R', 'omega', 'J', 'status'],
-}
+# Tag stored in session_config.yaml so a pickled CMA state from an
+# incompatible run — different objective sign, different log schema, or a
+# different CMA vector layout — is rejected instead of silently resumed.
+# Bump this whenever PARAM_NAMES changes meaning.
+OBJECTIVE_TAG = 'trajectory_time_aligned_rms_v2'
 
-
-def log_columns(gait: str) -> list[str]:
-    return ['gen', 'eval', 'wall_seconds'] + PHYSICAL_PARAM_NAMES + GAIT_LOG_TAIL[gait]
-
-
-# Format spec per metric column. Anything not listed falls back to plain
-# str() — used for n_cycles (int) and status (string). When the key is
-# missing from `info`, an empty cell is written.
-_METRIC_FORMATS = {
-    'duration_s':       '.2f',
-    'net_disp_m':       '.4f',
-    'net_rotation_rad': '.4f',
-    'drift_distance_m': '.4f',
-    'S':                '.4f',
-    'R':                '.4f',
-    'v':                '.6f',
-    'omega':            '.6f',
-}
+# Returned J when the simulation produced no usable data. Large enough to be
+# uncompetitive vs. any real run, finite so CMA's covariance update stays
+# well-defined.
+FAILED_RUN_PENALTY = 1.0e3
 
 
-def build_log_row(gait: str, iteration: int, eval_count: int, wall: float,
-                  physical: dict, info: dict, J: float) -> list:
-    head = [iteration, eval_count, f'{wall:.1f}']
-    params = [f'{physical[name]:.6f}' for name in PHYSICAL_PARAM_NAMES]
+def load_desired_trajectory() -> tuple[np.ndarray, np.ndarray]:
+    """Reconstruct the time-parametrized desired trajectory from
+    config/trajectory.yaml, mirroring trajectory_publisher's
+    `_build_*()` + `_make_trajectory()` pipeline.
 
-    tail = []
-    for col in GAIT_LOG_TAIL[gait]:
-        if col == 'J':
-            tail.append(f'{J:.6f}')
-            continue
-        if col == 'status':
-            tail.append(info.get('status', ''))
-            continue
-        if col not in info:
-            tail.append('')
-            continue
-        spec = _METRIC_FORMATS.get(col)
-        tail.append(format(info[col], spec) if spec else str(info[col]))
+    Returns:
+        polyline:       (N, 2) array of [x, y] points
+        desired_times:  (N,)   array of time_from_start in seconds (monotone,
+                               starts at 0)
+    """
+    if not TRAJECTORY_FILE.exists():
+        raise FileNotFoundError(
+            f'Cannot find {TRAJECTORY_FILE}; the optimizer needs the desired '
+            f'trajectory definition to score evaluations.'
+        )
+    with open(TRAJECTORY_FILE) as f:
+        data = yaml.safe_load(f) or {}
+    params = data.get(TRAJECTORY_NODE_NAME, {}).get('ros__parameters', {}) or {}
 
-    return head + params + tail
+    traj_type = params.get('type', 'waypoints')
+    n = int(params.get('num_points', 100))
+    ox = float(params.get('origin_x', 0.0))
+    oy = float(params.get('origin_y', 0.0))
+
+    if traj_type == 'waypoints':
+        flat = params.get('waypoints', []) or []
+        pts = [(float(flat[i]), float(flat[i + 1]))
+               for i in range(0, len(flat) - 1, 2)]
+    elif traj_type == 'line':
+        length = float(params.get('length', 2.0))
+        pts = [(ox + i * length / (n - 1), oy) for i in range(n)]
+    elif traj_type == 'circle':
+        r = float(params.get('radius', 0.5))
+        # +1 to close the loop, matching trajectory_publisher._build_circle.
+        pts = [
+            (ox + r * math.sin(2 * math.pi * i / n),
+             oy + r * math.cos(2 * math.pi * i / n))
+            for i in range(n + 1)
+        ]
+    elif traj_type == 'sine':
+        length = float(params.get('length', 2.0))
+        amp = float(params.get('amplitude', 0.3))
+        wl = float(params.get('wavelength', 1.0))
+        pts = [
+            (ox + i * length / (n - 1),
+             oy + amp * math.sin(2 * math.pi * (i * length / (n - 1)) / wl))
+            for i in range(n)
+        ]
+    else:
+        raise ValueError(f'Unknown trajectory type: {traj_type!r}')
+
+    if len(pts) < 2:
+        raise ValueError(
+            f'Trajectory has only {len(pts)} points — need at least 2 for a polyline.'
+        )
+
+    linear_speed = float(params.get('linear_speed', 0.1))
+    if linear_speed <= 0.0:
+        raise ValueError(
+            f'trajectory.yaml linear_speed must be > 0 to time-parametrize the '
+            f'trajectory; got {linear_speed}.'
+        )
+
+    polyline = np.asarray(pts, dtype=float)
+    segment_lengths = np.linalg.norm(np.diff(polyline, axis=0), axis=1)
+    cumulative_arc = np.concatenate(([0.0], np.cumsum(segment_lengths)))
+    desired_times = cumulative_arc / linear_speed
+    return polyline, desired_times
+
+
+def compute_tracking_error(csv_path: Path, polyline: np.ndarray,
+                           desired_times: np.ndarray,
+                           transient_seconds: float) -> dict:
+    """RMS time-aligned distance between the COM and the desired position.
+
+    The body-CSV clock is rebased so the first post-transient sample is t=0,
+    matching the desired trajectory's own t=0 (the first polyline vertex).
+    Past the trajectory's final time, the desired position clamps to the last
+    vertex — same behavior as trajectory_publisher._desired_xy_at.
+    """
+    df = pd.read_csv(csv_path)
+    df = df.dropna(subset=['com_x', 'com_y']).reset_index(drop=True)
+    if len(df) < 2:
+        raise ValueError(f'{csv_path}: fewer than 2 valid COM samples.')
+
+    t0 = float(df['time'].iloc[0]) + transient_seconds
+    df = df[df['time'] >= t0].reset_index(drop=True)
+    if len(df) < 2:
+        raise ValueError(
+            f'{csv_path}: no samples after {transient_seconds}s transient.'
+        )
+
+    body_times = df['time'].to_numpy()
+    t_rel = body_times - body_times[0]
+    com = df[['com_x', 'com_y']].to_numpy()
+
+    # np.interp clamps to endpoint values for queries outside desired_times,
+    # which matches trajectory_publisher's behavior past the final vertex.
+    desired_x = np.interp(t_rel, desired_times, polyline[:, 0])
+    desired_y = np.interp(t_rel, desired_times, polyline[:, 1])
+    desired = np.column_stack([desired_x, desired_y])
+
+    distances = np.linalg.norm(com - desired, axis=1)
+
+    return {
+        'duration_s': float(t_rel[-1]),
+        'n_samples': len(distances),
+        'mean_distance_m': float(distances.mean()),
+        'max_distance_m': float(distances.max()),
+        'rms_distance_m': float(np.sqrt(np.mean(distances ** 2))),
+    }
 
 
 def vector_to_params(x, defaults: dict) -> dict:
     """Reconstruct the full 7-param controller config from the 6-dim CMA vector.
 
-    The reparameterization makes constraints structural rather than penalized:
-    delta_phi_v is built from delta_phi_h plus a small bounded difference,
-    and the offsets are scaled by their wave amplitudes so |offset| < amplitude.
+    delta_phi_v and delta_phi_h are independent dimensions. The offsets are
+    still scaled by their wave amplitudes so |offset| < amplitude holds
+    structurally — this is purely a numerical safety constraint, not a
+    physical coupling.
     """
-    A_h, delta_phi_h, delta_phi_diff, delta_phi_vh, O_v_frac, O_h_frac = (
+    A_h, delta_phi_h, delta_phi_v, delta_phi_vh, O_v_frac, O_h_frac = (
         float(v) for v in x
     )
     p = dict(defaults)
     p['A_h'] = A_h
     p['delta_phi_h'] = delta_phi_h
-    p['delta_phi_v'] = 2 * delta_phi_h + delta_phi_diff
+    p['delta_phi_v'] = delta_phi_v
     p['delta_phi_vh'] = delta_phi_vh
     p['O_v'] = O_v_frac * A_V_FIXED
     p['O_h'] = O_h_frac * A_h
@@ -174,11 +270,7 @@ def vector_to_params(x, defaults: dict) -> dict:
 
 
 def physical_params_from_defaults(defaults: dict) -> list[float]:
-    """Map the defaults dict into an initial CMA vector in the new layout.
-
-    Falls back to mid-bound values if a default is missing or would produce
-    a NaN (e.g. division by zero on O_h_frac if A_h default were 0).
-    """
+    """Map the defaults dict into an initial CMA vector in the new layout."""
     A_h = float(defaults.get('A_h', (PARAM_BOUNDS['A_h'][0]
                                      + PARAM_BOUNDS['A_h'][1]) / 2))
     delta_phi_h = float(defaults.get('delta_phi_h', math.pi / 2))
@@ -190,7 +282,7 @@ def physical_params_from_defaults(defaults: dict) -> list[float]:
     return [
         A_h,
         delta_phi_h,
-        delta_phi_v - delta_phi_h,
+        delta_phi_v,
         delta_phi_vh,
         O_v / A_V_FIXED,
         O_h / A_h if A_h > 1e-9 else 0.0,
@@ -204,36 +296,63 @@ def write_best_params(path: Path, params: dict) -> None:
         yaml.safe_dump(payload, f, default_flow_style=False, sort_keys=False)
 
 
-def evaluate(x, defaults: dict, eval_dir: Path, run_name: str,
-             wait_seconds: int, period: float, alpha: float,
-             gait: str) -> tuple[float, dict]:
-    """Run one simulation, compute metrics. Returns (J, info).
+def build_log_row(iteration: int, eval_count: int, wall: float,
+                  physical: dict, info: dict, J: float) -> list:
+    head = [iteration, eval_count, f'{wall:.1f}']
+    params = [f'{physical[name]:.6f}' for name in PHYSICAL_PARAM_NAMES]
 
-    `info` always contains 'status'; on success it also contains the gait's
-    full metric dict (S/v/... or R/omega/...) which build_log_row knows
-    how to lay out.
+    tail = []
+    for col in ('n_samples', 'duration_s', 'mean_distance_m',
+                'rms_distance_m', 'max_distance_m'):
+        v = info.get(col)
+        if v is None:
+            tail.append('')
+        elif col == 'n_samples':
+            tail.append(str(v))
+        elif col == 'duration_s':
+            tail.append(f'{v:.2f}')
+        else:
+            tail.append(f'{v:.4f}')
+    tail.append(f'{J:.6f}')
+    tail.append(info.get('status', ''))
+
+    return head + params + tail
+
+
+def evaluate(x, defaults: dict, eval_dir: Path, run_name: str,
+             wait_seconds: int, polyline: np.ndarray,
+             desired_times: np.ndarray,
+             transient_seconds: float) -> tuple[float, dict]:
+    """Run one simulation, score it against the time-parametrized trajectory.
+
+    Returns (J, info). `info` always contains 'status'; on success it also
+    contains the keys build_log_row expects (n_samples, duration_s,
+    mean/rms/max_distance_m).
     """
     params = vector_to_params(x, defaults)
     try:
         traj_csv = run_one(run_name, params, wait_seconds, eval_dir,
-                           take_snapshot=False, render_gif=False, quiet=True)
+                           take_snapshot=False, render_gif=False, quiet=True,
+                           use_trajectory_publisher=False)
     except Exception as e:
-        return 0.0, {'status': f'sim_error: {e!r}'}
+        return FAILED_RUN_PENALTY, {'status': f'sim_error: {e!r}'}
 
     if not traj_csv.exists():
-        return 0.0, {'status': 'no_csv'}
+        return FAILED_RUN_PENALTY, {'status': 'no_csv'}
 
     try:
-        m = compute_metrics(traj_csv, period,
-                            transient_cycles=5.0, alpha=alpha, gait=gait)
+        m = compute_tracking_error(traj_csv, polyline, desired_times,
+                                   transient_seconds)
     except (ValueError, FileNotFoundError, KeyError) as e:
-        return 0.0, {'status': f'metrics_error: {e}'}
+        return FAILED_RUN_PENALTY, {'status': f'metrics_error: {e}'}
 
-    return m['J'], {'status': 'ok', **m}
+    return m['rms_distance_m'], {'status': 'ok', **m}
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description='CMA-ES gait parameter optimization.')
+    parser = argparse.ArgumentParser(
+        description='CMA-ES gait tuning to minimize COM-to-desired-trajectory '
+                    'RMS distance.')
     parser.add_argument('--session-name', required=True,
                         help='Folder name under sweep_output/cma/. Resumes if state exists.')
     parser.add_argument('--budget', type=int, default=50,
@@ -245,15 +364,9 @@ def main() -> int:
                         help='Initial sigma as fraction of each bound range (default: 0.25)')
     parser.add_argument('--wait-seconds', type=int, default=300,
                         help='Wall-clock seconds per simulation (default: 300)')
-    parser.add_argument('--period', type=float, default=5.0,
-                        help='Gait period T (default: 5.0)')
-    parser.add_argument('--alpha', type=float, default=2.0,
-                        help='Purity exponent in J = speed * purity^alpha (default: 2.0)')
-    parser.add_argument('--gait', choices=list(SUPPORTED_GAITS), default=None,
-                        help='Which gait metric to optimize. On a fresh session this '
-                             'choice is locked into session_config.yaml. On resume, '
-                             'the locked value is used and any --gait passed here '
-                             'must match it (default: sidewinding for fresh sessions).')
+    parser.add_argument('--transient-seconds', type=float, default=10.0,
+                        help='Seconds of initial settling to discard before '
+                             'scoring (default: 10.0 = ~2 gait cycles at T=5s)')
     parser.add_argument('--seed', type=int, default=42,
                         help='CMA-ES seed for reproducibility (default: 42)')
     args = parser.parse_args()
@@ -264,14 +377,18 @@ def main() -> int:
               file=sys.stderr)
         return 1
 
+    polyline, desired_times = load_desired_trajectory()
+    print(f'Loaded desired trajectory: {len(polyline)} points, '
+          f'duration {desired_times[-1]:.1f}s, from {TRAJECTORY_FILE.name}',
+          flush=True)
+
     n_dims = len(PARAM_NAMES)
     lower = [PARAM_BOUNDS[n][0] for n in PARAM_NAMES]
     upper = [PARAM_BOUNDS[n][1] for n in PARAM_NAMES]
 
     # Initial mean: derived from the user's manually-tuned defaults, mapped
     # into the reparameterized CMA vector. Clamped to bounds in case a
-    # derived value (e.g. O_h_frac when defaults aren't yet in the gait
-    # regime) sits outside the allowed range.
+    # derived value sits outside the allowed range.
     x0_raw = physical_params_from_defaults(defaults)
     x0 = [
         max(lower[i], min(upper[i], x0_raw[i]))
@@ -287,38 +404,25 @@ def main() -> int:
     best_path = session_dir / 'best_params.yaml'
     config_path = session_dir / 'session_config.yaml'
 
-    # Resolve the gait for this session. The first invocation locks the
-    # choice into session_config.yaml; subsequent invocations must agree.
-    # Pre-existing sessions without the sidecar are assumed to be sidewinding
-    # (the only gait that existed before this option was added).
-    if config_path.exists():
-        with open(config_path) as f:
-            session_cfg = yaml.safe_load(f) or {}
-        locked_gait = session_cfg.get('gait', 'sidewinding')
-    elif state_path.exists():
-        locked_gait = 'sidewinding'  # legacy session — pre-gait-flag
-    else:
-        locked_gait = None
-
-    if locked_gait is not None:
-        if args.gait is not None and args.gait != locked_gait:
-            print(f'ERROR: session {args.session_name!r} is locked to '
-                  f'gait={locked_gait!r}; --gait {args.gait!r} would corrupt '
-                  f'its eval_log.csv schema. Use a different --session-name.',
+    # Refuse to resume a session that was created with a different objective —
+    # the old gait-based optimizer had opposite minimize/maximize sign and a
+    # different log schema; silently continuing would corrupt the run.
+    if state_path.exists():
+        prior_tag = None
+        if config_path.exists():
+            with open(config_path) as f:
+                prior_cfg = yaml.safe_load(f) or {}
+            prior_tag = prior_cfg.get('objective')
+        if prior_tag != OBJECTIVE_TAG:
+            prior_desc = prior_tag or '(legacy gait-based optimizer)'
+            print(f'ERROR: session {args.session_name!r} was created with '
+                  f'objective={prior_desc!r}; this optimizer minimizes '
+                  f'{OBJECTIVE_TAG!r}. Use a different --session-name.',
                   file=sys.stderr)
             return 1
-        gait = locked_gait
-    else:
-        gait = args.gait or 'sidewinding'
-
-    if state_path.exists():
-        print(f'Resuming from {state_path}  (gait={gait})', flush=True)
+        print(f'Resuming from {state_path}', flush=True)
         with open(state_path, 'rb') as f:
             es, eval_count, best_J, best_x = pickle.load(f)
-        # Backfill the sidecar for legacy sessions so future resumes are explicit.
-        if not config_path.exists():
-            with open(config_path, 'w') as f:
-                yaml.safe_dump({'gait': gait}, f)
     else:
         popsize = args.popsize or (4 + int(3 * math.log(n_dims)))
         cma_opts = {
@@ -326,32 +430,29 @@ def main() -> int:
             'CMA_stds': stds,
             'popsize': popsize,
             'seed': args.seed,
-            'verbose': -9,  # silence cma's own stdout chatter
+            'verbose': -9,
         }
-        # CMAEvolutionStrategy expects sigma0 as a scalar; CMA_stds rescales
-        # per-dimension stds relative to it. Using sigma0=1 and per-dim stds
-        # from --sigma-frac gives the intended initial spread.
         es = cma.CMAEvolutionStrategy(x0, 1.0, cma_opts)
         eval_count = 0
-        best_J = -float('inf')
+        best_J = float('inf')
         best_x = None
         with open(log_path, 'w', newline='') as f:
-            csv.writer(f).writerow(log_columns(gait))
+            csv.writer(f).writerow(LOG_COLUMNS)
         with open(config_path, 'w') as f:
-            yaml.safe_dump({'gait': gait}, f)
+            yaml.safe_dump({'objective': OBJECTIVE_TAG}, f)
         print(f'Starting fresh CMA-ES session: {session_dir}', flush=True)
-        print(f'Gait: {gait}', flush=True)
+        print(f'Objective: minimize {OBJECTIVE_TAG} (RMS COM-to-polyline distance)',
+              flush=True)
         print(f'Budget: {args.budget} evals, popsize={popsize}, n_dims={n_dims}', flush=True)
+        print(f'Transient discard: {args.transient_seconds:.1f}s', flush=True)
         print('Search-vector init (CMA-internal layout):', flush=True)
         for name, x_val, std in zip(PARAM_NAMES, x0, stds):
             lo, hi = PARAM_BOUNDS[name]
             print(f'  {name:16s} = {x_val:+.4f}  '
                   f'σ0={std:.4f}  bounds=[{lo:+.4f}, {hi:+.4f}]', flush=True)
 
-    # CMA learns from a complete generation (popsize evals followed by tell()).
-    # If --budget isn't a multiple of popsize, the trailing partial generation
-    # would consume sim time without informing the search. Round up so every
-    # eval contributes to a covariance update.
+    # Round the budget up to a full generation — partial generations consume
+    # sim time without informing CMA's covariance update.
     popsize = es.popsize
     budget = args.budget
     if budget % popsize != 0:
@@ -377,7 +478,7 @@ def main() -> int:
 
     try:
         while eval_count < budget and not es.stop():
-            iteration = es.countiter  # 0-based; advances after tell()
+            iteration = es.countiter
             xs = es.ask()
             fs = []
             full_pop = True
@@ -403,9 +504,12 @@ def main() -> int:
 
                 J, info = evaluate(
                     x, defaults, eval_dir, run_name,
-                    args.wait_seconds, args.period, args.alpha, gait,
+                    args.wait_seconds, polyline, desired_times,
+                    args.transient_seconds,
                 )
-                fs.append(-J)  # CMA minimizes; we maximize J
+                # CMA minimizes; J is already the cost (RMS distance), so
+                # feed it directly. Lower is better.
+                fs.append(J)
 
                 wall = time.time() - t_start
                 eval_durations.append(wall)
@@ -413,32 +517,26 @@ def main() -> int:
 
                 with open(log_path, 'a', newline='') as f:
                     csv.writer(f).writerow(
-                        build_log_row(gait, iteration, eval_count, wall,
+                        build_log_row(iteration, eval_count, wall,
                                       physical, info, J)
                     )
 
-                if J > best_J:
+                if J < best_J:
                     best_J = J
                     best_x = list(x)
                     write_best_params(best_path, vector_to_params(best_x, defaults))
 
                 avg = sum(eval_durations) / len(eval_durations)
                 eta_s = avg * (budget - eval_count)
-                if gait == 'sidewinding':
-                    print(f'  J={J:.6f}  S={info.get("S", 0):.4f}  '
-                          f'v={info.get("v", 0):.4f}  '
-                          f'status={info.get("status", "?")}', flush=True)
-                else:  # rotating
-                    print(f'  J={J:.6f}  R={info.get("R", 0):.4f}  '
-                          f'omega={info.get("omega", 0):.4f}  '
-                          f'drift={info.get("drift_speed", 0):.6f}  '
-                          f'status={info.get("status", "?")}', flush=True)
+                print(f'  J={J:.6f}  '
+                      f'mean={info.get("mean_distance_m", 0):.4f}  '
+                      f'max={info.get("max_distance_m", 0):.4f}  '
+                      f'status={info.get("status", "?")}', flush=True)
                 print(f'  best so far: J={best_J:.6f}  '
                       f'wall {wall:.0f}s  ETA {eta_s / 60:.1f} min', flush=True)
 
             if full_pop:
                 es.tell(xs, fs)
-                # Checkpoint after every complete generation.
                 with open(state_path, 'wb') as f:
                     pickle.dump((es, eval_count, best_J, best_x), f)
             else:
@@ -450,7 +548,8 @@ def main() -> int:
         print(f'\nFinished {eval_count} evals.', flush=True)
         if best_x is not None:
             best_params = vector_to_params(best_x, defaults)
-            print(f'Best J = {best_J:.6f}', flush=True)
+            print(f'Best J = {best_J:.6f}  (RMS COM-to-polyline distance, m)',
+                  flush=True)
             print('Physical params (these are what get fed to the controller):',
                   flush=True)
             for name in PHYSICAL_PARAM_NAMES:
@@ -458,7 +557,8 @@ def main() -> int:
             print(f'\nBest params written to: {best_path}', flush=True)
             print(f'Replay it with:', flush=True)
             print(f'  ros2 launch snake_sim snake_sim_launch.py '
-                  f'controller_params_file:={best_path}', flush=True)
+                  f'controller_params_file:={best_path} '
+                  f'use_trajectory_publisher:=true', flush=True)
 
     return 0
 

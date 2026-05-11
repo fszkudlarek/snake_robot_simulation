@@ -65,6 +65,7 @@ SIM_PROCESS_PATTERNS = [
     'center_of_mass_calculator',
     'odometry_tf_broadcaster',
     'robot_body_logger',
+    'trajectory_publisher',
     'controller_manager',
     'joint_state_broadcaster',
     'movement_controller',
@@ -160,7 +161,7 @@ def write_params_file(path: Path, params: dict) -> None:
 
 def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path,
             *, take_snapshot: bool = True, render_gif: bool = True,
-            quiet: bool = False) -> Path:
+            quiet: bool = False, use_trajectory_publisher: bool = False) -> Path:
     """Run one simulation. Returns the path to the body trajectory CSV.
 
     `take_snapshot` and `render_gif` are off-switches for the optimizer driver,
@@ -168,6 +169,8 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path,
     `quiet` redirects ros2 launch + snapshot stdout/stderr to a per-eval log
     file, so the optimizer's own progress output isn't drowned out. The log
     is still written to disk under output_dir for post-mortem inspection.
+    `use_trajectory_publisher` forwards the launch arg of the same name so a
+    desired trajectory is published during the run (no tracker; open-loop).
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -192,6 +195,7 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path,
             'use_rviz:=false',
             f'controller_params_file:={params_file}',
             f'trajectory_log_path:={trajectory_log_path}',
+            f'use_trajectory_publisher:={"true" if use_trajectory_publisher else "false"}',
         ],
         preexec_fn=os.setsid,
         stdin=subprocess.DEVNULL,

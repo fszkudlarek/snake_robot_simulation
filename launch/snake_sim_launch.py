@@ -31,6 +31,14 @@ def generate_launch_description():
                     'this CSV file for the full simulation duration.'
     )
     trajectory_log_path = LaunchConfiguration('trajectory_log_path')
+
+    use_trajectory_publisher_arg = DeclareLaunchArgument(
+        'use_trajectory_publisher', default_value='false',
+        description='Launch trajectory_publisher (config/trajectory.yaml) so a desired '
+                    'trajectory is published for visualization and offline scoring. '
+                    'No trajectory_tracker is started — gait remains open-loop.'
+    )
+    use_trajectory_publisher = LaunchConfiguration('use_trajectory_publisher')
     
     # IMPORTANT: Set Gazebo resource path so it can find meshes
     sdf_dir = os.path.join(pkg_share, 'sdf')
@@ -180,6 +188,19 @@ def generate_launch_description():
         ),
     )
 
+    # Optional: publish a desired trajectory (open-loop — no tracker is started).
+    # Off by default; the optimizer driver turns it on so simulations have a
+    # reference path for offline scoring (and RViz visualization).
+    trajectory_config = os.path.join(pkg_share, 'config', 'trajectory.yaml')
+    trajectory_publisher = Node(
+        package='snake_sim',
+        executable='trajectory_publisher',
+        name='trajectory_publisher',
+        output='screen',
+        parameters=[{'use_sim_time': True}, trajectory_config],
+        condition=IfCondition(use_trajectory_publisher),
+    )
+
     # Startup chain: spawn robot → load joint_state_broadcaster
     # → load movement_controller → start sidewinding controller and friends
     load_jsb_after_spawn = RegisterEventHandler(
@@ -202,6 +223,7 @@ def generate_launch_description():
                 center_of_mass_calculator,
                 odometry_tf_broadcaster,
                 robot_body_logger,
+                trajectory_publisher,
             ],
         )
     )
@@ -210,6 +232,7 @@ def generate_launch_description():
         use_rviz_arg,
         controller_params_arg,
         trajectory_log_arg,
+        use_trajectory_publisher_arg,
         gazebo,
         robot_state_publisher,
         spawn_entity,
