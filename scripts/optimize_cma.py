@@ -55,6 +55,7 @@ import argparse
 import csv
 import math
 import pickle
+import shutil
 import signal
 import sys
 import time
@@ -73,7 +74,7 @@ except ImportError:
 
 # Local imports — both scripts live in scripts/.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from run_sweep import run_one, load_default_params, REPO_ROOT
+from run_sweep import run_one, load_default_params, REPO_ROOT, DEFAULTS_FILE
 
 
 # Source-tree trajectory definition. Mirrors the same file the installed
@@ -440,6 +441,15 @@ def main() -> int:
             csv.writer(f).writerow(LOG_COLUMNS)
         with open(config_path, 'w') as f:
             yaml.safe_dump({'objective': OBJECTIVE_TAG}, f)
+        # Snapshot the trajectory + defaults YAMLs so the session is
+        # self-contained: J values stay interpretable even if the source-tree
+        # configs change later, and the snapshots describe the full physical
+        # parameterization (CMA only varies 6 dims; A_v, T, and alpha_distribution
+        # come from the defaults).
+        shutil.copyfile(TRAJECTORY_FILE, session_dir / 'trajectory.yaml')
+        if DEFAULTS_FILE.exists():
+            shutil.copyfile(DEFAULTS_FILE,
+                            session_dir / 'default_controller_params.yaml')
         print(f'Starting fresh CMA-ES session: {session_dir}', flush=True)
         print(f'Objective: minimize {OBJECTIVE_TAG} (RMS COM-to-polyline distance)',
               flush=True)
