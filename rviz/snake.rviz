@@ -205,6 +205,19 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /snake/desired_position
       Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: TravelYaw
+      Namespaces:
+        travel_yaw: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /snake/travel_yaw_marker
+      Value: true
     - Alpha: 1
       Buffer Length: 1
       Class: rviz_default_plugins/Path
@@ -277,7 +290,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.615716576576233
+      Distance: 1.5795621871948242
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -292,10 +305,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5347963571548462
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.5549989938735962
+      Yaw: 1.2649990320205688
     Saved: ~
 Window Geometry:
   Displays:

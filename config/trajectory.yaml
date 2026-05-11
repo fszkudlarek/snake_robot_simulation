@@ -12,7 +12,7 @@ trajectory_publisher:
     length: 2.0
 
     # Circle: radius
-    radius: 0.5
+    radius: 2.0
 
     # Sine: amplitude and wavelength
     amplitude: 0.3
@@ -23,9 +23,12 @@ trajectory_publisher:
 
     # Origin offset for all parametric shapes
     origin_x: 0.0
-    origin_y: -0.14
+    origin_y: -1.74
     # The initial position of robot COM is ~(0; 0.36)
+    # which means, that y origin (is we want the circle to pass robot COM) is:
+    # origin_y = -radius + 0.36
+    # for line: origin_y = 0.36
 
     # Speed (m/s) along the curve. Each trajectory point's time_from_start
     # is set to (cumulative arc length up to that point) / linear_speed.
-    linear_speed: 0.05
+    linear_speed: 0.01

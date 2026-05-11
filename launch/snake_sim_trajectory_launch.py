@@ -194,6 +194,16 @@ def generate_launch_description():
         ],
     )
 
+    # Closed-loop steering: computes δ from heading error and publishes it on
+    # /movement_controller/delta for the sidewinding controller to consume.
+    trajectory_tracker = Node(
+        package='snake_sim',
+        executable='trajectory_tracker',
+        name='trajectory_tracker',
+        output='screen',
+        parameters=[{'use_sim_time': True}],
+    )
+
     # Startup chain: spawn robot → load joint_state_broadcaster
     # → load movement_controller → start sidewinding controller and friends
     load_jsb_after_spawn = RegisterEventHandler(
@@ -235,6 +245,13 @@ def generate_launch_description():
             on_start=[trajectory_publisher],
         )
     )
+    # And the trajectory tracker once the desired trajectory is being published.
+    start_tracker_after_trajectory = RegisterEventHandler(
+        OnProcessStart(
+            target_action=trajectory_publisher,
+            on_start=[trajectory_tracker],
+        )
+    )
 
     return LaunchDescription([
         use_rviz_arg,
@@ -249,5 +266,6 @@ def generate_launch_description():
         start_helpers_after_mc,
         start_sidewinding_after_helpers,
         start_trajectory_after_sidewinding,
+        start_tracker_after_trajectory,
         rviz,
     ])

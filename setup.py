@@ -66,6 +66,7 @@ setup(
             'center_of_mass_calculator = snake_sim.center_of_mass_calculator:main',
             'odometry_tf_broadcaster = snake_sim.odometry_tf_broadcaster:main',
             'trajectory_publisher = snake_sim.trajectory_publisher:main',
+            'trajectory_tracker = snake_sim.trajectory_tracker:main',
             'scene_snapshot = snake_sim.scene_snapshot:main',
             'robot_body_logger = snake_sim.robot_body_logger:main',
         ],
