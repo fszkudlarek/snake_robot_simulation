@@ -1,0 +1,199 @@
+# Parameter sweep over the steering correction magnitude δ (eq. 3.26).
+#
+# Run with:
+#   python3 scripts/run_sweep.py config/sweeps/delta_sweep.yaml
+#
+# Each run launches the simulation with its `params` applied on top of the
+# controller's built-in defaults, waits `wait_seconds`, captures a snapshot
+# (PNG + CSVs) to sweep_output/<output_name>/<run.name>/, then cleans up.
+#
+# Range: -15° … +15° in 1° steps, matching the paper's δ_max = 15°.
+# Stays exactly at the saturation boundary so no per-run delta_max override is
+# needed. With the default a_min/a_max (5° / 50°) and alpha_distribution
+# [2.5, 1.5, 0.5, -0.5, -1.5, -2.5], the most-amplified joint reaches
+# A_h + 2.5·δ_max ≈ 20° + 37.5° = 57.5° → clipped to a_max=50°.
+# If you want unsaturated behavior across the full δ range, also override
+# a_max (and a_min) in each run.
+
+# Default wait time per run (seconds). Can be overridden per-run.
+wait_seconds: 120
+
+# Output folder under ./sweep_output/
+output_name: delta_sweep_symetrical_phi_vh_47_deg
+
+# Parameters not listed here keep their defaults from the controller.
+# Available parameters (see sidewinding_movement_controller.py):
+#   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate,
+#   alpha_distribution, delta, delta_offset, a_min, a_max, delta_max
+runs:
+  - name: delta_-15_deg
+    params:
+      delta: -0.2618
+
+  - name: delta_-14_deg
+    params:
+      delta: -0.2443
+
+  - name: delta_-13_deg
+    params:
+      delta: -0.2269
+
+  - name: delta_-12_deg
+    params:
+      delta: -0.2094
+
+  - name: delta_-11_deg
+    params:
+      delta: -0.1920
+
+  - name: delta_-10_deg
+    params:
+      delta: -0.1745
+
+  - name: delta_-9_deg
+    params:
+      delta: -0.1571
+
+  - name: delta_-8_deg
+    params:
+      delta: -0.1396
+
+  - name: delta_-7_deg
+    params:
+      delta: -0.1222
+
+  - name: delta_-6_deg
+    params:
+      delta: -0.1047
+
+  - name: delta_-5.5_deg
+    params:
+      delta: -0.0960
+
+  - name: delta_-5_deg
+    params:
+      delta: -0.0873
+
+  - name: delta_-4.5_deg
+    params:
+      delta: -0.0785
+
+  - name: delta_-4_deg
+    params:
+      delta: -0.0698
+
+  - name: delta_-3.5_deg
+    params:
+      delta: -0.0611
+
+  - name: delta_-3_deg
+    params:
+      delta: -0.0524
+
+  - name: delta_-2.5_deg
+    params:
+      delta: -0.0436
+
+  - name: delta_-2_deg
+    params:
+      delta: -0.0349
+
+  - name: delta_-1.5_deg
+    params:
+      delta: -0.0262
+
+  - name: delta_-1_deg
+    params:
+      delta: -0.0175
+
+  - name: delta_-0.5_deg
+    params:
+      delta: -0.0087
+
+  - name: delta_0_deg
+    params:
+      delta: 0.0000
+
+  - name: delta_0.5_deg
+    params:
+      delta: 0.0087
+
+  - name: delta_1_deg
+    params:
+      delta: 0.0175
+
+  - name: delta_1.5_deg
+    params:
+      delta: 0.0262
+
+  - name: delta_2_deg
+    params:
+      delta: 0.0349
+
+  - name: delta_2.5_deg
+    params:
+      delta: 0.0436
+
+  - name: delta_3_deg
+    params:
+      delta: 0.0524
+
+  - name: delta_3.5_deg
+    params:
+      delta: 0.0611
+
+  - name: delta_4_deg
+    params:
+      delta: 0.0698
+
+  - name: delta_4.5_deg
+    params:
+      delta: 0.0785
+
+  - name: delta_5_deg
+    params:
+      delta: 0.0873
+
+  - name: delta_5.5_deg
+    params:
+      delta: 0.0960
+
+  - name: delta_6_deg
+    params:
+      delta: 0.1047
+
+  - name: delta_7_deg
+    params:
+      delta: 0.1222
+
+  - name: delta_8_deg
+    params:
+      delta: 0.1396
+
+  - name: delta_9_deg
+    params:
+      delta: 0.1571
+
+  - name: delta_10_deg
+    params:
+      delta: 0.1745
+
+  - name: delta_11_deg
+    params:
+      delta: 0.1920
+
+  - name: delta_12_deg
+    params:
+      delta: 0.2094
+
+  - name: delta_13_deg
+    params:
+      delta: 0.2269
+
+  - name: delta_14_deg
+    params:
+      delta: 0.2443
+
+  - name: delta_15_deg
+    params:
+      delta: 0.2618

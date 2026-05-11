@@ -34,7 +34,7 @@ runs:
     params:
       delta_phi_v: 0.6283
       delta_phi_h: 0.7330
-k=0.8
+# k=0.8
   - name: k0.8
     params:
       delta_phi_v: 0.7181

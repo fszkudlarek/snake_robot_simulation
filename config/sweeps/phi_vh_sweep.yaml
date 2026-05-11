@@ -53,13 +53,61 @@ runs:
     params:
       delta_phi_vh: 0.6981
 
+  - name: phi_vh_41_deg
+    params:
+      delta_phi_vh: 0.7156
+
+  - name: phi_vh_42_deg
+    params:
+      delta_phi_vh: 0.7330
+
+  - name: phi_vh_43_deg
+    params:
+      delta_phi_vh: 0.7505
+
+  - name: phi_vh_44_deg
+    params:
+      delta_phi_vh: 0.7679
+
   - name: phi_vh_45_deg
     params:
       delta_phi_vh: 0.7854
 
+  - name: phi_vh_46_deg
+    params:
+      delta_phi_vh: 0.8029
+
+  - name: phi_vh_47_deg
+    params:
+      delta_phi_vh: 0.8203
+
+  - name: phi_vh_48_deg
+    params:
+      delta_phi_vh: 0.8378
+
+  - name: phi_vh_49_deg
+    params:
+      delta_phi_vh: 0.8552
+
   - name: phi_vh_50_deg
     params:
       delta_phi_vh: 0.8727
+
+  - name: phi_vh_51_deg
+    params:
+      delta_phi_vh: 0.8901
+
+  - name: phi_vh_52_deg
+    params:
+      delta_phi_vh: 0.9076
+
+  - name: phi_vh_53_deg
+    params:
+      delta_phi_vh: 0.9250
+
+  - name: phi_vh_54_deg
+    params:
+      delta_phi_vh: 0.9425
 
   - name: phi_vh_55_deg
     params:
