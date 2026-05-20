@@ -23,7 +23,7 @@ trajectory_publisher:
 
     # Origin offset for all parametric shapes
     origin_x: 0.0
-    origin_y: -1.74
+    origin_y: -1.635
     # The initial position of robot COM is ~(0; 0.36)
     # which means, that y origin (is we want the circle to pass robot COM) is:
     # origin_y = -radius + 0.36
