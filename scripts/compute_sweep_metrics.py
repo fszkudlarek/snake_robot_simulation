@@ -308,6 +308,104 @@ def find_changing_params(runs: list[dict]) -> list[str]:
     return changing
 
 
+def _normalize_yaml_value(v):
+    """Round floats to 6 decimals so the YAML output stays clean."""
+    if isinstance(v, float):
+        return round(v, 6)
+    return v
+
+
+def _annotate_angles_with_degrees(yaml_text: str) -> str:
+    """Append '# X degrees' to value lines for params listed in ANGLE_PARAMS_DEG.
+
+    Handles both scalar params at indent 4 ("    delta_phi_vh: 1.5708")
+    and list items at indent 6 inside a varies block
+    ("      - 1.5708"). Tracks the current param so list items know which
+    key they belong to.
+    """
+    out_lines = []
+    current_param: str | None = None
+
+    for line in yaml_text.splitlines():
+        stripped = line.lstrip()
+        indent = len(line) - len(stripped)
+        annotated = line
+
+        # Controller-param key line at indent 4.
+        if (indent == 4 and not stripped.startswith('-')
+                and ':' in stripped):
+            head, _, tail = stripped.partition(':')
+            head = head.strip()
+            tail = tail.strip()
+            if tail:
+                # Scalar param on a single line.
+                current_param = None
+                if head in ANGLE_PARAMS_DEG:
+                    try:
+                        deg = math.degrees(float(tail))
+                        annotated = f'{line}  # {round(deg, 1):g} degrees'
+                    except ValueError:
+                        pass
+            else:
+                # Mapping param (a `varies` block follows).
+                current_param = head
+
+        # List item inside a varies values: block at indent 6.
+        elif (indent == 6 and stripped.startswith('- ')
+              and current_param in ANGLE_PARAMS_DEG):
+            value = stripped[2:].strip()
+            try:
+                deg = math.degrees(float(value))
+                annotated = f'{line}  # {round(deg, 1):g} degrees'
+            except ValueError:
+                pass
+
+        out_lines.append(annotated)
+
+    return '\n'.join(out_lines) + '\n'
+
+
+def write_parameters_summary(sweep_dir: Path, runs: list[dict]) -> None:
+    """Write <sweep_dir>/sweep_parameters.yaml describing the controller params.
+
+    Constant params are stored as their single value; params that varied
+    across runs are stored as {varies: true, values: [sorted unique vals]}.
+    Derived params (k_v, k_h, k) are excluded — this file mirrors the raw
+    controller config layout from <run>_params.yaml. Values of params in
+    ANGLE_PARAMS_DEG get inline "# X degrees" annotations.
+    """
+    skip_keys = set(DERIVED_PARAMS.keys()) | {K_ALIAS}
+
+    all_keys = set()
+    for r in runs:
+        all_keys.update(r['params'].keys())
+    all_keys -= skip_keys
+
+    summary: dict = {}
+    for k in sorted(all_keys):
+        values = [r['params'].get(k) for r in runs]
+        if values_equal(values):
+            first = next((v for v in values if v is not None), None)
+            summary[k] = _normalize_yaml_value(first)
+        else:
+            unique = list({_normalize_yaml_value(v) for v in values
+                           if v is not None})
+            try:
+                unique.sort()
+            except TypeError:
+                unique.sort(key=str)
+            summary[k] = {'varies': True, 'values': unique}
+
+    out = {CONTROLLER_NODE_NAME: {'ros__parameters': summary}}
+    yaml_text = yaml.safe_dump(out, default_flow_style=False, sort_keys=False)
+    annotated = _annotate_angles_with_degrees(yaml_text)
+
+    out_path = sweep_dir / 'sweep_parameters.yaml'
+    with open(out_path, 'w') as f:
+        f.write(annotated)
+    print(f'Wrote {out_path}')
+
+
 def _plot_displacement_3d(summary_df: pd.DataFrame,
                           changing_display: list[str],
                           skip_values: list[float],
@@ -485,6 +583,8 @@ def main() -> int:
     summary_csv = args.sweep_dir / 'sweep_summary.csv'
     summary_df.to_csv(summary_csv, index=False)
     print(f'Wrote {summary_csv}')
+
+    write_parameters_summary(args.sweep_dir, [r for _, r in base_runs])
 
     if not changing_display:
         print('Skipping plots: no changing parameter to put on the X axis.')
