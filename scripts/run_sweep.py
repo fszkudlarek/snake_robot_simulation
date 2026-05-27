@@ -263,7 +263,12 @@ def main() -> int:
         print('ERROR: sweep config has no runs.', file=sys.stderr)
         return 1
 
-    base_output_dir = Path.cwd() / 'sweep_output' / output_name
+    # Per-run outputs go under a 'runs' subdirectory so the parent
+    # sweep_output/<output_name>/ can later hold aggregated artifacts
+    # (sweep_summary.csv, sweep_parameters.yaml, charts) without mixing
+    # with the per-run folders. compute_sweep_metrics looks for sweep runs
+    # in either <sweep_dir> or <sweep_dir>/runs.
+    base_output_dir = Path.cwd() / 'sweep_output' / output_name / 'runs'
     base_output_dir.mkdir(parents=True, exist_ok=True)
 
     defaults = load_default_params()

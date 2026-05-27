@@ -309,6 +309,31 @@ def values_equal(values: list) -> bool:
     return True
 
 
+def _has_sweep_runs(d: Path) -> bool:
+    """True if `d` contains at least one subdirectory with a body_trajectory CSV."""
+    if not d.is_dir():
+        return False
+    for child in d.iterdir():
+        if child.is_dir() and any(child.glob('*_body_trajectory.csv')):
+            return True
+    return False
+
+
+def resolve_sweep_runs_dir(input_dir: Path) -> Path | None:
+    """Locate the directory that actually holds the per-run subdirectories.
+
+    Tries `input_dir` first; if no subdirectory there contains a
+    `*_body_trajectory.csv`, falls back to `<input_dir>/runs`. Returns the
+    matching path or None if neither location has any sweep runs.
+    """
+    if _has_sweep_runs(input_dir):
+        return input_dir
+    runs_dir = input_dir / 'runs'
+    if _has_sweep_runs(runs_dir):
+        return runs_dir
+    return None
+
+
 def find_changing_params(runs: list[dict]) -> list[str]:
     """Param keys whose value differs across at least two runs.
 
@@ -506,10 +531,15 @@ def main() -> int:
         print(f'ERROR: {args.sweep_dir} is not a directory', file=sys.stderr)
         return 1
 
-    run_dirs = sorted(p for p in args.sweep_dir.iterdir() if p.is_dir())
-    if not run_dirs:
-        print(f'ERROR: no run subdirectories in {args.sweep_dir}', file=sys.stderr)
+    runs_dir = resolve_sweep_runs_dir(args.sweep_dir)
+    if runs_dir is None:
+        print(f'ERROR: no sweep runs found in {args.sweep_dir} or '
+              f'{args.sweep_dir / "runs"}', file=sys.stderr)
         return 1
+    if runs_dir != args.sweep_dir:
+        print(f'Using sweep runs from {runs_dir}')
+
+    run_dirs = sorted(p for p in runs_dir.iterdir() if p.is_dir())
 
     skip_values = (
         [args.skip_cycles + i * SCAN_SKIP_STEP for i in range(SCAN_SKIP_COUNT)]
