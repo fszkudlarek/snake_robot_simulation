@@ -86,6 +86,7 @@ AXIS_LABELS = {
     'delta_phi_vh_deg': r'$\Delta\Phi_{VH}\,[^\circ]$',
     'displacement_x_local': r'$\Delta x_{avg}\,[m]$',
     'displacement_y_local': r'$\Delta y_{avg}\,[m]$',
+    'orientation_change_deg': r'$\Delta\theta_{avg}\,[^\circ]$',
 }
 
 
@@ -175,20 +176,22 @@ def metric_distance_consecutive_sum(avg_df: pd.DataFrame) -> float:
     return float((dx ** 2 + dy ** 2).pow(0.5).mean())
 
 
-def metric_orientation_change_rad(avg_df: pd.DataFrame) -> float:
-    """Average per-cycle body orientation change (rad).
+def metric_orientation_change_deg(avg_df: pd.DataFrame) -> float:
+    """Average per-cycle body orientation change (deg).
 
-    (theta[last] - theta[first]) / (n_cycles - 1). Uses the
-    branch-continuous PCA principal-axis angle written by compute_avg_com,
-    so the value remains meaningful for multi-revolution turns.
+    (theta[last] - theta[first]) / (n_cycles - 1), converted to degrees.
+    Uses the branch-continuous PCA principal-axis angle written by
+    compute_avg_com, so the value remains meaningful for multi-revolution
+    turns.
     """
     if 'orientation_rad' not in avg_df.columns:
         return float('nan')
     valid = avg_df.dropna(subset=['orientation_rad'])
     if len(valid) < 2:
         return float('nan')
-    return float((valid['orientation_rad'].iloc[-1]
-                  - valid['orientation_rad'].iloc[0]) / (len(valid) - 1))
+    rad = (valid['orientation_rad'].iloc[-1]
+           - valid['orientation_rad'].iloc[0]) / (len(valid) - 1)
+    return math.degrees(float(rad))
 
 
 def metric_displacement_x(avg_df: pd.DataFrame) -> float:
@@ -256,7 +259,7 @@ def metric_displacement_y_local(avg_df: pd.DataFrame) -> float:
 METRICS = {
     'distance_first_to_last': metric_distance_first_to_last,
     # 'distance_consecutive_sum': metric_distance_consecutive_sum,
-    'orientation_change_rad': metric_orientation_change_rad,
+    'orientation_change_deg': metric_orientation_change_deg,
     # 'displacement_x': metric_displacement_x,
     # 'displacement_y': metric_displacement_y,
     'displacement_x_local': metric_displacement_x_local,
