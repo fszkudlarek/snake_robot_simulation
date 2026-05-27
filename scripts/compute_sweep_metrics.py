@@ -76,6 +76,22 @@ DERIVED_PARAMS = {
 SOURCE_PARAMS = {src for src, _ in DERIVED_PARAMS.values()}
 K_ALIAS = 'k'
 
+# Axis labels for plots. Keys are column names as they appear in
+# sweep_summary.csv (post-display_column transform — so angle params use
+# the '_deg' suffix). Values are matplotlib mathtext strings; the raw
+# column name is used as a fallback when a key isn't listed.
+# Extend this dict to customize how parameters and metrics are labeled
+# on chart axes.
+AXIS_LABELS = {
+    'delta_phi_vh_deg': r'$\Delta\Phi_{VH}\,[^\circ]$',
+    'displacement_x_local': r'$\Delta x_{avg}\,[m]$',
+    'displacement_y_local': r'$\Delta y_{avg}\,[m]$',
+}
+
+
+def axis_label(col: str) -> str:
+    return AXIS_LABELS.get(col, col)
+
 
 def display_column(name: str) -> str:
     return f'{name}_deg' if name in ANGLE_PARAMS_DEG else name
@@ -411,7 +427,7 @@ def _plot_displacement_3d(summary_df: pd.DataFrame,
                           skip_values: list[float],
                           args: argparse.Namespace,
                           *, x_col: str, y_col: str,
-                          title_prefix: str, file_slug: str) -> bool:
+                          file_slug: str) -> bool:
     """Render one 3D chart per changing param using (x_col, y_col, param) axes.
 
     In --scan-skip-cycles mode each offset is drawn as its own viridis-colored
@@ -453,10 +469,9 @@ def _plot_displacement_3d(summary_df: pd.DataFrame,
             plt.close(fig)
             continue
 
-        ax.set_xlabel(f'{x_col} [m]')
-        ax.set_ylabel(f'{y_col} [m]')
-        ax.set_zlabel(param_col)
-        ax.set_title(f'{title_prefix} vs {param_col}  ({args.sweep_dir.name})')
+        ax.set_xlabel(axis_label(x_col))
+        ax.set_ylabel(axis_label(y_col))
+        ax.set_zlabel(axis_label(param_col))
 
         png = args.sweep_dir / f'sweep_summary_{file_slug}_vs_{param_col}.png'
         fig.savefig(png, dpi=120, bbox_inches='tight')
@@ -619,9 +634,8 @@ def main() -> int:
                 plt.close(fig)
                 continue
 
-            ax.set_xlabel(param_col)
-            ax.set_ylabel(metric)
-            ax.set_title(f'{metric} vs {param_col}  ({args.sweep_dir.name})')
+            ax.set_xlabel(axis_label(param_col))
+            ax.set_ylabel(axis_label(metric))
             ax.grid(True, alpha=0.3)
 
             png = args.sweep_dir / f'sweep_summary_{metric}_vs_{param_col}.png'
@@ -641,13 +655,11 @@ def main() -> int:
     shown_any_3d |= _plot_displacement_3d(
         summary_df, changing_display, skip_values, args,
         x_col='displacement_x', y_col='displacement_y',
-        title_prefix='end displacement (world frame)',
         file_slug='displacement3d',
     )
     shown_any_3d |= _plot_displacement_3d(
         summary_df, changing_display, skip_values, args,
         x_col='displacement_x_local', y_col='displacement_y_local',
-        title_prefix='end displacement (robot frame at window start)',
         file_slug='displacement_local3d',
     )
 
