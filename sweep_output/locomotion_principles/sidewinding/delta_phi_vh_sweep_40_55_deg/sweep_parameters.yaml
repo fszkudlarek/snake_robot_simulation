@@ -1,0 +1,43 @@
+movement_controller_node:
+  ros__parameters:
+    A_h: 0.5236  # 30 degrees
+    A_v: 1.0  # 57.3 degrees
+    O_h: 0.0  # 0 degrees
+    O_v: 0.0  # 0 degrees
+    T: 5.0
+    a_max: 1.0472
+    a_min: 0.08727
+    alpha_distribution:
+    - 2.5
+    - 1.5
+    - 0.5
+    - -0.5
+    - -1.5
+    - -2.5
+    delta: 0.0
+    delta_max: 0.1745
+    delta_offset: 0.0
+    delta_phi_h: 2.618  # 150 degrees
+    delta_phi_v: 2.244  # 128.6 degrees
+    delta_phi_vh:
+      varies: true
+      values:
+      - 0.6981  # 40 degrees
+      - 0.7156  # 41 degrees
+      - 0.733  # 42 degrees
+      - 0.7505  # 43 degrees
+      - 0.7679  # 44 degrees
+      - 0.7854  # 45 degrees
+      - 0.8029  # 46 degrees
+      - 0.8203  # 47 degrees
+      - 0.8378  # 48 degrees
+      - 0.8552  # 49 degrees
+      - 0.8727  # 50 degrees
+      - 0.8901  # 51 degrees
+      - 0.9076  # 52 degrees
+      - 0.925  # 53 degrees
+      - 0.9425  # 54 degrees
+      - 0.9599  # 55 degrees
+    publish_rate: 50.0
+    sliding_pad_joint_count: 7
+    swivel_joint_count: 6

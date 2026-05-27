@@ -1,0 +1,172 @@
+movement_controller_node:
+  ros__parameters:
+    A_h: 0.5236  # 30 degrees
+    A_v: 1.0  # 57.3 degrees
+    O_h: 0.0  # 0 degrees
+    O_v: 0.0  # 0 degrees
+    T: 5.0
+    a_max: 1.0472
+    a_min: 0.08727
+    alpha_distribution:
+    - 2.5
+    - 1.5
+    - 0.5
+    - -0.5
+    - -1.5
+    - -2.5
+    delta: 0.0
+    delta_max: 0.1745
+    delta_offset: 0.0
+    delta_phi_h: 2.618  # 150 degrees
+    delta_phi_v: 2.244  # 128.6 degrees
+    delta_phi_vh:
+      varies: true
+      values:
+      - -6.2832  # -360 degrees
+      - -6.1959  # -355 degrees
+      - -6.1087  # -350 degrees
+      - -6.0214  # -345 degrees
+      - -5.9341  # -340 degrees
+      - -5.8469  # -335 degrees
+      - -5.7596  # -330 degrees
+      - -5.6723  # -325 degrees
+      - -5.5851  # -320 degrees
+      - -5.4978  # -315 degrees
+      - -5.4105  # -310 degrees
+      - -5.3233  # -305 degrees
+      - -5.236  # -300 degrees
+      - -5.1487  # -295 degrees
+      - -5.0615  # -290 degrees
+      - -4.9742  # -285 degrees
+      - -4.8869  # -280 degrees
+      - -4.7997  # -275 degrees
+      - -4.7124  # -270 degrees
+      - -4.6251  # -265 degrees
+      - -4.5379  # -260 degrees
+      - -4.4506  # -255 degrees
+      - -4.3633  # -250 degrees
+      - -4.2761  # -245 degrees
+      - -4.1888  # -240 degrees
+      - -4.1015  # -235 degrees
+      - -4.0143  # -230 degrees
+      - -3.927  # -225 degrees
+      - -3.8397  # -220 degrees
+      - -3.7525  # -215 degrees
+      - -3.6652  # -210 degrees
+      - -3.5779  # -205 degrees
+      - -3.4907  # -200 degrees
+      - -3.4034  # -195 degrees
+      - -3.3161  # -190 degrees
+      - -3.2289  # -185 degrees
+      - -3.1416  # -180 degrees
+      - -3.0543  # -175 degrees
+      - -2.9671  # -170 degrees
+      - -2.8798  # -165 degrees
+      - -2.7925  # -160 degrees
+      - -2.7053  # -155 degrees
+      - -2.618  # -150 degrees
+      - -2.5307  # -145 degrees
+      - -2.4435  # -140 degrees
+      - -2.3562  # -135 degrees
+      - -2.2689  # -130 degrees
+      - -2.1817  # -125 degrees
+      - -2.0944  # -120 degrees
+      - -2.0071  # -115 degrees
+      - -1.9199  # -110 degrees
+      - -1.8326  # -105 degrees
+      - -1.7453  # -100 degrees
+      - -1.6581  # -95 degrees
+      - -1.5708  # -90 degrees
+      - -1.4835  # -85 degrees
+      - -1.3963  # -80 degrees
+      - -1.309  # -75 degrees
+      - -1.2217  # -70 degrees
+      - -1.1345  # -65 degrees
+      - -1.0472  # -60 degrees
+      - -0.9599  # -55 degrees
+      - -0.8727  # -50 degrees
+      - -0.7854  # -45 degrees
+      - -0.6981  # -40 degrees
+      - -0.6109  # -35 degrees
+      - -0.5236  # -30 degrees
+      - -0.4363  # -25 degrees
+      - -0.3491  # -20 degrees
+      - -0.2618  # -15 degrees
+      - -0.1745  # -10 degrees
+      - -0.0873  # -5 degrees
+      - 0.0  # 0 degrees
+      - 0.0873  # 5 degrees
+      - 0.1745  # 10 degrees
+      - 0.2618  # 15 degrees
+      - 0.3491  # 20 degrees
+      - 0.4363  # 25 degrees
+      - 0.5236  # 30 degrees
+      - 0.6109  # 35 degrees
+      - 0.6981  # 40 degrees
+      - 0.7854  # 45 degrees
+      - 0.8727  # 50 degrees
+      - 0.9599  # 55 degrees
+      - 1.0472  # 60 degrees
+      - 1.1345  # 65 degrees
+      - 1.2217  # 70 degrees
+      - 1.309  # 75 degrees
+      - 1.3963  # 80 degrees
+      - 1.4835  # 85 degrees
+      - 1.5708  # 90 degrees
+      - 1.6581  # 95 degrees
+      - 1.7453  # 100 degrees
+      - 1.8326  # 105 degrees
+      - 1.9199  # 110 degrees
+      - 2.0071  # 115 degrees
+      - 2.0944  # 120 degrees
+      - 2.1817  # 125 degrees
+      - 2.2689  # 130 degrees
+      - 2.3562  # 135 degrees
+      - 2.4435  # 140 degrees
+      - 2.5307  # 145 degrees
+      - 2.618  # 150 degrees
+      - 2.7053  # 155 degrees
+      - 2.7925  # 160 degrees
+      - 2.8798  # 165 degrees
+      - 2.9671  # 170 degrees
+      - 3.0543  # 175 degrees
+      - 3.1416  # 180 degrees
+      - 3.2289  # 185 degrees
+      - 3.3161  # 190 degrees
+      - 3.4034  # 195 degrees
+      - 3.4907  # 200 degrees
+      - 3.5779  # 205 degrees
+      - 3.6652  # 210 degrees
+      - 3.7525  # 215 degrees
+      - 3.8397  # 220 degrees
+      - 3.927  # 225 degrees
+      - 4.0143  # 230 degrees
+      - 4.1015  # 235 degrees
+      - 4.1888  # 240 degrees
+      - 4.2761  # 245 degrees
+      - 4.3633  # 250 degrees
+      - 4.4506  # 255 degrees
+      - 4.5379  # 260 degrees
+      - 4.6251  # 265 degrees
+      - 4.7124  # 270 degrees
+      - 4.7997  # 275 degrees
+      - 4.8869  # 280 degrees
+      - 4.9742  # 285 degrees
+      - 5.0615  # 290 degrees
+      - 5.1487  # 295 degrees
+      - 5.236  # 300 degrees
+      - 5.3233  # 305 degrees
+      - 5.4105  # 310 degrees
+      - 5.4978  # 315 degrees
+      - 5.5851  # 320 degrees
+      - 5.6723  # 325 degrees
+      - 5.7596  # 330 degrees
+      - 5.8469  # 335 degrees
+      - 5.9341  # 340 degrees
+      - 6.0214  # 345 degrees
+      - 6.1087  # 350 degrees
+      - 6.1959  # 355 degrees
+      - 6.2832  # 360 degrees
+    publish_rate: 50.0
+    sliding_pad_joint_count: 7
+    swivel_joint_count: 6
