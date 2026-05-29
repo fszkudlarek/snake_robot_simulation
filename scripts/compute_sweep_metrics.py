@@ -100,6 +100,17 @@ LEGEND_LABELS = {
     'displacement_y_local': r'$\Delta y_{avg}$',
 }
 
+# Per-metric chart colors. Keyed by column name (same keys as the METRICS
+# dict). Used by both the per-metric 2D charts and the combined
+# displacements chart, so colors stay consistent across the whole sweep.
+# Unlisted metrics get DEFAULT_METRIC_COLOR.
+METRIC_COLORS = {
+    'displacement_x_local': 'tab:blue',
+    'displacement_y_local': 'tab:orange',
+    'orientation_change_deg': 'tab:green',
+}
+DEFAULT_METRIC_COLOR = 'tab:blue'
+
 
 def axis_label(col: str) -> str:
     return AXIS_LABELS.get(col, col)
@@ -109,6 +120,10 @@ def legend_label(col: str) -> str:
     if col in LEGEND_LABELS:
         return LEGEND_LABELS[col]
     return AXIS_LABELS.get(col, col)
+
+
+def metric_color(name: str) -> str:
+    return METRIC_COLORS.get(name, DEFAULT_METRIC_COLOR)
 
 
 def display_column(name: str) -> str:
@@ -696,34 +711,36 @@ def main() -> int:
         return 0
 
     for metric in METRICS:
+        color = metric_color(metric)
         for param_col in changing_display:
             fig, ax = plt.subplots(figsize=(8, 5))
             drew_any = False
+            n_skips = len(skip_values)
 
-            if args.scan_skip_cycles:
-                cmap = plt.get_cmap('viridis')
-                denom = max(len(skip_values) - 1, 1)
-                for i, skip_val in enumerate(skip_values):
-                    sub = summary_df[summary_df['skip_cycles'] == skip_val] \
-                        [[param_col, metric]].dropna().sort_values(param_col)
-                    if sub.empty:
-                        continue
-                    ax.plot(sub[param_col], sub[metric], 'o',
-                            color=cmap(i / denom), ms=4,
-                            label=f'skip_cycles={skip_val:.1f}')
-                    drew_any = True
-                if drew_any:
-                    ax.legend(loc='best', fontsize='small', ncol=2)
-            else:
-                sub = summary_df[[param_col, metric]].dropna().sort_values(param_col)
-                if not sub.empty:
-                    ax.plot(sub[param_col], sub[metric], 'o', color='tab:blue')
-                    drew_any = True
+            for i, skip_val in enumerate(skip_values):
+                if args.scan_skip_cycles:
+                    base = summary_df[summary_df['skip_cycles'] == skip_val]
+                    alpha = 0.35 + 0.65 * (i / max(n_skips - 1, 1))
+                    label = f'skip_cycles={skip_val:.1f}'
+                else:
+                    base = summary_df
+                    alpha = 1.0
+                    label = None
+
+                sub = base[[param_col, metric]] \
+                    .dropna().sort_values(param_col)
+                if sub.empty:
+                    continue
+                ax.plot(sub[param_col], sub[metric], 'o',
+                        color=color, alpha=alpha, ms=4, label=label)
+                drew_any = True
 
             if not drew_any:
                 plt.close(fig)
                 continue
 
+            if args.scan_skip_cycles:
+                ax.legend(loc='best', fontsize='small', ncol=2)
             ax.set_xlabel(axis_label(param_col))
             ax.set_ylabel(axis_label(metric))
             ax.grid(True, alpha=0.3)
@@ -764,11 +781,13 @@ def main() -> int:
 
                 if not sub_x.empty:
                     ax.plot(sub_x[param_col], sub_x[disp_x_col], 'o',
-                            color='tab:blue', alpha=alpha, ms=4, label=label_x)
+                            color=metric_color(disp_x_col), alpha=alpha,
+                            ms=4, label=label_x)
                     drew_any = True
                 if not sub_y.empty:
                     ax.plot(sub_y[param_col], sub_y[disp_y_col], 'o',
-                            color='tab:orange', alpha=alpha, ms=4, label=label_y)
+                            color=metric_color(disp_y_col), alpha=alpha,
+                            ms=4, label=label_y)
                     drew_any = True
 
             if not drew_any:
