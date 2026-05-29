@@ -804,6 +804,68 @@ def main() -> int:
             plt.close(fig)
             print(f'Wrote {png}')
 
+    # Stacked figure: the combined displacements chart on top, the
+    # orientation-change chart on the bottom, sharing the X axis. Same
+    # styling/conventions as the standalone versions (per-metric colors,
+    # alpha gradient across skip values in scan mode).
+    ori_col = 'orientation_change_deg'
+    if {disp_x_col, disp_y_col, ori_col}.issubset(summary_df.columns):
+        for param_col in changing_display:
+            fig, (ax_disp, ax_ori) = plt.subplots(
+                2, 1, sharex=True, figsize=(8, 8))
+            drew_any = False
+            n_skips = len(skip_values)
+
+            for i, skip_val in enumerate(skip_values):
+                if args.scan_skip_cycles:
+                    base = summary_df[summary_df['skip_cycles'] == skip_val]
+                    alpha = 0.35 + 0.65 * (i / max(n_skips - 1, 1))
+                else:
+                    base = summary_df
+                    alpha = 1.0
+
+                label_x = legend_label(disp_x_col) if i == 0 else None
+                label_y = legend_label(disp_y_col) if i == 0 else None
+
+                sub_x = base[[param_col, disp_x_col]] \
+                    .dropna().sort_values(param_col)
+                sub_y = base[[param_col, disp_y_col]] \
+                    .dropna().sort_values(param_col)
+                sub_ori = base[[param_col, ori_col]] \
+                    .dropna().sort_values(param_col)
+
+                if not sub_x.empty:
+                    ax_disp.plot(sub_x[param_col], sub_x[disp_x_col], 'o',
+                                 color=metric_color(disp_x_col), alpha=alpha,
+                                 ms=4, label=label_x)
+                    drew_any = True
+                if not sub_y.empty:
+                    ax_disp.plot(sub_y[param_col], sub_y[disp_y_col], 'o',
+                                 color=metric_color(disp_y_col), alpha=alpha,
+                                 ms=4, label=label_y)
+                    drew_any = True
+                if not sub_ori.empty:
+                    ax_ori.plot(sub_ori[param_col], sub_ori[ori_col], 'o',
+                                color=metric_color(ori_col), alpha=alpha, ms=4)
+                    drew_any = True
+
+            if not drew_any:
+                plt.close(fig)
+                continue
+
+            ax_disp.set_ylabel(axis_label('displacement_local'))
+            ax_disp.grid(True, alpha=0.3)
+            ax_disp.legend(loc='best', fontsize='small')
+
+            ax_ori.set_xlabel(axis_label(param_col))
+            ax_ori.set_ylabel(axis_label(ori_col))
+            ax_ori.grid(True, alpha=0.3)
+
+            png = args.sweep_dir / f'sweep_summary_motion_vs_{param_col}.png'
+            fig.savefig(png, dpi=120, bbox_inches='tight')
+            plt.close(fig)
+            print(f'Wrote {png}')
+
     # 3D scatter charts: end-displacement components on the X/Y axes and the
     # swept controller param on Z. Two flavors:
     #   - world frame:  raw (com_x[last]-com_x[first], com_y[last]-com_y[first])
