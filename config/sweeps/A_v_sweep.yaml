@@ -1,0 +1,134 @@
+# Example parameter sweep for the sidewinding movement controller.
+#
+# Run with:
+#   python3 scripts/run_sweep.py config/sweeps/example_sweep.yaml
+#
+# Each run launches the simulation with its `params` applied on top of the
+# controller's built-in defaults, waits `wait_seconds`, captures a snapshot
+# (PNG + CSVs) to screenshots/<output_name>/<run.name>/, then cleans up.
+
+# Default wait time per run (seconds). Can be overridden per-run.
+wait_seconds: 120
+
+# Output folder under ./screenshots/
+output_name: amplitude_vertical_sweep
+
+# Parameters not listed here keep their defaults from the controller.
+# Available parameters (see sidewinding_movement_controller.py):
+#   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate
+runs:
+  - name: A_v_4_deg
+    params:
+      A_v: 0.0698
+
+  - name: A_v_6_deg
+    params:
+      A_v: 0.1047
+
+  - name: A_v_8_deg
+    params:
+      A_v: 0.1396
+
+  - name: A_v_10_deg
+    params:
+      A_v: 0.1745
+
+  - name: A_v_12_deg
+    params:
+      A_v: 0.2094
+
+  - name: A_v_14_deg
+    params:
+      A_v: 0.2443
+
+  - name: A_v_16_deg
+    params:
+      A_v: 0.2793
+
+  - name: A_v_18_deg
+    params:
+      A_v: 0.3142
+
+  - name: A_v_20_deg
+    params:
+      A_v: 0.3491
+
+  - name: A_v_22_deg
+    params:
+      A_v: 0.3840
+
+  - name: A_v_24_deg
+    params:
+      A_v: 0.4189
+
+  - name: A_v_26_deg
+    params:
+      A_v: 0.4538
+
+  - name: A_v_28_deg
+    params:
+      A_v: 0.4887
+
+  - name: A_v_30_deg
+    params:
+      A_v: 0.5236
+
+  - name: A_v_32_deg
+    params:
+      A_v: 0.5585
+
+  - name: A_v_34_deg
+    params:
+      A_v: 0.5934
+
+  - name: A_v_36_deg
+    params:
+      A_v: 0.6283
+
+  - name: A_v_38_deg
+    params:
+      A_v: 0.6632
+
+  - name: A_v_40_deg
+    params:
+      A_v: 0.6981
+
+  - name: A_v_42_deg
+    params:
+      A_v: 0.7330
+
+  - name: A_v_44_deg
+    params:
+      A_v: 0.7679
+
+  - name: A_v_46_deg
+    params:
+      A_v: 0.8029
+
+  - name: A_v_48_deg
+    params:
+      A_v: 0.8378
+
+  - name: A_v_50_deg
+    params:
+      A_v: 0.8727
+
+  - name: A_v_52_deg
+    params:
+      A_v: 0.9076
+
+  - name: A_v_54_deg
+    params:
+      A_v: 0.9425
+
+  - name: A_v_56_deg
+    params:
+      A_v: 0.9774
+
+  - name: A_v_58_deg
+    params:
+      A_v: 1.0123
+
+  - name: A_v_60_deg
+    params:
+      A_v: 1.0472
