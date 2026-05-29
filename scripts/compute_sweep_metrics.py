@@ -88,7 +88,9 @@ AXIS_LABELS = {
     'displacement_y_local': r'$\Delta y_{avg}\,[m]$',
     'orientation_change_deg': r'$\Delta\theta_{avg}\,[^\circ]$',
     # Used for the combined displacement_x_local + displacement_y_local chart.
-    'displacement_local': r'$\Delta d_{avg}\,[m]$',
+    'displacement_local': r'distance$\,[m]$',
+    # Unified k alias — only present when k_v == k_h across every run.
+    'k': r'$k_V = k_H$',
 }
 
 # Legend labels — used when a column appears as a *series* on a chart
