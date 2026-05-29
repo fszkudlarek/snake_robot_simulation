@@ -87,10 +87,27 @@ AXIS_LABELS = {
     'displacement_x_local': r'$\Delta x_{avg}\,[m]$',
     'displacement_y_local': r'$\Delta y_{avg}\,[m]$',
     'orientation_change_deg': r'$\Delta\theta_{avg}\,[^\circ]$',
+    # Used for the combined displacement_x_local + displacement_y_local chart.
+    'displacement_local': r'$\Delta d_{avg}\,[m]$',
+}
+
+# Legend labels — used when a column appears as a *series* on a chart
+# rather than as the axis itself. Units are typically dropped here since
+# they already appear on the axis label. Falls back to AXIS_LABELS, then
+# to the bare column name.
+LEGEND_LABELS = {
+    'displacement_x_local': r'$\Delta x_{avg}$',
+    'displacement_y_local': r'$\Delta y_{avg}$',
 }
 
 
 def axis_label(col: str) -> str:
+    return AXIS_LABELS.get(col, col)
+
+
+def legend_label(col: str) -> str:
+    if col in LEGEND_LABELS:
+        return LEGEND_LABELS[col]
     return AXIS_LABELS.get(col, col)
 
 
@@ -509,33 +526,18 @@ def _plot_displacement_3d(summary_df: pd.DataFrame,
     return drew_anything
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(
-        description='Aggregate per-run metrics across a sweep and plot them.')
-    parser.add_argument('sweep_dir', type=Path,
-                        help='Sweep output directory (contains per-run subdirs)')
-    parser.add_argument('--skip-cycles', type=float, default=2.0,
-                        help='Cycles of transient to skip (default: 5)')
-    parser.add_argument('--analysis-cycles', type=int, default=12,
-                        help='Number of averaged windows to compute (default: 5)')
-    parser.add_argument('--period', type=float, default=5.0,
-                        help='Controller period in seconds (default: 5.0)')
-    parser.add_argument('--scan-skip-cycles', action='store_true',
-                        help=f'Repeat metric computation for {SCAN_SKIP_COUNT} '
-                             f'skip_cycles values (base, base+{SCAN_SKIP_STEP}, '
-                             f'..., base+{SCAN_SKIP_STEP*(SCAN_SKIP_COUNT-1):.1f}) '
-                             f'and overlay them as separate series on each chart.')
-    args = parser.parse_args()
+def _build_summary_from_runs(args: argparse.Namespace) \
+        -> tuple[pd.DataFrame, list[str], list[float]] | None:
+    """Run the full per-run pipeline and return (summary_df, changing_display, skip_values).
 
-    if not args.sweep_dir.is_dir():
-        print(f'ERROR: {args.sweep_dir} is not a directory', file=sys.stderr)
-        return 1
-
+    Writes sweep_summary.csv and sweep_parameters.yaml as side effects.
+    Returns None on any error worth aborting the script for.
+    """
     runs_dir = resolve_sweep_runs_dir(args.sweep_dir)
     if runs_dir is None:
         print(f'ERROR: no sweep runs found in {args.sweep_dir} or '
               f'{args.sweep_dir / "runs"}', file=sys.stderr)
-        return 1
+        return None
     if runs_dir != args.sweep_dir:
         print(f'Using sweep runs from {runs_dir}')
 
@@ -546,9 +548,6 @@ def main() -> int:
         if args.scan_skip_cycles else [args.skip_cycles]
     )
 
-    # First pass: load each run at the base offset. This is the only pass
-    # that writes per-run avg_com.csv/.png — additional offsets in scan
-    # mode are computed in memory only.
     base_runs: list[tuple[Path, dict]] = []
     for d in run_dirs:
         loaded = load_run(d, args.skip_cycles, args.analysis_cycles,
@@ -561,12 +560,8 @@ def main() -> int:
 
     if not base_runs:
         print(f'ERROR: no usable runs in {args.sweep_dir}', file=sys.stderr)
-        return 1
+        return None
 
-    # If k_v and k_h match in every run, collapse them into a single 'k'
-    # column so the swept dimension is reported as one variable. The decision
-    # is sticky for the rest of the script — including any extra runs loaded
-    # later for the skip_cycles scan.
     alias_k = should_alias_k([r for _, r in base_runs])
     if alias_k:
         for _, r in base_runs:
@@ -588,9 +583,6 @@ def main() -> int:
               f'{skip_values[0]:.2f} ... {skip_values[-1]:.2f} '
               f'(step {SCAN_SKIP_STEP})')
 
-    # Build the summary table. One row per (skip_value, run); in non-scan
-    # mode the skip_cycles column is omitted so the output matches the
-    # pre-scan format byte-for-byte.
     rows = []
     for i, skip_val in enumerate(skip_values):
         for d, base_loaded in base_runs:
@@ -619,9 +611,6 @@ def main() -> int:
             rows.append(row)
 
     summary_df = pd.DataFrame(rows)
-    # Sort by the first changing param when present, else by run name —
-    # so the CSV reads in a useful order and the plot lines are monotone.
-    # In scan mode, sort by skip_cycles first to keep each series contiguous.
     sort_keys = []
     if args.scan_skip_cycles:
         sort_keys.append('skip_cycles')
@@ -633,6 +622,74 @@ def main() -> int:
     print(f'Wrote {summary_csv}')
 
     write_parameters_summary(args.sweep_dir, [r for _, r in base_runs])
+
+    return summary_df, changing_display, skip_values
+
+
+def _load_summary_from_csv(args: argparse.Namespace) \
+        -> tuple[pd.DataFrame, list[str], list[float]] | None:
+    """Charts-only flow: read existing sweep_summary.csv and derive metadata.
+
+    Infers args.scan_skip_cycles from whether the CSV has a skip_cycles
+    column. Treats any non-metric, non-meta column as a changing parameter
+    (i.e. an X-axis candidate). Returns None if the CSV is missing.
+    """
+    summary_csv = args.sweep_dir / 'sweep_summary.csv'
+    if not summary_csv.exists():
+        print(f'ERROR: --charts-only requires {summary_csv} to exist',
+              file=sys.stderr)
+        return None
+
+    summary_df = pd.read_csv(summary_csv)
+    args.scan_skip_cycles = 'skip_cycles' in summary_df.columns
+    if args.scan_skip_cycles:
+        skip_values = sorted(summary_df['skip_cycles'].unique().tolist())
+    else:
+        skip_values = [args.skip_cycles]
+
+    excluded = {'run_name', 'skip_cycles'} | set(METRICS.keys())
+    changing_display = [c for c in summary_df.columns if c not in excluded]
+
+    print(f'Loaded {summary_csv} ({len(summary_df)} rows)')
+    if changing_display:
+        print(f'Changing parameters: {", ".join(changing_display)}')
+    if args.scan_skip_cycles:
+        print(f'Scan mode detected: {len(skip_values)} skip_cycles values')
+
+    return summary_df, changing_display, skip_values
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description='Aggregate per-run metrics across a sweep and plot them.')
+    parser.add_argument('sweep_dir', type=Path,
+                        help='Sweep output directory (contains per-run subdirs)')
+    parser.add_argument('--skip-cycles', type=float, default=2.0,
+                        help='Cycles of transient to skip (default: 5)')
+    parser.add_argument('--analysis-cycles', type=int, default=12,
+                        help='Number of averaged windows to compute (default: 5)')
+    parser.add_argument('--period', type=float, default=5.0,
+                        help='Controller period in seconds (default: 5.0)')
+    parser.add_argument('--scan-skip-cycles', action='store_true',
+                        help=f'Repeat metric computation for {SCAN_SKIP_COUNT} '
+                             f'skip_cycles values (base, base+{SCAN_SKIP_STEP}, '
+                             f'..., base+{SCAN_SKIP_STEP*(SCAN_SKIP_COUNT-1):.1f}) '
+                             f'and overlay them as separate series on each chart.')
+    parser.add_argument('--charts-only', action='store_true',
+                        help='Skip per-run data loading; redraw charts from the '
+                             'existing sweep_summary.csv in <sweep_dir>. '
+                             'Scan mode is inferred from the CSV.')
+    args = parser.parse_args()
+
+    if not args.sweep_dir.is_dir():
+        print(f'ERROR: {args.sweep_dir} is not a directory', file=sys.stderr)
+        return 1
+
+    result = (_load_summary_from_csv(args) if args.charts_only
+              else _build_summary_from_runs(args))
+    if result is None:
+        return 1
+    summary_df, changing_display, skip_values = result
 
     if not changing_display:
         print('Skipping plots: no changing parameter to put on the X axis.')
@@ -672,6 +729,58 @@ def main() -> int:
             ax.grid(True, alpha=0.3)
 
             png = args.sweep_dir / f'sweep_summary_{metric}_vs_{param_col}.png'
+            fig.savefig(png, dpi=120, bbox_inches='tight')
+            plt.close(fig)
+            print(f'Wrote {png}')
+
+    # Combined chart: both displacement_x_local and displacement_y_local on
+    # one set of axes, as separate series. Useful for reading off how the
+    # two components evolve together as the swept param changes.
+    disp_x_col = 'displacement_x_local'
+    disp_y_col = 'displacement_y_local'
+    if {disp_x_col, disp_y_col}.issubset(summary_df.columns):
+        for param_col in changing_display:
+            fig, ax = plt.subplots(figsize=(8, 5))
+            drew_any = False
+            n_skips = len(skip_values)
+
+            for i, skip_val in enumerate(skip_values):
+                if args.scan_skip_cycles:
+                    base = summary_df[summary_df['skip_cycles'] == skip_val]
+                    alpha = 0.35 + 0.65 * (i / max(n_skips - 1, 1))
+                else:
+                    base = summary_df
+                    alpha = 1.0
+
+                # Only attach a legend label on the first (base) skip value,
+                # so the legend stays tight in scan mode.
+                label_x = legend_label(disp_x_col) if i == 0 else None
+                label_y = legend_label(disp_y_col) if i == 0 else None
+
+                sub_x = base[[param_col, disp_x_col]] \
+                    .dropna().sort_values(param_col)
+                sub_y = base[[param_col, disp_y_col]] \
+                    .dropna().sort_values(param_col)
+
+                if not sub_x.empty:
+                    ax.plot(sub_x[param_col], sub_x[disp_x_col], 'o',
+                            color='tab:blue', alpha=alpha, ms=4, label=label_x)
+                    drew_any = True
+                if not sub_y.empty:
+                    ax.plot(sub_y[param_col], sub_y[disp_y_col], 'o',
+                            color='tab:orange', alpha=alpha, ms=4, label=label_y)
+                    drew_any = True
+
+            if not drew_any:
+                plt.close(fig)
+                continue
+
+            ax.set_xlabel(axis_label(param_col))
+            ax.set_ylabel(axis_label('displacement_local'))
+            ax.grid(True, alpha=0.3)
+            ax.legend(loc='best', fontsize='small')
+
+            png = args.sweep_dir / f'sweep_summary_displacements_local_vs_{param_col}.png'
             fig.savefig(png, dpi=120, bbox_inches='tight')
             plt.close(fig)
             print(f'Wrote {png}')
