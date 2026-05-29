@@ -16,8 +16,7 @@ setup(
 
         # Install launch files
         (os.path.join('share', package_name, 'launch'),
-            glob('launch/*')),
-
+            glob('launch/*.py') + glob('launch/*.xml') + glob('launch/*.yaml')),
         # Install URDF files
         (os.path.join('share', package_name, 'urdf'),
             glob('urdf/*.urdf')),
@@ -36,7 +35,7 @@ setup(
 
         # Install world files
         (os.path.join('share', package_name, 'worlds'),
-            glob('worlds/*')),
+            glob('worlds/*.world') + glob('worlds/*.sdf')),
         # Install config files
         (os.path.join('share', package_name, 'config'),
             glob('config/*.yaml')),
