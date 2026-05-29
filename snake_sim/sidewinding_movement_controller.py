@@ -138,8 +138,7 @@ class MovementController(Node):
             vertical_signal = self.A_v * math.sin(
                 (2.0 * math.pi / self.T) * t
                 + (i - PAD_SHIFT_RELATIVE_MAGIC_NUMBER) * self.delta_phi_v
-                + self.O_v
-            )
+            ) + self.O_v
             if vertical_signal >= 0:
                 # Grip: outer HIGH friction pads protruding, inner retracted
                 outer_pad_values.append(-1.0)
