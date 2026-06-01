@@ -1,0 +1,69 @@
+movement_controller_node:
+  ros__parameters:
+    A_h: 0.5236  # 30 degrees
+    A_v: 1.0  # 57.3 degrees
+    O_h: 0.0  # 0 degrees
+    O_v: 0.0  # 0 degrees
+    T: 5.0
+    a_max: 1.0472
+    a_min: 0.08727
+    alpha_distribution:
+    - 2.5
+    - 1.5
+    - 0.5
+    - -0.5
+    - -1.5
+    - -2.5
+    delta: 0.0
+    delta_max: 0.1745
+    delta_offset: 0.0
+    delta_phi_h: 0.3142  # 18 degrees
+    delta_phi_v:
+      varies: true
+      values:
+      - 0.0449  # 2.6 degrees
+      - 0.0898  # 5.1 degrees
+      - 0.1346  # 7.7 degrees
+      - 0.1795  # 10.3 degrees
+      - 0.2244  # 12.9 degrees
+      - 0.2693  # 15.4 degrees
+      - 0.3142  # 18 degrees
+      - 0.359  # 20.6 degrees
+      - 0.4039  # 23.1 degrees
+      - 0.4488  # 25.7 degrees
+      - 0.4937  # 28.3 degrees
+      - 0.5386  # 30.9 degrees
+      - 0.5834  # 33.4 degrees
+      - 0.6283  # 36 degrees
+      - 0.6732  # 38.6 degrees
+      - 0.7181  # 41.1 degrees
+      - 0.763  # 43.7 degrees
+      - 0.8078  # 46.3 degrees
+      - 0.8527  # 48.9 degrees
+      - 0.8976  # 51.4 degrees
+      - 0.9425  # 54 degrees
+      - 0.9874  # 56.6 degrees
+      - 1.0322  # 59.1 degrees
+      - 1.0771  # 61.7 degrees
+      - 1.122  # 64.3 degrees
+      - 1.1669  # 66.9 degrees
+      - 1.2118  # 69.4 degrees
+      - 1.2566  # 72 degrees
+      - 1.3015  # 74.6 degrees
+      - 1.3464  # 77.1 degrees
+      - 1.3913  # 79.7 degrees
+      - 1.4362  # 82.3 degrees
+      - 1.481  # 84.9 degrees
+      - 1.5259  # 87.4 degrees
+      - 1.5708  # 90 degrees
+      - 1.6157  # 92.6 degrees
+      - 1.6606  # 95.1 degrees
+      - 1.7054  # 97.7 degrees
+      - 1.7503  # 100.3 degrees
+      - 1.7952  # 102.9 degrees
+      - 1.8401  # 105.4 degrees
+      - 1.885  # 108 degrees
+    delta_phi_vh: 0.0  # 0 degrees
+    publish_rate: 50.0
+    sliding_pad_joint_count: 7
+    swivel_joint_count: 6
