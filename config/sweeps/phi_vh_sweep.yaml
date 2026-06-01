@@ -17,342 +17,294 @@ output_name: delta_phi_vh_sweep
 # Available parameters (see sidewinding_movement_controller.py):
 #   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate
 runs:
-  # - name: phi_vh_-0_deg
-  #   params:
-  #     delta_phi_vh: -0.0000
-
-  - name: phi_vh_-5_deg
+  - name: phi_vh_-180_deg
     params:
-      delta_phi_vh: -0.0873
-
-  - name: phi_vh_-10_deg
-    params:
-      delta_phi_vh: -0.1745
-
-  - name: phi_vh_-15_deg
-    params:
-      delta_phi_vh: -0.2618
-
-  - name: phi_vh_-20_deg
-    params:
-      delta_phi_vh: -0.3491
-
-  - name: phi_vh_-25_deg
-    params:
-      delta_phi_vh: -0.4363
-
-  - name: phi_vh_-30_deg
-    params:
-      delta_phi_vh: -0.5236
-
-  - name: phi_vh_-35_deg
-    params:
-      delta_phi_vh: -0.6109
-
-  - name: phi_vh_-40_deg
-    params:
-      delta_phi_vh: -0.6981
-
-  # - name: phi_vh_-41_deg
-  #   params:
-  #     delta_phi_vh: -0.7156
-
-  # - name: phi_vh_-42_deg
-  #   params:
-  #     delta_phi_vh: -0.7330
-
-  # - name: phi_vh_-43_deg
-  #   params:
-  #     delta_phi_vh: -0.7505
-
-  # - name: phi_vh_-44_deg
-  #   params:
-  #     delta_phi_vh: -0.7679
-
-  - name: phi_vh_-45_deg
-    params:
-      delta_phi_vh: -0.7854
-
-  # - name: phi_vh_-46_deg
-  #   params:
-  #     delta_phi_vh: -0.8029
-
-  # - name: phi_vh_-47_deg
-  #   params:
-  #     delta_phi_vh: -0.8203
-
-  # - name: phi_vh_-48_deg
-  #   params:
-  #     delta_phi_vh: -0.8378
-
-  # - name: phi_vh_-49_deg
-  #   params:
-  #     delta_phi_vh: -0.8552
-
-  - name: phi_vh_-50_deg
-    params:
-      delta_phi_vh: -0.8727
-
-  # - name: phi_vh_-51_deg
-  #   params:
-  #     delta_phi_vh: -0.8901
-
-  # - name: phi_vh_-52_deg
-  #   params:
-  #     delta_phi_vh: -0.9076
-
-  # - name: phi_vh_-53_deg
-  #   params:
-  #     delta_phi_vh: -0.9250
-
-  # - name: phi_vh_-54_deg
-  #   params:
-  #     delta_phi_vh: -0.9425
-
-  - name: phi_vh_-55_deg
-    params:
-      delta_phi_vh: -0.9599
-
-  - name: phi_vh_-60_deg
-    params:
-      delta_phi_vh: -1.0472
-
-  - name: phi_vh_-65_deg
-    params:
-      delta_phi_vh: -1.1345
-
-  - name: phi_vh_-70_deg
-    params:
-      delta_phi_vh: -1.2217
-
-  - name: phi_vh_-75_deg
-    params:
-      delta_phi_vh: -1.3090
-
-  - name: phi_vh_-80_deg
-    params:
-      delta_phi_vh: -1.3963
-
-  - name: phi_vh_-85_deg
-    params:
-      delta_phi_vh: -1.4835
-
-  - name: phi_vh_-90_deg
-    params:
-      delta_phi_vh: -1.5708
-
-  - name: phi_vh_-95_deg
-    params:
-      delta_phi_vh: -1.6581
-
-  - name: phi_vh_-100_deg
-    params:
-      delta_phi_vh: -1.7453
-
-  - name: phi_vh_-105_deg
-    params:
-      delta_phi_vh: -1.8326
-
-  - name: phi_vh_-110_deg
-    params:
-      delta_phi_vh: -1.9199
-
-  - name: phi_vh_-115_deg
-    params:
-      delta_phi_vh: -2.0071
-
-  - name: phi_vh_-120_deg
-    params:
-      delta_phi_vh: -2.0944
-
-  - name: phi_vh_-125_deg
-    params:
-      delta_phi_vh: -2.1817
-
-  - name: phi_vh_-130_deg
-    params:
-      delta_phi_vh: -2.2689
-
-  - name: phi_vh_-135_deg
-    params:
-      delta_phi_vh: -2.3562
-
-  - name: phi_vh_-140_deg
-    params:
-      delta_phi_vh: -2.4435
-
-  - name: phi_vh_-145_deg
-    params:
-      delta_phi_vh: -2.5307
-
-  - name: phi_vh_-150_deg
-    params:
-      delta_phi_vh: -2.6180
-
-  - name: phi_vh_-155_deg
-    params:
-      delta_phi_vh: -2.7053
-
-  - name: phi_vh_-160_deg
-    params:
-      delta_phi_vh: -2.7925
-
-  - name: phi_vh_-165_deg
-    params:
-      delta_phi_vh: -2.8798
-
-  - name: phi_vh_-170_deg
-    params:
-      delta_phi_vh: -2.9671
+      delta_phi_vh: -3.1416
 
   - name: phi_vh_-175_deg
     params:
       delta_phi_vh: -3.0543
 
-  - name: phi_vh_-180_deg
+  - name: phi_vh_-170_deg
     params:
-      delta_phi_vh: -3.1416
+      delta_phi_vh: -2.9671
 
-  - name: phi_vh_-185_deg
+  - name: phi_vh_-165_deg
     params:
-      delta_phi_vh: -3.2289
+      delta_phi_vh: -2.8798
 
-  - name: phi_vh_-190_deg
+  - name: phi_vh_-160_deg
     params:
-      delta_phi_vh: -3.3161
+      delta_phi_vh: -2.7925
 
-  - name: phi_vh_-195_deg
+  - name: phi_vh_-155_deg
     params:
-      delta_phi_vh: -3.4034
+      delta_phi_vh: -2.7053
 
-  - name: phi_vh_-200_deg
+  - name: phi_vh_-150_deg
     params:
-      delta_phi_vh: -3.4907
+      delta_phi_vh: -2.6180
 
-  - name: phi_vh_-205_deg
+  - name: phi_vh_-145_deg
     params:
-      delta_phi_vh: -3.5779
+      delta_phi_vh: -2.5307
 
-  - name: phi_vh_-210_deg
+  - name: phi_vh_-140_deg
     params:
-      delta_phi_vh: -3.6652
+      delta_phi_vh: -2.4435
 
-  - name: phi_vh_-215_deg
+  - name: phi_vh_-135_deg
     params:
-      delta_phi_vh: -3.7525
+      delta_phi_vh: -2.3562
 
-  - name: phi_vh_-220_deg
+  - name: phi_vh_-130_deg
     params:
-      delta_phi_vh: -3.8397
+      delta_phi_vh: -2.2689
 
-  - name: phi_vh_-225_deg
+  - name: phi_vh_-125_deg
     params:
-      delta_phi_vh: -3.9270
+      delta_phi_vh: -2.1817
 
-  - name: phi_vh_-230_deg
+  - name: phi_vh_-120_deg
     params:
-      delta_phi_vh: -4.0143
+      delta_phi_vh: -2.0944
 
-  - name: phi_vh_-235_deg
+  - name: phi_vh_-115_deg
     params:
-      delta_phi_vh: -4.1015
+      delta_phi_vh: -2.0071
 
-  - name: phi_vh_-240_deg
+  - name: phi_vh_-110_deg
     params:
-      delta_phi_vh: -4.1888
+      delta_phi_vh: -1.9199
 
-  - name: phi_vh_-245_deg
+  - name: phi_vh_-105_deg
     params:
-      delta_phi_vh: -4.2761
+      delta_phi_vh: -1.8326
 
-  - name: phi_vh_-250_deg
+  - name: phi_vh_-100_deg
     params:
-      delta_phi_vh: -4.3633
+      delta_phi_vh: -1.7453
 
-  - name: phi_vh_-255_deg
+  - name: phi_vh_-95_deg
     params:
-      delta_phi_vh: -4.4506
+      delta_phi_vh: -1.6581
 
-  - name: phi_vh_-260_deg
+  - name: phi_vh_-90_deg
     params:
-      delta_phi_vh: -4.5379
+      delta_phi_vh: -1.5708
 
-  - name: phi_vh_-265_deg
+  - name: phi_vh_-85_deg
     params:
-      delta_phi_vh: -4.6251
+      delta_phi_vh: -1.4835
 
-  - name: phi_vh_-270_deg
+  - name: phi_vh_-80_deg
     params:
-      delta_phi_vh: -4.7124
+      delta_phi_vh: -1.3963
 
-  - name: phi_vh_-275_deg
+  - name: phi_vh_-75_deg
     params:
-      delta_phi_vh: -4.7997
+      delta_phi_vh: -1.3090
 
-  - name: phi_vh_-280_deg
+  - name: phi_vh_-70_deg
     params:
-      delta_phi_vh: -4.8869
+      delta_phi_vh: -1.2217
 
-  - name: phi_vh_-285_deg
+  - name: phi_vh_-65_deg
     params:
-      delta_phi_vh: -4.9742
+      delta_phi_vh: -1.1345
 
-  - name: phi_vh_-290_deg
+  - name: phi_vh_-60_deg
     params:
-      delta_phi_vh: -5.0615
+      delta_phi_vh: -1.0472
 
-  - name: phi_vh_-295_deg
+  - name: phi_vh_-55_deg
     params:
-      delta_phi_vh: -5.1487
+      delta_phi_vh: -0.9599
 
-  - name: phi_vh_-300_deg
+  - name: phi_vh_-50_deg
     params:
-      delta_phi_vh: -5.2360
+      delta_phi_vh: -0.8727
 
-  - name: phi_vh_-305_deg
+  - name: phi_vh_-45_deg
     params:
-      delta_phi_vh: -5.3233
+      delta_phi_vh: -0.7854
 
-  - name: phi_vh_-310_deg
+  - name: phi_vh_-40_deg
     params:
-      delta_phi_vh: -5.4105
+      delta_phi_vh: -0.6981
 
-  - name: phi_vh_-315_deg
+  - name: phi_vh_-35_deg
     params:
-      delta_phi_vh: -5.4978
+      delta_phi_vh: -0.6109
 
-  - name: phi_vh_-320_deg
+  - name: phi_vh_-30_deg
     params:
-      delta_phi_vh: -5.5851
+      delta_phi_vh: -0.5236
 
-  - name: phi_vh_-325_deg
+  - name: phi_vh_-25_deg
     params:
-      delta_phi_vh: -5.6723
+      delta_phi_vh: -0.4363
 
-  - name: phi_vh_-330_deg
+  - name: phi_vh_-20_deg
     params:
-      delta_phi_vh: -5.7596
+      delta_phi_vh: -0.3491
 
-  - name: phi_vh_-335_deg
+  - name: phi_vh_-15_deg
     params:
-      delta_phi_vh: -5.8469
+      delta_phi_vh: -0.2618
 
-  - name: phi_vh_-340_deg
+  - name: phi_vh_-10_deg
     params:
-      delta_phi_vh: -5.9341
+      delta_phi_vh: -0.1745
 
-  - name: phi_vh_-345_deg
+  - name: phi_vh_-5_deg
     params:
-      delta_phi_vh: -6.0214
+      delta_phi_vh: -0.0873
 
-  - name: phi_vh_-350_deg
+  - name: phi_vh_0_deg
     params:
-      delta_phi_vh: -6.1087
+      delta_phi_vh: 0.0000
 
-  - name: phi_vh_-355_deg
+  - name: phi_vh_5_deg
     params:
-      delta_phi_vh: -6.1959
+      delta_phi_vh: 0.0873
 
-  - name: phi_vh_-360_deg
+  - name: phi_vh_10_deg
     params:
-      delta_phi_vh: -6.2832
+      delta_phi_vh: 0.1745
+
+  - name: phi_vh_15_deg
+    params:
+      delta_phi_vh: 0.2618
+
+  - name: phi_vh_20_deg
+    params:
+      delta_phi_vh: 0.3491
+
+  - name: phi_vh_25_deg
+    params:
+      delta_phi_vh: 0.4363
+
+  - name: phi_vh_30_deg
+    params:
+      delta_phi_vh: 0.5236
+
+  - name: phi_vh_35_deg
+    params:
+      delta_phi_vh: 0.6109
+
+  - name: phi_vh_40_deg
+    params:
+      delta_phi_vh: 0.6981
+
+  - name: phi_vh_45_deg
+    params:
+      delta_phi_vh: 0.7854
+
+  - name: phi_vh_50_deg
+    params:
+      delta_phi_vh: 0.8727
+
+  - name: phi_vh_55_deg
+    params:
+      delta_phi_vh: 0.9599
+
+  - name: phi_vh_60_deg
+    params:
+      delta_phi_vh: 1.0472
+
+  - name: phi_vh_65_deg
+    params:
+      delta_phi_vh: 1.1345
+
+  - name: phi_vh_70_deg
+    params:
+      delta_phi_vh: 1.2217
+
+  - name: phi_vh_75_deg
+    params:
+      delta_phi_vh: 1.3090
+
+  - name: phi_vh_80_deg
+    params:
+      delta_phi_vh: 1.3963
+
+  - name: phi_vh_85_deg
+    params:
+      delta_phi_vh: 1.4835
+
+  - name: phi_vh_90_deg
+    params:
+      delta_phi_vh: 1.5708
+
+  - name: phi_vh_95_deg
+    params:
+      delta_phi_vh: 1.6581
+
+  - name: phi_vh_100_deg
+    params:
+      delta_phi_vh: 1.7453
+
+  - name: phi_vh_105_deg
+    params:
+      delta_phi_vh: 1.8326
+
+  - name: phi_vh_110_deg
+    params:
+      delta_phi_vh: 1.9199
+
+  - name: phi_vh_115_deg
+    params:
+      delta_phi_vh: 2.0071
+
+  - name: phi_vh_120_deg
+    params:
+      delta_phi_vh: 2.0944
+
+  - name: phi_vh_125_deg
+    params:
+      delta_phi_vh: 2.1817
+
+  - name: phi_vh_130_deg
+    params:
+      delta_phi_vh: 2.2689
+
+  - name: phi_vh_135_deg
+    params:
+      delta_phi_vh: 2.3562
+
+  - name: phi_vh_140_deg
+    params:
+      delta_phi_vh: 2.4435
+
+  - name: phi_vh_145_deg
+    params:
+      delta_phi_vh: 2.5307
+
+  - name: phi_vh_150_deg
+    params:
+      delta_phi_vh: 2.6180
+
+  - name: phi_vh_155_deg
+    params:
+      delta_phi_vh: 2.7053
+
+  - name: phi_vh_160_deg
+    params:
+      delta_phi_vh: 2.7925
+
+  - name: phi_vh_165_deg
+    params:
+      delta_phi_vh: 2.8798
+
+  - name: phi_vh_170_deg
+    params:
+      delta_phi_vh: 2.9671
+
+  - name: phi_vh_175_deg
+    params:
+      delta_phi_vh: 3.0543
+
+  - name: phi_vh_180_deg
+    params:
+      delta_phi_vh: 3.1416

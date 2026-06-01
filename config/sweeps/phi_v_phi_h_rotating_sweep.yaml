@@ -1,0 +1,146 @@
+# Example parameter sweep for the sidewinding movement controller.
+#
+# Run with:
+#   python3 scripts/run_sweep.py config/sweeps/example_sweep.yaml
+#
+# Each run launches the simulation with its `params` applied on top of the
+# controller's built-in defaults, waits `wait_seconds`, captures a snapshot
+# (PNG + CSVs) to screenshots/<output_name>/<run.name>/, then cleans up.
+
+# Default wait time per run (seconds). Can be overridden per-run.
+wait_seconds: 120
+
+# Output folder under ./screenshots/
+output_name: phi_v_phi_h_sweep
+# delta_phi_v = 2 * k * 0.8976
+# delta_phi_h = k * 1.0472
+
+# Parameters not listed here keep their defaults from the controller.
+# Available parameters (see sidewinding_movement_controller.py):
+#   A_v, A_h, delta_phi_v, delta_phi_h, delta_phi_vh, O_v, O_h, T, publish_rate
+runs:
+# k=-0.02
+  - name: k-0.02
+    params:
+      delta_phi_v: -0.0359
+      delta_phi_h: -0.0209
+# k=-0.04
+  - name: k-0.04
+    params:
+      delta_phi_v: -0.0718
+      delta_phi_h: -0.0419
+# k=-0.06
+  - name: k-0.06
+    params:
+      delta_phi_v: -0.1077
+      delta_phi_h: -0.0628
+# k=-0.08
+  - name: k-0.08
+    params:
+      delta_phi_v: -0.1436
+      delta_phi_h: -0.0838
+# k=-0.10
+  - name: k-0.10
+    params:
+      delta_phi_v: -0.1795
+      delta_phi_h: -0.1047
+# k=-0.12
+  - name: k-0.12
+    params:
+      delta_phi_v: -0.2154
+      delta_phi_h: -0.1257
+# k=-0.14
+  - name: k-0.14
+    params:
+      delta_phi_v: -0.2513
+      delta_phi_h: -0.1466
+# k=-0.16
+  - name: k-0.16
+    params:
+      delta_phi_v: -0.2872
+      delta_phi_h: -0.1676
+# k=-0.18
+  - name: k-0.18
+    params:
+      delta_phi_v: -0.3231
+      delta_phi_h: -0.1885
+# k=-0.20
+  - name: k-0.20
+    params:
+      delta_phi_v: -0.3590
+      delta_phi_h: -0.2094
+# k=-0.22
+  - name: k-0.22
+    params:
+      delta_phi_v: -0.3949
+      delta_phi_h: -0.2304
+# k=-0.24
+  - name: k-0.24
+    params:
+      delta_phi_v: -0.4308
+      delta_phi_h: -0.2513
+# k=-0.26
+  - name: k-0.26
+    params:
+      delta_phi_v: -0.4668
+      delta_phi_h: -0.2723
+# k=-0.28
+  - name: k-0.28
+    params:
+      delta_phi_v: -0.5027
+      delta_phi_h: -0.2932
+# k=-0.30
+  - name: k-0.30
+    params:
+      delta_phi_v: -0.5386
+      delta_phi_h: -0.3142
+# k=-0.32
+  - name: k-0.32
+    params:
+      delta_phi_v: -0.5745
+      delta_phi_h: -0.3351
+# k=-0.34
+  - name: k-0.34
+    params:
+      delta_phi_v: -0.6104
+      delta_phi_h: -0.3560
+# k=-0.36
+  - name: k-0.36
+    params:
+      delta_phi_v: -0.6463
+      delta_phi_h: -0.3770
+# k=-0.38
+  - name: k-0.38
+    params:
+      delta_phi_v: -0.6822
+      delta_phi_h: -0.3979
+# k=-0.40
+  - name: k-0.40
+    params:
+      delta_phi_v: -0.7181
+      delta_phi_h: -0.4189
+# k=-0.42
+  - name: k-0.42
+    params:
+      delta_phi_v: -0.7540
+      delta_phi_h: -0.4398
+# k=-0.44
+  - name: k-0.44
+    params:
+      delta_phi_v: -0.7899
+      delta_phi_h: -0.4608
+# k=-0.46
+  - name: k-0.46
+    params:
+      delta_phi_v: -0.8258
+      delta_phi_h: -0.4817
+# k=-0.48
+  - name: k-0.48
+    params:
+      delta_phi_v: -0.8617
+      delta_phi_h: -0.5027
+# k=-0.50
+  - name: k-0.50
+    params:
+      delta_phi_v: -0.8976
+      delta_phi_h: -0.5236

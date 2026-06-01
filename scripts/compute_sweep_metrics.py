@@ -92,6 +92,7 @@ AXIS_LABELS = {
     # Unified k alias — only present when k_v == k_h across every run.
     'k': r'$k_V = k_H$',
     'k_v': r'$k_V$',
+    'k_h': r'$k_H=\frac{k_V}{2}$',
 }
 
 # Legend labels — used when a column appears as a *series* on a chart
