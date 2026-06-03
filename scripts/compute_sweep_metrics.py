@@ -749,32 +749,22 @@ def _load_summary_from_csv(args: argparse.Namespace) \
     return summary_df, changing_display, skip_values
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(
-        description='Aggregate per-run metrics across a sweep and plot them.')
-    parser.add_argument('sweep_dir', type=Path,
-                        help='Sweep output directory (contains per-run subdirs)')
-    parser.add_argument('--skip-cycles', type=float, default=2.0,
-                        help='Cycles of transient to skip (default: 5)')
-    parser.add_argument('--analysis-cycles', type=int, default=12,
-                        help='Number of averaged windows to compute (default: 5)')
-    parser.add_argument('--period', type=float, default=5.0,
-                        help='Controller period in seconds (default: 5.0)')
-    parser.add_argument('--scan-skip-cycles', action='store_true',
-                        help=f'Repeat metric computation for {SCAN_SKIP_COUNT} '
-                             f'skip_cycles values (base, base+{SCAN_SKIP_STEP}, '
-                             f'..., base+{SCAN_SKIP_STEP*(SCAN_SKIP_COUNT-1):.1f}) '
-                             f'and overlay them as separate series on each chart.')
-    parser.add_argument('--charts-only', action='store_true',
-                        help='Skip per-run data loading; redraw charts from the '
-                             'existing sweep_summary.csv in <sweep_dir>. '
-                             'Scan mode is inferred from the CSV.')
-    args = parser.parse_args()
+def _is_processable_sweep(d: Path, charts_only: bool) -> bool:
+    """True if `d` can be used as a sweep_dir in the current mode.
 
-    if not args.sweep_dir.is_dir():
-        print(f'ERROR: {args.sweep_dir} is not a directory', file=sys.stderr)
-        return 1
+    In --charts-only mode the only requirement is that the prebuilt
+    sweep_summary.csv exists; otherwise the directory must hold per-run
+    subdirs (directly or under `runs/`).
+    """
+    if not d.is_dir():
+        return False
+    if charts_only:
+        return (d / 'sweep_summary.csv').exists()
+    return resolve_sweep_runs_dir(d) is not None
 
+
+def process_sweep(args: argparse.Namespace) -> int:
+    """Run the full pipeline for `args.sweep_dir`. Returns 0 / 1 like main()."""
     result = (_load_summary_from_csv(args) if args.charts_only
               else _build_summary_from_runs(args))
     if result is None:
@@ -974,6 +964,63 @@ def main() -> int:
     #     plt.show()
 
     return 0
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description='Aggregate per-run metrics across a sweep and plot them.')
+    parser.add_argument('sweep_dir', type=Path,
+                        help='Sweep output directory (contains per-run subdirs)')
+    parser.add_argument('--skip-cycles', type=float, default=2.0,
+                        help='Cycles of transient to skip (default: 5)')
+    parser.add_argument('--analysis-cycles', type=int, default=12,
+                        help='Number of averaged windows to compute (default: 5)')
+    parser.add_argument('--period', type=float, default=5.0,
+                        help='Controller period in seconds (default: 5.0)')
+    parser.add_argument('--scan-skip-cycles', action='store_true',
+                        help=f'Repeat metric computation for {SCAN_SKIP_COUNT} '
+                             f'skip_cycles values (base, base+{SCAN_SKIP_STEP}, '
+                             f'..., base+{SCAN_SKIP_STEP*(SCAN_SKIP_COUNT-1):.1f}) '
+                             f'and overlay them as separate series on each chart.')
+    parser.add_argument('--charts-only', action='store_true',
+                        help='Skip per-run data loading; redraw charts from the '
+                             'existing sweep_summary.csv in <sweep_dir>. '
+                             'Scan mode is inferred from the CSV.')
+    parser.add_argument('-r', '--recursive', action='store_true',
+                        help='Treat <sweep_dir> as a parent of multiple sweeps '
+                             'and process each immediate subdirectory that '
+                             'looks like a sweep target.')
+    args = parser.parse_args()
+
+    if not args.sweep_dir.is_dir():
+        print(f'ERROR: {args.sweep_dir} is not a directory', file=sys.stderr)
+        return 1
+
+    if not args.recursive:
+        return process_sweep(args)
+
+    parent = args.sweep_dir
+    candidates = sorted(p for p in parent.iterdir() if p.is_dir())
+    targets = [p for p in candidates
+               if _is_processable_sweep(p, args.charts_only)]
+    if not targets:
+        print(f'ERROR: no processable sweep subdirectories under {parent}',
+              file=sys.stderr)
+        return 1
+
+    print(f'Recursive mode: processing {len(targets)} sweep(s) under {parent}')
+    failures = 0
+    for sub in targets:
+        print(f'\n=== {sub.name} ===')
+        args.sweep_dir = sub
+        try:
+            if process_sweep(args) != 0:
+                failures += 1
+        finally:
+            plt.close('all')
+    args.sweep_dir = parent
+
+    return 1 if failures else 0
 
 
 if __name__ == '__main__':
