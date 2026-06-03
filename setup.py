@@ -67,6 +67,7 @@ setup(
             'trajectory_publisher = snake_sim.trajectory_publisher:main',
             'trajectory_tracker = snake_sim.trajectory_tracker:main',
             'scene_snapshot = snake_sim.scene_snapshot:main',
+            'rviz_phase_capture = snake_sim.rviz_phase_capture:main',
             'robot_body_logger = snake_sim.robot_body_logger:main',
         ],
     },

@@ -5,7 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded: ~
       Splitter Ratio: 0.5
-    Tree Height: 436
+    Tree Height: 417
   - Class: rviz_common/Views
     Expanded:
       - /Current View1
@@ -196,7 +196,7 @@ Visualization Manager:
       Enabled: true
       Name: DesiredPosition
       Namespaces:
-        desired_position: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -209,7 +209,7 @@ Visualization Manager:
       Enabled: true
       Name: TravelYaw
       Namespaces:
-        travel_yaw: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -250,7 +250,7 @@ Visualization Manager:
       Buffer Length: 1
       Class: rviz_default_plugins/Path
       Color: 255; 100; 0
-      Enabled: true
+      Enabled: false
       Head Diameter: 0.30000001192092896
       Head Length: 0.20000000298023224
       Length: 0.30000001192092896
@@ -273,7 +273,7 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /snake/actual_trajectory
-      Value: true
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -289,36 +289,31 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz_default_plugins/Orbit
-      Distance: 1.5795621871948242
+      Angle: 0
+      Class: rviz_default_plugins/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Focal Point:
-        X: 0.005574996117502451
-        Y: 0.37674567103385925
-        Z: 0.08476319909095764
-      Focal Shape Fixed Size: true
-      Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Scale: 1057.6614990234375
       Target Frame: <Fixed Frame>
-      Value: Orbit (rviz)
-      Yaw: 1.2649990320205688
+      Value: TopDownOrtho (rviz_default_plugins)
+      X: 0.21690446138381958
+      Y: 0.35112059116363525
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1043
+  Height: 1011
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000001c9000003b5fc0200000002fb000000100044006900730070006c006100790073010000003f0000023a000000cc00fffffffb0000000a00560069006500770073010000027f00000175000000a900ffffff000005b1000003b500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000001c900000395fc0200000002fb000000100044006900730070006c006100790073010000003f00000227000000cc00fffffffb0000000a00560069006500770073010000026c00000168000000a900ffffff0000056f0000039500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 1920
-  X: 0
-  Y: 0
+  Width: 1854
+  X: 1986
+  Y: 32

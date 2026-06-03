@@ -22,7 +22,7 @@ class CenterOfMassCalculator(Node):
     def __init__(self):
         super().__init__('center_of_mass_calculator')
 
-        self.declare_parameter('publish_rate', 50.0)
+        self.declare_parameter('publish_rate', 200.0)
         publish_rate = self.get_parameter('publish_rate').value
 
         # TF2 for inter-link transforms
@@ -148,7 +148,7 @@ class CenterOfMassCalculator(Node):
         msg.pose.position.z = 0.25
         msg.scale.x = 0.01
         msg.scale.y = 0.01
-        msg.scale.z = 0.5
+        msg.scale.z = 0.05
         msg.color.r = 1.0
         msg.color.g = 0.0
         msg.color.b = 0.0

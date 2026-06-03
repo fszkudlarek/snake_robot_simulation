@@ -18,6 +18,15 @@ class MovementController(Node):
             10
         )
 
+        # Gait phase φ = (2π/T · t) mod 2π, in radians [0, 2π). Published every
+        # update so external tools (e.g. rviz_phase_capture) can trigger actions
+        # at exact gait phases independent of the real-time factor.
+        self.phase_publisher = self.create_publisher(
+            Float64,
+            '/movement_controller/phase',
+            10
+        )
+
         # ---- PARAMETERS (H2 solution space) ----
         self.declare_parameter('swivel_joint_count', 6)
         self.declare_parameter('sliding_pad_joint_count', 7)
@@ -152,6 +161,11 @@ class MovementController(Node):
         msg.data.extend(inner_pad_values)
 
         self.publisher.publish(msg)
+
+        # Publish current gait phase (same time base as the waves above).
+        phase_msg = Float64()
+        phase_msg.data = ((2.0 * math.pi / self.T) * t) % (2.0 * math.pi)
+        self.phase_publisher.publish(phase_msg)
 
 
 def main():
