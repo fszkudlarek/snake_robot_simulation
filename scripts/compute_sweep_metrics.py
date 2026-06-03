@@ -93,6 +93,10 @@ AXIS_LABELS = {
     'k': r'$k_V = k_H$',
     'k_v': r'$k_V$',
     'k_h': r'$k_H=\frac{k_V}{2}$',
+    'O_v_deg': r'$O_V$',
+    'O_h_deg': r'$O_H$',
+    'A_v_deg': r'$A_V$',
+    'A_h_deg': r'$A_H$',
 }
 
 # Legend labels — used when a column appears as a *series* on a chart
