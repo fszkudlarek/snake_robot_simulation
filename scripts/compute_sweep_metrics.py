@@ -549,6 +549,73 @@ def _plot_displacement_3d(summary_df: pd.DataFrame,
     return drew_anything
 
 
+def _plot_displacement_param_color(summary_df: pd.DataFrame,
+                                   changing_display: list[str],
+                                   skip_values: list[float],
+                                   args: argparse.Namespace,
+                                   *, x_col: str, y_col: str,
+                                   file_slug: str) -> bool:
+    """Render one 2D scatter per changing param using (x, y) axes with the
+    param encoded as a viridis color gradient.
+
+    Same data as _plot_displacement_3d but flattens the param dimension into
+    a colorbar instead of a Z axis. In --scan-skip-cycles mode each skip
+    value is drawn with its own alpha so they overlay legibly, while the
+    colormap range stays pinned to the full param span across all skips.
+    """
+    if not {x_col, y_col}.issubset(summary_df.columns):
+        return False
+
+    drew_anything = False
+    for param_col in changing_display:
+        cols = [x_col, y_col, param_col]
+        if not set(cols).issubset(summary_df.columns):
+            continue
+
+        full = summary_df[cols].dropna()
+        if full.empty:
+            continue
+        vmin = float(full[param_col].min())
+        vmax = float(full[param_col].max())
+
+        fig, ax = plt.subplots(figsize=(7, 6))
+        sc = None
+        n_skips = len(skip_values)
+
+        if args.scan_skip_cycles:
+            for i, skip_val in enumerate(skip_values):
+                sub = summary_df[summary_df['skip_cycles'] == skip_val][cols] \
+                    .dropna()
+                if sub.empty:
+                    continue
+                alpha = 0.35 + 0.65 * (i / max(n_skips - 1, 1))
+                sc = ax.scatter(sub[x_col], sub[y_col], c=sub[param_col],
+                                cmap='viridis', vmin=vmin, vmax=vmax,
+                                alpha=alpha, s=30)
+        else:
+            sc = ax.scatter(full[x_col], full[y_col], c=full[param_col],
+                            cmap='viridis', vmin=vmin, vmax=vmax, s=30)
+
+        if sc is None:
+            plt.close(fig)
+            continue
+
+        cbar = fig.colorbar(sc, ax=ax)
+        cbar.set_label(axis_label(param_col))
+        ax.set_xlabel(axis_label(x_col))
+        ax.set_ylabel(axis_label(y_col))
+        ax.grid(True, alpha=0.3)
+        ax.set_aspect('equal', adjustable='datalim')
+
+        png = args.sweep_dir / f'sweep_summary_{file_slug}_vs_{param_col}.png'
+        fig.savefig(png, dpi=120, bbox_inches='tight')
+        plt.close(fig)
+        print(f'Wrote {png}')
+        drew_anything = True
+
+    return drew_anything
+
+
 def _build_summary_from_runs(args: argparse.Namespace) \
         -> tuple[pd.DataFrame, list[str], list[float]] | None:
     """Run the full per-run pipeline and return (summary_df, changing_display, skip_values).
@@ -894,9 +961,17 @@ def main() -> int:
         file_slug='displacement_local3d',
     )
 
-    if shown_any_3d:
-        print('Opening 3D chart(s); close the window(s) to exit.')
-        plt.show()
+    # 2D analog of the local-frame 3D chart: same (x_local, y_local) axes,
+    # but the swept param is encoded as point color rather than the Z axis.
+    _plot_displacement_param_color(
+        summary_df, changing_display, skip_values, args,
+        x_col='displacement_x_local', y_col='displacement_y_local',
+        file_slug='displacement_local_color',
+    )
+
+    # if shown_any_3d:
+    #     print('Opening 3D chart(s); close the window(s) to exit.')
+    #     plt.show()
 
     return 0
 
