@@ -4,8 +4,9 @@ from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaun
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit, OnProcessStart
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PythonExpression
+from launch.substitutions import LaunchConfiguration, PythonExpression, Command, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
@@ -42,8 +43,14 @@ def generate_launch_description():
     # Path to SDF file
     sdf_path = os.path.join(pkg_share, 'sdf', 'snake', 'snake.sdf')
 
-    # Path to URDF file (needed for robot_state_publisher and RViz)
-    urdf_path = os.path.join(pkg_share, 'urdf', 'snake.urdf')
+    # URDF filename in the package urdf/ directory. Use snake_colored.urdf
+    # (from scripts/colorize_urdf.py) for per-segment colored RViz screenshots.
+    urdf_file_arg = DeclareLaunchArgument(
+        'urdf_file', default_value='snake.urdf',
+        description='URDF filename in the package urdf/ directory '
+                    '(e.g. snake_colored.urdf for colored body segments).'
+    )
+    urdf_path = PathJoinSubstitution([pkg_share, 'urdf', LaunchConfiguration('urdf_file')])
 
     # Path to RViz config
     rviz_config_path = os.path.join(pkg_share, 'rviz', 'snake.rviz')
@@ -65,7 +72,8 @@ def generate_launch_description():
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
-        parameters=[{'robot_description': open(urdf_path).read()}]
+        parameters=[{'robot_description': ParameterValue(
+            Command(['cat ', urdf_path]), value_type=str)}]
     )
 
     # RViz visualization
@@ -255,6 +263,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         use_rviz_arg,
+        urdf_file_arg,
         controller_params_arg,
         trajectory_log_arg,
         gazebo,
