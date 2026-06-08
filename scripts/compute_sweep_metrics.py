@@ -60,7 +60,7 @@ SCAN_SKIP_STEP = 0.1
 ANGLE_PARAMS_DEG = {
     'A_v', 'A_h',
     'delta_phi_v', 'delta_phi_h', 'delta_phi_vh',
-    'O_v', 'O_h',
+    'O_v', 'O_h', 'delta', 'delta_offset'
 }
 
 # Derived parameters: name -> (source_param, divisor).
