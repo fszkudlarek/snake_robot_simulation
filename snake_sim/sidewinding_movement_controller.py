@@ -127,8 +127,8 @@ class MovementController(Node):
         for i in range(self.swivel_joint_count):
             A_h_i_raw = (
                 self.A_h
-                + self.alpha_distribution[i] * self.delta
-                + self.delta_offset
+                + self.alpha_distribution[i] * (self.delta
+                + self.delta_offset)
             )
             A_h_i = max(self.a_min, min(self.a_max, A_h_i_raw))
             angle = A_h_i * math.sin(
