@@ -97,6 +97,8 @@ AXIS_LABELS = {
     'O_h_deg': r'$O_H$',
     'A_v_deg': r'$A_V$',
     'A_h_deg': r'$A_H$',
+    'delta': r'$\delta$',
+    'delta_deg': r'$\delta[^\circ]$',
 }
 
 # Legend labels — used when a column appears as a *series* on a chart

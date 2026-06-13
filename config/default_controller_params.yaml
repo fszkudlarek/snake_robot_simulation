@@ -38,7 +38,7 @@ movement_controller_node:
 
     # delta_offset: feed-forward bias compensating systematic heading drift in
     # the nominal gait (eq. 3.31). Static; not modulated at runtime.
-    delta_offset: 0.0
+    delta_offset: 0.0436          # 2.5 degrees
 
     # ---- Safety saturation (eq. 3.29, 3.30) ----
     # a_min/a_max bound the per-joint corrected horizontal amplitude.
@@ -46,4 +46,4 @@ movement_controller_node:
     # Paper defaults for COBRA (Dynamixel XH540): 5° / 50° / 15°. In radians:
     a_min: 0.08727                 # 5 degrees
     a_max: 0.9599                  # 55 degrees
-    delta_max: 0.3491             # 20 degrees
+    delta_max: 0.5236             # 30 degrees
