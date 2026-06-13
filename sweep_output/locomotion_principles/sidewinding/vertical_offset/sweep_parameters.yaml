@@ -53,9 +53,9 @@ movement_controller_node:
     - -0.5
     - -1.5
     - -2.5
-    delta: 0.0
+    delta: 0.0  # 0 degrees
     delta_max: 0.1745
-    delta_offset: 0.0
+    delta_offset: 0.0  # 0 degrees
     delta_phi_h: 3.1416  # 180 degrees
     delta_phi_v: 2.6928  # 154.3 degrees
     delta_phi_vh: 0.7854  # 45 degrees
