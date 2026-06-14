@@ -171,6 +171,7 @@ def generate_launch_description():
         executable='odometry_tf_broadcaster',
         name='odometry_tf_broadcaster',
         output='screen',
+        parameters=[{'use_sim_time': True}],
     )
 
     # Optional: stream per-tick body link + COM positions to CSV for the full run.
