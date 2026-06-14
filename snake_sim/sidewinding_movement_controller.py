@@ -51,9 +51,12 @@ class MovementController(Node):
         self.declare_parameter('delta', 0.0)
         self.declare_parameter('delta_offset', 0.0)
         # Saturation bounds (eq. 3.29, 3.30). Paper defaults for COBRA in radians:
-        # a_min = 5° ≈ 0.0873, a_max = 50° ≈ 0.8727, delta_max = 15° ≈ 0.2618.
+        # a_min = 5° ≈ 0.0873, a_max = 50° ≈ 0.8727.
+        # The steering correction δ is clipped to [delta_min, delta_max]; chosen
+        # symmetric here as ±15° ≈ ±0.2618 rad.
         self.declare_parameter('a_min', 5.0 * math.pi / 180.0)
         self.declare_parameter('a_max', 50.0 * math.pi / 180.0)
+        self.declare_parameter('delta_min', -15.0 * math.pi / 180.0)
         self.declare_parameter('delta_max', 15.0 * math.pi / 180.0)
 
         self.swivel_joint_count = self.get_parameter(
@@ -75,6 +78,7 @@ class MovementController(Node):
         self.delta_offset = float(self.get_parameter('delta_offset').value)
         self.a_min = float(self.get_parameter('a_min').value)
         self.a_max = float(self.get_parameter('a_max').value)
+        self.delta_min = float(self.get_parameter('delta_min').value)
         self.delta_max = float(self.get_parameter('delta_max').value)
         self.delta = self._clip_delta(
             float(self.get_parameter('delta').value))
@@ -108,8 +112,8 @@ class MovementController(Node):
         self.delta = self._clip_delta(float(msg.data))
 
     def _clip_delta(self, value: float) -> float:
-        # Eq. 3.30: δ = clip(δ_raw, -δ_max, +δ_max)
-        return max(-self.delta_max, min(self.delta_max, value))
+        # Eq. 3.30: δ = clip(δ_raw, δ_min, δ_max)
+        return max(self.delta_min, min(self.delta_max, value))
 
     def update(self):
         now = self.get_clock().now()

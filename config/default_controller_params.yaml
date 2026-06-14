@@ -19,7 +19,7 @@ movement_controller_node:
 
     # ---- Asymmetric amplitude distribution (eq. 3.26, 3.27) ----
     # Per-joint horizontal amplitude is computed as:
-    #   A_h_i = clip(A_h + alpha_distribution[i] * delta + delta_offset, a_min, a_max)
+    #   A_h_i = clip(A_h + alpha_distribution[i] * (delta + delta_offset), a_min, a_max)
     # With delta=0 and delta_offset=0 the gait reduces to the original symmetric
     # sidewinding (A_h_i == A_h for every joint), so existing sweep configs that
     # omit these fields keep their original behavior.
@@ -42,8 +42,10 @@ movement_controller_node:
 
     # ---- Safety saturation (eq. 3.29, 3.30) ----
     # a_min/a_max bound the per-joint corrected horizontal amplitude.
-    # delta_max bounds δ (whether from the parameter above or the topic).
-    # Paper defaults for COBRA (Dynamixel XH540): 5° / 50° / 15°. In radians:
+    # delta_min/delta_max bound δ (whether from the parameter above or the topic).
+    # Paper defaults for COBRA (Dynamixel XH540): a_min/a_max = 5°/50°,
+    # delta = ±15°. Here the δ bounds are symmetric at ±30°. In radians:
     a_min: 0.08727                 # 5 degrees
     a_max: 0.9599                  # 55 degrees
-    delta_max: 0.5236             # 30 degrees
+    delta_min: -0.3142            # -18 degrees
+    delta_max: 0.2443             # 14 degrees
