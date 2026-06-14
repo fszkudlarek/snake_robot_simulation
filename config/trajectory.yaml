@@ -30,9 +30,17 @@ trajectory_publisher:
     # Flat list of [x1, y1, x2, y2, ...] absolute points (NOT offset by start).
     # waypoints: [0.0, 0.36, 0.5, 0.46, 1.0, 0.36]
 
+    # --- Path following ---
+    # The desired point ("carrot") the tracker chases is the robot CoM
+    # projected onto the path, then advanced this many metres ALONG the path
+    # (arc length). Larger = smoother but cuts corners; smaller = tighter but
+    # can oscillate. Past the end of an open path it extrapolates straight.
+    lookahead_distance: 0.05
+
     # Number of interpolation points
     num_points: 100
 
-    # Speed (m/s) along the curve. Each trajectory point's time_from_start
-    # is set to (cumulative arc length up to that point) / linear_speed.
+    # Speed (m/s) along the curve. Only used to time-parametrize the published
+    # /snake/desired_trajectory (e.g. for the CMA optimizer's offline scoring);
+    # the live carrot above is driven by the CoM, not by time.
     linear_speed: 0.01

@@ -38,8 +38,15 @@ class TrajectoryPublisher(Node):
         # time_from_start = cumulative_arc_length(point) / linear_speed.
         self.declare_parameter('linear_speed', 0.1)
 
-        # Rate (Hz) at which the moving "desired position" marker is published.
+        # Rate (Hz) at which the "desired position" carrot marker is published.
         self.declare_parameter('marker_rate', 30.0)
+
+        # Path-following carrot: the desired point is the robot CoM projected
+        # onto the path, advanced this many metres along the path (arc length).
+        # Past the final vertex it extrapolates along the last segment heading.
+        self.declare_parameter('lookahead_distance', 0.3)
+        self.lookahead_distance = float(
+            self.get_parameter('lookahead_distance').value)
 
         latched_qos = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL)
         self.traj_pub = self.create_publisher(
@@ -49,20 +56,24 @@ class TrajectoryPublisher(Node):
         self.desired_marker_pub = self.create_publisher(
             Marker, '/snake/desired_position', 10)
 
+        # Latest robot CoM (from center_of_mass_calculator), used to place the
+        # path-following carrot.
+        self._latest_com = None
+        self.create_subscription(
+            Marker, '/snake/center_of_mass', self._on_com, 10)
+
         points = self._build_points()
         traj = self._make_trajectory(points)
         self.traj_pub.publish(traj)
         self.path_pub.publish(self._make_path(points))
 
-        # Cache (x, y, time_from_start_seconds) for marker interpolation.
+        # Cache the path geometry + cumulative arc length for the carrot lookup.
         self._traj_points = points
-        self._traj_times = [
-            pt.time_from_start.sec + pt.time_from_start.nanosec * 1e-9
-            for pt in traj.points
-        ]
-        self._traj_start = self.get_clock().now()
+        self._traj_cum = self._cumulative_arclength(points)
 
-        duration_s = self._traj_times[-1] if self._traj_times else 0.0
+        times = [pt.time_from_start.sec + pt.time_from_start.nanosec * 1e-9
+                 for pt in traj.points]
+        duration_s = times[-1] if times else 0.0
         self.get_logger().info(
             f'Published desired trajectory: type={self.get_parameter("type").value}, '
             f'{len(points)} points, duration={duration_s:.2f}s '
@@ -187,27 +198,77 @@ class TrajectoryPublisher(Node):
 
         return traj
 
+    def _on_com(self, msg):
+        self._latest_com = (msg.pose.position.x, msg.pose.position.y)
 
-    def _desired_xy_at(self, elapsed):
-        times = self._traj_times
+    @staticmethod
+    def _cumulative_arclength(points):
+        cum = [0.0]
+        for i in range(1, len(points)):
+            cum.append(cum[-1] + math.hypot(points[i][0] - points[i - 1][0],
+                                            points[i][1] - points[i - 1][1]))
+        return cum
+
+    def _carrot_xy(self):
+        """Desired point for path following: project the CoM onto the path,
+        then advance `lookahead_distance` along it (arc length).
+
+        Falls back to the path start until a CoM has been received.
+        """
         points = self._traj_points
-        if elapsed <= times[0]:
+        com = self._latest_com
+        if com is None or len(points) < 2:
+            return points[0] if points else (0.0, 0.0)
+
+        cum = self._traj_cum
+        # Nearest projection of the CoM onto the polyline -> its arc length.
+        best_d2 = None
+        s_closest = 0.0
+        for i in range(len(points) - 1):
+            ax, ay = points[i]
+            bx, by = points[i + 1]
+            dx, dy = bx - ax, by - ay
+            seg2 = dx * dx + dy * dy
+            if seg2 <= 1e-12:
+                t, px, py = 0.0, ax, ay
+            else:
+                t = ((com[0] - ax) * dx + (com[1] - ay) * dy) / seg2
+                t = max(0.0, min(1.0, t))
+                px, py = ax + t * dx, ay + t * dy
+            d2 = (com[0] - px) ** 2 + (com[1] - py) ** 2
+            if best_d2 is None or d2 < best_d2:
+                best_d2 = d2
+                s_closest = cum[i] + t * math.sqrt(seg2)
+
+        return self._point_at_arclength(s_closest + self.lookahead_distance)
+
+    def _point_at_arclength(self, s):
+        points = self._traj_points
+        cum = self._traj_cum
+        total = cum[-1]
+        if s <= 0.0:
             return points[0]
-        if elapsed >= times[-1]:
-            return points[-1]
+        if s >= total:
+            # Extrapolate beyond the final vertex along the last segment.
+            ax, ay = points[-2]
+            bx, by = points[-1]
+            seg = math.hypot(bx - ax, by - ay)
+            if seg <= 1e-12:
+                return points[-1]
+            over = s - total
+            return (bx + over * (bx - ax) / seg, by + over * (by - ay) / seg)
         # Linear scan is fine for ~hundreds of points.
-        for i in range(len(times) - 1):
-            if times[i] <= elapsed <= times[i + 1]:
-                t0, t1 = times[i], times[i + 1]
-                p0, p1 = points[i], points[i + 1]
-                alpha = (elapsed - t0) / (t1 - t0) if t1 > t0 else 0.0
-                return (p0[0] + alpha * (p1[0] - p0[0]),
-                        p0[1] + alpha * (p1[1] - p0[1]))
+        for i in range(len(cum) - 1):
+            if cum[i] <= s <= cum[i + 1]:
+                seg = cum[i + 1] - cum[i]
+                t = (s - cum[i]) / seg if seg > 1e-12 else 0.0
+                ax, ay = points[i]
+                bx, by = points[i + 1]
+                return (ax + t * (bx - ax), ay + t * (by - ay))
         return points[-1]
 
     def _publish_desired_marker(self):
-        elapsed = (self.get_clock().now() - self._traj_start).nanoseconds * 1e-9
-        x, y = self._desired_xy_at(elapsed)
+        x, y = self._carrot_xy()
 
         msg = Marker()
         msg.header.stamp = self.get_clock().now().to_msg()
