@@ -3,31 +3,35 @@ trajectory_publisher:
     # Trajectory type: 'waypoints', 'line', 'circle', 'sine'
     type: 'circle'
 
-    # --- Waypoints mode ---
-    # Flat list of [x1, y1, x2, y2, ...] pairs
-    # waypoints: [0.0, 0.0, 0.5, 0.1, 1.0, 0.0, 1.5, -0.1, 2.0, 0.0]
+    # All parametric shapes (line / circle / sine) start at the robot's initial
+    # COM, set here. Default is the snake's spawn COM ~(0, 0.36); no manual
+    # origin offset is needed any more.
+    start_x: 0.0
+    start_y: 0.36
 
-    # --- Parametric shape parameters ---
-    # Line / Sine: total length along X axis
+    # --- Line ---
+    # Straight segment of `length` (m) from the start point. `angle` is the
+    # heading in degrees CCW from +X: 0 -> +X, 90 -> +Y, -90 -> -Y.
     length: 2.0
+    angle: 0.0
 
-    # Circle: radius
-    radius: 2.0
+    # --- Circle ---
+    # `radius` (m). The path leaves the start point heading +X and then curves
+    # toward +Y ('ccw') or -Y ('cw').
+    radius: 0.5
+    direction: 'ccw'
 
-    # Sine: amplitude and wavelength
+    # --- Sine ---
+    # Travels along +X from the start point; `amplitude` (m) is the Y swing.
     amplitude: 0.3
     wavelength: 1.0
 
+    # --- Waypoints ---
+    # Flat list of [x1, y1, x2, y2, ...] absolute points (NOT offset by start).
+    # waypoints: [0.0, 0.36, 0.5, 0.46, 1.0, 0.36]
+
     # Number of interpolation points
     num_points: 100
-
-    # Origin offset for all parametric shapes
-    origin_x: 0.0
-    origin_y: -1.635
-    # The initial position of robot COM is ~(0; 0.36)
-    # which means, that y origin (is we want the circle to pass robot COM) is:
-    # origin_y = -radius + 0.36
-    # for line: origin_y = 0.36
 
     # Speed (m/s) along the curve. Each trajectory point's time_from_start
     # is set to (cumulative arc length up to that point) / linear_speed.

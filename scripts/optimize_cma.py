@@ -157,8 +157,8 @@ def load_desired_trajectory() -> tuple[np.ndarray, np.ndarray]:
 
     traj_type = params.get('type', 'waypoints')
     n = int(params.get('num_points', 100))
-    ox = float(params.get('origin_x', 0.0))
-    oy = float(params.get('origin_y', 0.0))
+    sx = float(params.get('start_x', 0.0))
+    sy = float(params.get('start_y', 0.36))
 
     if traj_type == 'waypoints':
         flat = params.get('waypoints', []) or []
@@ -166,13 +166,19 @@ def load_desired_trajectory() -> tuple[np.ndarray, np.ndarray]:
                for i in range(0, len(flat) - 1, 2)]
     elif traj_type == 'line':
         length = float(params.get('length', 2.0))
-        pts = [(ox + i * length / (n - 1), oy) for i in range(n)]
+        angle = math.radians(float(params.get('angle', 0.0)))
+        dx, dy = math.cos(angle), math.sin(angle)
+        pts = [(sx + i * length / (n - 1) * dx,
+                sy + i * length / (n - 1) * dy) for i in range(n)]
     elif traj_type == 'circle':
         r = float(params.get('radius', 0.5))
+        d = str(params.get('direction', 'ccw')).strip().lower()
+        s = -1 if d in ('cw', 'clockwise', 'right') else 1
+        cy = sy + s * r
         # +1 to close the loop, matching trajectory_publisher._build_circle.
         pts = [
-            (ox + r * math.sin(2 * math.pi * i / n),
-             oy + r * math.cos(2 * math.pi * i / n))
+            (sx + r * math.cos(s * (2 * math.pi * i / n - math.pi / 2)),
+             cy + r * math.sin(s * (2 * math.pi * i / n - math.pi / 2)))
             for i in range(n + 1)
         ]
     elif traj_type == 'sine':
@@ -180,8 +186,8 @@ def load_desired_trajectory() -> tuple[np.ndarray, np.ndarray]:
         amp = float(params.get('amplitude', 0.3))
         wl = float(params.get('wavelength', 1.0))
         pts = [
-            (ox + i * length / (n - 1),
-             oy + amp * math.sin(2 * math.pi * (i * length / (n - 1)) / wl))
+            (sx + i * length / (n - 1),
+             sy + amp * math.sin(2 * math.pi * (i * length / (n - 1)) / wl))
             for i in range(n)
         ]
     else:

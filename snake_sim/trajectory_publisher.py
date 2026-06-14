@@ -25,8 +25,14 @@ class TrajectoryPublisher(Node):
         self.declare_parameter('wavelength', 1.0)
         self.declare_parameter('length', 2.0)
         self.declare_parameter('num_points', 100)
-        self.declare_parameter('origin_x', 0.0)
-        self.declare_parameter('origin_y', 0.0)
+        # Start point shared by all parametric shapes — the robot's initial COM.
+        self.declare_parameter('start_x', 0.0)
+        self.declare_parameter('start_y', 0.36)
+        # Line heading in degrees CCW from +X (0 -> straight along +X).
+        self.declare_parameter('angle', 0.0)
+        # Circle direction: 'ccw' curves toward +Y after the initial +X,
+        # 'cw' toward -Y.
+        self.declare_parameter('direction', 'ccw')
 
         # Time parametrization: speed (m/s) along the curve. Each point's
         # time_from_start = cumulative_arc_length(point) / linear_speed.
@@ -84,22 +90,39 @@ class TrajectoryPublisher(Node):
 
     def _build_line(self):
         length = self.get_parameter('length').value
+        angle = math.radians(self.get_parameter('angle').value)
         n = self.get_parameter('num_points').value
-        ox = self.get_parameter('origin_x').value
-        oy = self.get_parameter('origin_y').value
-        return [(ox + i * length / (n - 1), oy) for i in range(n)]
+        sx = self.get_parameter('start_x').value
+        sy = self.get_parameter('start_y').value
+        # Straight segment of `length` from the start point, heading `angle`
+        # degrees CCW from +X (angle=0 -> +X, angle=90 -> +Y).
+        dx, dy = math.cos(angle), math.sin(angle)
+        return [
+            (sx + (i * length / (n - 1)) * dx,
+             sy + (i * length / (n - 1)) * dy)
+            for i in range(n)
+        ]
 
     def _build_circle(self):
         r = self.get_parameter('radius').value
         n = self.get_parameter('num_points').value
-        ox = self.get_parameter('origin_x').value
-        oy = self.get_parameter('origin_y').value
-        # Start at the top (origin_x, origin_y + r) and go clockwise so the
-        # initial motion is in the +x direction. Flip the sign on sin to
-        # reverse direction (counter-clockwise).
+        sx = self.get_parameter('start_x').value
+        sy = self.get_parameter('start_y').value
+        d = str(self.get_parameter('direction').value).strip().lower()
+        if d in ('cw', 'clockwise', 'right'):
+            s = -1  # curve toward -Y after the initial +X
+        elif d in ('ccw', 'counterclockwise', 'counter-clockwise', 'left'):
+            s = 1   # curve toward +Y
+        else:
+            self.get_logger().warn(f"Unknown circle direction '{d}'; using 'ccw'.")
+            s = 1
+        # Circle tangent to +X at the start point: the centre sits r metres
+        # along s*Y from the start, so the path leaves heading +X and then
+        # curves toward s*Y.
+        cy = sy + s * r
         return [
-            (ox + r * math.sin(2 * math.pi * i / n),
-             oy + r * math.cos(2 * math.pi * i / n))
+            (sx + r * math.cos(s * (2 * math.pi * i / n - math.pi / 2)),
+             cy + r * math.sin(s * (2 * math.pi * i / n - math.pi / 2)))
             for i in range(n + 1)  # +1 to close the loop
         ]
 
@@ -108,11 +131,12 @@ class TrajectoryPublisher(Node):
         amp = self.get_parameter('amplitude').value
         wl = self.get_parameter('wavelength').value
         n = self.get_parameter('num_points').value
-        ox = self.get_parameter('origin_x').value
-        oy = self.get_parameter('origin_y').value
+        sx = self.get_parameter('start_x').value
+        sy = self.get_parameter('start_y').value
+        # Travels along +X from the start point, oscillating `amp` in Y.
         return [
-            (ox + i * length / (n - 1),
-             oy + amp * math.sin(2 * math.pi * (i * length / (n - 1)) / wl))
+            (sx + i * length / (n - 1),
+             sy + amp * math.sin(2 * math.pi * (i * length / (n - 1)) / wl))
             for i in range(n)
         ]
 
