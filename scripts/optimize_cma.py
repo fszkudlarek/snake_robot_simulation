@@ -89,7 +89,7 @@ TRAJECTORY_FILE = REPO_ROOT / 'config' / 'trajectory.yaml'
 TRAJECTORY_NODE_NAME = 'trajectory_publisher'
 
 # Hardcoded physical-param values used by the reparameterization.
-A_V_FIXED = 1.0
+A_V_FIXED = 1.0472 # 60 degrees
 OFFSET_FRAC_LIMIT = 0.9                # |O_h|/A_h and |O_v|/A_v ≤ this
 
 # Order matters — defines the CMA vector layout. Don't reorder without
@@ -107,8 +107,8 @@ PARAM_NAMES = [
 
 PARAM_BOUNDS = {
     'A_h':            (0.05, 55 * math.pi / 180),                      # ~3° to ~55°
-    'delta_phi_h':    (0.50, 3 * math.pi),
-    'delta_phi_v':    (0.50, 3 * math.pi),
+    'delta_phi_h':    (-6.2832, 6.2832), #-6k_H to 6k_H
+    'delta_phi_v':    (-5.3856, 5.3856), #-6k_V to 6k_V
     'delta_phi_vh':   (-math.pi, math.pi),
     'O_v_frac':       (-OFFSET_FRAC_LIMIT, OFFSET_FRAC_LIMIT),
     'O_h_frac':       (-OFFSET_FRAC_LIMIT, OFFSET_FRAC_LIMIT),
