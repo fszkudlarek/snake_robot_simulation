@@ -21,15 +21,19 @@ optimizer inside the "alternating sidewinding gait" regime by construction:
 
 Fixed: A_v = 1.0, T = 5.0.
 
-Objective (minimize):
+Objective (minimize), selected with --objective:
 
-    J = sqrt(mean(||COM(t) - desired(t)||^2))
+  cross_track (default): J = RMS nearest (cross-track) distance from the COM
+    to the desired path, with a minimum-progress floor (--min-progress) that
+    rejects the degenerate stay-at-the-start solution. Timing-independent, so
+    an open-loop tuned gait can be compared fairly against the closed-loop
+    tracker (which steers but does not set speed). The arc length covered
+    along the path is reported as a separate diagnostic, not folded into J.
 
-The desired trajectory is time-parametrized: trajectory_publisher's
-`linear_speed` (m/s along the curve) maps each polyline vertex to a
-`time_from_start`, exactly the parametrization the moving marker uses in
-RViz. At every COM timestamp the desired (x, y) is linearly interpolated
-from that parametrization, and J is the RMS distance between the two.
+  time_aligned: J = sqrt(mean(||COM(t) - desired(t)||^2)), the distance to a
+    target that moves along the path at trajectory_publisher's `linear_speed`.
+    The desired (x, y) is linearly interpolated from that time-parametrization
+    at every COM timestamp, and J is the RMS distance between the two.
 
 The body-CSV clock is rebased so t=0 corresponds to the first post-transient
 sample — i.e. the desired trajectory effectively restarts after the gait has
@@ -102,7 +106,7 @@ PARAM_NAMES = [
 ]
 
 PARAM_BOUNDS = {
-    'A_h':            (0.05, 5 * math.pi / 18),                      # ~3° to ~50°
+    'A_h':            (0.05, 55 * math.pi / 180),                      # ~3° to ~55°
     'delta_phi_h':    (0.50, 3 * math.pi),
     'delta_phi_v':    (0.50, 3 * math.pi),
     'delta_phi_vh':   (-math.pi, math.pi),
@@ -121,14 +125,17 @@ LOG_COLUMNS = (
     ['gen', 'eval', 'wall_seconds']
     + PHYSICAL_PARAM_NAMES
     + ['n_samples', 'duration_s', 'mean_distance_m',
-       'rms_distance_m', 'max_distance_m', 'J', 'status']
+       'rms_distance_m', 'max_distance_m', 'covered_arc_m', 'J', 'status']
 )
 
 # Tag stored in session_config.yaml so a pickled CMA state from an
-# incompatible run — different objective sign, different log schema, or a
+# incompatible run — different objective, different log schema, or a
 # different CMA vector layout — is rejected instead of silently resumed.
-# Bump this whenever PARAM_NAMES changes meaning.
-OBJECTIVE_TAG = 'trajectory_time_aligned_rms_v2'
+# Bump a tag whenever its scoring or PARAM_NAMES meaning changes.
+OBJECTIVE_TAGS = {
+    'cross_track': 'path_following_crosstrack_v1',
+    'time_aligned': 'trajectory_time_aligned_rms_v2',
+}
 
 # Returned J when the simulation produced no usable data. Large enough to be
 # uncompetitive vs. any real run, finite so CMA's covariance update stays
@@ -255,6 +262,70 @@ def compute_tracking_error(csv_path: Path, polyline: np.ndarray,
     }
 
 
+def _project_to_polyline(points: np.ndarray,
+                         polyline: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """For each point: nearest distance to the polyline, and the arc length of
+    that nearest projection. Vectorised over points x segments.
+    """
+    A = polyline[:-1]
+    B = polyline[1:]
+    AB = B - A
+    seg_len2 = np.einsum('sd,sd->s', AB, AB)
+    seg_len = np.sqrt(seg_len2)
+    cum = np.concatenate(([0.0], np.cumsum(seg_len)))
+    safe = np.where(seg_len2 > 0.0, seg_len2, 1.0)
+
+    AP = points[:, None, :] - A[None, :, :]               # (M, S, 2)
+    t = np.clip(np.einsum('msd,sd->ms', AP, AB) / safe[None, :], 0.0, 1.0)
+    proj = A[None, :, :] + t[:, :, None] * AB[None, :, :]  # (M, S, 2)
+    diff = points[:, None, :] - proj
+    d2 = np.einsum('msd,msd->ms', diff, diff)
+    best = d2.argmin(axis=1)
+    rows = np.arange(points.shape[0])
+    dist = np.sqrt(d2[rows, best])
+    s_at = cum[best] + t[rows, best] * seg_len[best]
+    return dist, s_at
+
+
+def compute_path_following_error(csv_path: Path, polyline: np.ndarray,
+                                 transient_seconds: float) -> dict:
+    """RMS cross-track (nearest) distance from the COM to the desired path,
+    plus how far along the path the COM progressed.
+
+    Timing-independent: forward speed is not penalised, so an open-loop tuned
+    gait can be compared fairly against the closed-loop tracker. The caller
+    applies a minimum-progress floor on covered_arc_m to reject the degenerate
+    stay-at-the-start solution; covered_arc_m / avg speed are logged as
+    separate diagnostics.
+    """
+    df = pd.read_csv(csv_path)
+    df = df.dropna(subset=['com_x', 'com_y']).reset_index(drop=True)
+    if len(df) < 2:
+        raise ValueError(f'{csv_path}: fewer than 2 valid COM samples.')
+
+    t0 = float(df['time'].iloc[0]) + transient_seconds
+    df = df[df['time'] >= t0].reset_index(drop=True)
+    if len(df) < 2:
+        raise ValueError(
+            f'{csv_path}: no samples after {transient_seconds}s transient.'
+        )
+
+    com = df[['com_x', 'com_y']].to_numpy()
+    dist, s_at = _project_to_polyline(com, polyline)
+    duration = float(df['time'].iloc[-1] - df['time'].iloc[0])
+    covered = float(s_at.max() - s_at.min())
+
+    return {
+        'duration_s': duration,
+        'n_samples': len(dist),
+        'mean_distance_m': float(dist.mean()),
+        'max_distance_m': float(dist.max()),
+        'rms_distance_m': float(np.sqrt(np.mean(dist ** 2))),
+        'covered_arc_m': covered,
+        'avg_speed_m_s': covered / duration if duration > 0 else 0.0,
+    }
+
+
 def vector_to_params(x, defaults: dict) -> dict:
     """Reconstruct the full 7-param controller config from the 6-dim CMA vector.
 
@@ -310,7 +381,7 @@ def build_log_row(iteration: int, eval_count: int, wall: float,
 
     tail = []
     for col in ('n_samples', 'duration_s', 'mean_distance_m',
-                'rms_distance_m', 'max_distance_m'):
+                'rms_distance_m', 'max_distance_m', 'covered_arc_m'):
         v = info.get(col)
         if v is None:
             tail.append('')
@@ -328,13 +399,13 @@ def build_log_row(iteration: int, eval_count: int, wall: float,
 
 def evaluate(x, defaults: dict, eval_dir: Path, run_name: str,
              wait_seconds: int, polyline: np.ndarray,
-             desired_times: np.ndarray,
-             transient_seconds: float) -> tuple[float, dict]:
-    """Run one simulation, score it against the time-parametrized trajectory.
+             desired_times: np.ndarray, transient_seconds: float,
+             objective: str, min_progress_m: float) -> tuple[float, dict]:
+    """Run one simulation and score it with the selected objective.
 
     Returns (J, info). `info` always contains 'status'; on success it also
     contains the keys build_log_row expects (n_samples, duration_s,
-    mean/rms/max_distance_m).
+    mean/rms/max_distance_m, and covered_arc_m for cross_track).
     """
     params = vector_to_params(x, defaults)
     try:
@@ -348,18 +419,28 @@ def evaluate(x, defaults: dict, eval_dir: Path, run_name: str,
         return FAILED_RUN_PENALTY, {'status': 'no_csv'}
 
     try:
-        m = compute_tracking_error(traj_csv, polyline, desired_times,
-                                   transient_seconds)
+        if objective == 'cross_track':
+            m = compute_path_following_error(traj_csv, polyline,
+                                             transient_seconds)
+        else:
+            m = compute_tracking_error(traj_csv, polyline, desired_times,
+                                       transient_seconds)
     except (ValueError, FileNotFoundError, KeyError) as e:
         return FAILED_RUN_PENALTY, {'status': f'metrics_error: {e}'}
+
+    # Anti-degeneracy floor (cross_track): a run that barely progressed along
+    # the path is rejected, so "sit at the start" (cross-track ~0) can't win.
+    # Keep the measured info so the log shows why it was gated.
+    if objective == 'cross_track' and m['covered_arc_m'] < min_progress_m:
+        return FAILED_RUN_PENALTY, {'status': 'insufficient_progress', **m}
 
     return m['rms_distance_m'], {'status': 'ok', **m}
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description='CMA-ES gait tuning to minimize COM-to-desired-trajectory '
-                    'RMS distance.')
+        description='CMA-ES open-loop gait tuning for path following '
+                    '(see --objective).')
     parser.add_argument('--session-name', required=True,
                         help='Folder name under sweep_output/cma/. Resumes if state exists.')
     parser.add_argument('--budget', type=int, default=50,
@@ -376,7 +457,19 @@ def main() -> int:
                              'scoring (default: 10.0 = ~2 gait cycles at T=5s)')
     parser.add_argument('--seed', type=int, default=42,
                         help='CMA-ES seed for reproducibility (default: 42)')
+    parser.add_argument('--objective', choices=['cross_track', 'time_aligned'],
+                        default='cross_track',
+                        help='Scoring objective. cross_track (default): RMS '
+                             'nearest distance to the path, speed-independent, '
+                             'with a min-progress floor — for path-following '
+                             'comparison. time_aligned: RMS distance to a '
+                             'target moving at linear_speed.')
+    parser.add_argument('--min-progress', type=float, default=0.3,
+                        help='cross_track only: reject runs whose COM '
+                             'progressed less than this many metres along the '
+                             'path (anti-degeneracy floor; default: 0.3)')
     args = parser.parse_args()
+    objective_tag = OBJECTIVE_TAGS[args.objective]
 
     defaults = load_default_params()
     if not defaults:
@@ -420,11 +513,12 @@ def main() -> int:
             with open(config_path) as f:
                 prior_cfg = yaml.safe_load(f) or {}
             prior_tag = prior_cfg.get('objective')
-        if prior_tag != OBJECTIVE_TAG:
+        if prior_tag != objective_tag:
             prior_desc = prior_tag or '(legacy gait-based optimizer)'
             print(f'ERROR: session {args.session_name!r} was created with '
-                  f'objective={prior_desc!r}; this optimizer minimizes '
-                  f'{OBJECTIVE_TAG!r}. Use a different --session-name.',
+                  f'objective={prior_desc!r}; this run uses '
+                  f'{args.objective!r} ({objective_tag!r}). Pass the matching '
+                  f'--objective, or use a different --session-name.',
                   file=sys.stderr)
             return 1
         print(f'Resuming from {state_path}', flush=True)
@@ -446,7 +540,9 @@ def main() -> int:
         with open(log_path, 'w', newline='') as f:
             csv.writer(f).writerow(LOG_COLUMNS)
         with open(config_path, 'w') as f:
-            yaml.safe_dump({'objective': OBJECTIVE_TAG}, f)
+            yaml.safe_dump({'objective': objective_tag,
+                            'objective_name': args.objective,
+                            'min_progress_m': args.min_progress}, f)
         # Snapshot the trajectory + defaults YAMLs so the session is
         # self-contained: J values stay interpretable even if the source-tree
         # configs change later, and the snapshots describe the full physical
@@ -457,8 +553,12 @@ def main() -> int:
             shutil.copyfile(DEFAULTS_FILE,
                             session_dir / 'default_controller_params.yaml')
         print(f'Starting fresh CMA-ES session: {session_dir}', flush=True)
-        print(f'Objective: minimize {OBJECTIVE_TAG} (RMS COM-to-polyline distance)',
-              flush=True)
+        if args.objective == 'cross_track':
+            obj_desc = (f'RMS COM-to-path cross-track distance, '
+                        f'min progress {args.min_progress} m')
+        else:
+            obj_desc = 'RMS COM-to-time-aligned-target distance'
+        print(f'Objective: minimize {objective_tag} — {obj_desc}', flush=True)
         print(f'Budget: {args.budget} evals, popsize={popsize}, n_dims={n_dims}', flush=True)
         print(f'Transient discard: {args.transient_seconds:.1f}s', flush=True)
         print('Search-vector init (CMA-internal layout):', flush=True)
@@ -521,7 +621,7 @@ def main() -> int:
                 J, info = evaluate(
                     x, defaults, eval_dir, run_name,
                     args.wait_seconds, polyline, desired_times,
-                    args.transient_seconds,
+                    args.transient_seconds, args.objective, args.min_progress,
                 )
                 # CMA minimizes; J is already the cost (RMS distance), so
                 # feed it directly. Lower is better.
@@ -544,9 +644,11 @@ def main() -> int:
 
                 avg = sum(eval_durations) / len(eval_durations)
                 eta_s = avg * (budget - eval_count)
+                cov = info.get('covered_arc_m')
+                cov_str = f'  covered={cov:.3f}m' if cov is not None else ''
                 print(f'  J={J:.6f}  '
                       f'mean={info.get("mean_distance_m", 0):.4f}  '
-                      f'max={info.get("max_distance_m", 0):.4f}  '
+                      f'max={info.get("max_distance_m", 0):.4f}{cov_str}  '
                       f'status={info.get("status", "?")}', flush=True)
                 print(f'  best so far: J={best_J:.6f}  '
                       f'wall {wall:.0f}s  ETA {eta_s / 60:.1f} min', flush=True)
@@ -564,8 +666,10 @@ def main() -> int:
         print(f'\nFinished {eval_count} evals.', flush=True)
         if best_x is not None:
             best_params = vector_to_params(best_x, defaults)
-            print(f'Best J = {best_J:.6f}  (RMS COM-to-polyline distance, m)',
-                  flush=True)
+            j_label = ('RMS cross-track distance'
+                       if args.objective == 'cross_track'
+                       else 'RMS time-aligned distance')
+            print(f'Best J = {best_J:.6f}  ({j_label}, m)', flush=True)
             print('Physical params (these are what get fed to the controller):',
                   flush=True)
             for name in PHYSICAL_PARAM_NAMES:
