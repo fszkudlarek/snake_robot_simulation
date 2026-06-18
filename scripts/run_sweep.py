@@ -28,6 +28,7 @@ Sweep config format (see config/sweeps/example_sweep.yaml):
 """
 import argparse
 import os
+import shutil
 import signal
 import subprocess
 import sys
@@ -42,6 +43,9 @@ import yaml
 # default_controller_params.yaml effective without requiring a colcon build.
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULTS_FILE = REPO_ROOT / 'config' / 'default_controller_params.yaml'
+# Desired path definition; snapshotted into each closed-loop sweep's output dir
+# so the path-following metric is scored against exactly what the runs tracked.
+TRAJECTORY_FILE = REPO_ROOT / 'config' / 'trajectory.yaml'
 CREATE_GIF_SCRIPT = REPO_ROOT / 'scripts' / 'create_gif.py'
 
 # create_gif.py needs pandas/matplotlib which live in the scripts/.venv
@@ -51,6 +55,20 @@ VENV_PYTHON = REPO_ROOT / 'scripts' / '.venv' / 'bin' / 'python3'
 
 # Node name used inside the ROS params YAML files.
 CONTROLLER_NODE_NAME = 'movement_controller_node'
+# Closed-loop steering controller node (trajectory_tracker.py). Its params live
+# in a separate section of default_controller_params.yaml and must be written to
+# their own block so the tracker node actually picks them up.
+TRACKER_NODE_NAME = 'trajectory_tracker'
+# Param names that belong to the tracker node rather than the movement
+# controller. publish_rate / delta_max exist on both nodes and are not swept
+# here, so they stay in the controller section and the tracker uses its code
+# defaults for them.
+TRACKER_PARAM_NAMES = {'K_p', 'body_to_travel_offset_rad'}
+
+# Default launch file (open-loop, no tracker). Sweeps that exercise the
+# closed-loop tracker set `launch_file: snake_sim_trajectory_launch.py`.
+DEFAULT_LAUNCH_FILE = 'snake_sim_launch.py'
+TRAJECTORY_LAUNCH_FILE = 'snake_sim_trajectory_launch.py'
 
 
 # Processes owned by the simulation pipeline. Used to sweep orphans between runs.
@@ -66,6 +84,7 @@ SIM_PROCESS_PATTERNS = [
     'odometry_tf_broadcaster',
     'robot_body_logger',
     'trajectory_publisher',
+    'trajectory_tracker',
     'controller_manager',
     'joint_state_broadcaster',
     'movement_controller',
@@ -129,15 +148,25 @@ def assert_clean() -> None:
         sys.exit(1)
 
 
-def load_default_params() -> dict:
-    """Return the default controller parameters from default_controller_params.yaml."""
+def _load_defaults_section(node_name: str) -> dict:
+    """Return one node's ros__parameters block from default_controller_params.yaml."""
     if not DEFAULTS_FILE.exists():
         print(f'WARNING: {DEFAULTS_FILE} not found — runs will use only overrides.',
               file=sys.stderr)
         return {}
     with open(DEFAULTS_FILE) as f:
         data = yaml.safe_load(f) or {}
-    return data.get(CONTROLLER_NODE_NAME, {}).get('ros__parameters', {}) or {}
+    return data.get(node_name, {}).get('ros__parameters', {}) or {}
+
+
+def load_default_params() -> dict:
+    """Return the default movement-controller parameters."""
+    return _load_defaults_section(CONTROLLER_NODE_NAME)
+
+
+def load_tracker_defaults() -> dict:
+    """Return the default trajectory_tracker parameters (e.g. K_p)."""
+    return _load_defaults_section(TRACKER_NODE_NAME)
 
 
 def effective_params(defaults: dict, overrides: dict) -> dict:
@@ -147,13 +176,32 @@ def effective_params(defaults: dict, overrides: dict) -> dict:
     return merged
 
 
-def write_params_file(path: Path, params: dict) -> None:
-    """Write a ROS 2 params YAML file the launch file will load."""
+def split_tracker_params(params: dict) -> tuple[dict, dict]:
+    """Partition a flat params dict into (controller, tracker) by node ownership.
+
+    Keys listed in TRACKER_PARAM_NAMES go to the tracker section; everything
+    else stays with the movement controller.
+    """
+    controller = {k: v for k, v in params.items() if k not in TRACKER_PARAM_NAMES}
+    tracker = {k: v for k, v in params.items() if k in TRACKER_PARAM_NAMES}
+    return controller, tracker
+
+
+def write_params_file(path: Path, controller_params: dict,
+                      tracker_params: dict | None = None) -> None:
+    """Write a ROS 2 params YAML file the launch file will load.
+
+    Always writes the movement_controller_node section; also writes a
+    trajectory_tracker section when `tracker_params` is non-empty (closed-loop
+    sweeps), so the tracker node picks up its own params (e.g. K_p).
+    """
     ros_params = {
         CONTROLLER_NODE_NAME: {
-            'ros__parameters': params or {},
+            'ros__parameters': controller_params or {},
         }
     }
+    if tracker_params:
+        ros_params[TRACKER_NODE_NAME] = {'ros__parameters': tracker_params}
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, 'w') as f:
         yaml.safe_dump(ros_params, f, default_flow_style=False, sort_keys=False)
@@ -161,7 +209,8 @@ def write_params_file(path: Path, params: dict) -> None:
 
 def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path,
             *, take_snapshot: bool = True, render_gif: bool = True,
-            quiet: bool = False, use_trajectory_publisher: bool = False) -> Path:
+            quiet: bool = False, use_trajectory_publisher: bool = False,
+            launch_file: str = DEFAULT_LAUNCH_FILE) -> Path:
     """Run one simulation. Returns the path to the body trajectory CSV.
 
     `take_snapshot` and `render_gif` are off-switches for the optimizer driver,
@@ -170,33 +219,49 @@ def run_one(run_name: str, effective: dict, wait_seconds: int, output_dir: Path,
     file, so the optimizer's own progress output isn't drowned out. The log
     is still written to disk under output_dir for post-mortem inspection.
     `use_trajectory_publisher` forwards the launch arg of the same name so a
-    desired trajectory is published during the run (no tracker; open-loop).
+    desired trajectory is published during the run (no tracker; open-loop) —
+    only honoured by the default open-loop launch file.
+    `launch_file` selects the launch file. The closed-loop tracker launch
+    (TRAJECTORY_LAUNCH_FILE) always starts the tracker + trajectory publisher
+    and has no use_trajectory_publisher arg; for it, K_p and other tracker
+    params in `effective` are written to their own trajectory_tracker section.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    closed_loop = launch_file == TRAJECTORY_LAUNCH_FILE
+    controller_params, tracker_params = split_tracker_params(effective)
+
     # This file is both the input to the launch and the record of what ran.
     params_file = output_dir / f'{run_name}_params.yaml'
-    write_params_file(params_file, effective)
+    write_params_file(params_file, controller_params,
+                      tracker_params if closed_loop else None)
 
     snapshot_path = output_dir / f'{run_name}.png'
     trajectory_log_path = output_dir / f'{run_name}_body_trajectory.csv'
     gif_path = output_dir / f'{run_name}.gif'
     sim_log_path = output_dir / f'{run_name}_sim.log'
 
-    print(f'  Launching simulation (params file: {params_file.name})...', flush=True)
+    print(f'  Launching simulation (launch: {launch_file}, '
+          f'params file: {params_file.name})...', flush=True)
 
     log_handle = open(sim_log_path, 'w') if quiet else None
     sim_stdout = log_handle if quiet else None
     sim_stderr = subprocess.STDOUT if quiet else None
 
+    launch_argv = [
+        'ros2', 'launch', 'snake_sim', launch_file,
+        'use_rviz:=false',
+        f'controller_params_file:={params_file}',
+        f'trajectory_log_path:={trajectory_log_path}',
+    ]
+    if not closed_loop:
+        # The closed-loop tracker launch always publishes the desired
+        # trajectory and has no such arg, so only the open-loop launch gets it.
+        launch_argv.append(
+            f'use_trajectory_publisher:={"true" if use_trajectory_publisher else "false"}')
+
     proc = subprocess.Popen(
-        [
-            'ros2', 'launch', 'snake_sim', 'snake_sim_launch.py',
-            'use_rviz:=false',
-            f'controller_params_file:={params_file}',
-            f'trajectory_log_path:={trajectory_log_path}',
-            f'use_trajectory_publisher:={"true" if use_trajectory_publisher else "false"}',
-        ],
+        launch_argv,
         preexec_fn=os.setsid,
         stdin=subprocess.DEVNULL,
         stdout=sim_stdout,
@@ -258,6 +323,8 @@ def main() -> int:
 
     default_wait = int(sweep.get('wait_seconds', 300))
     output_name = sweep.get('output_name', 'sweep')
+    launch_file = sweep.get('launch_file', DEFAULT_LAUNCH_FILE)
+    closed_loop = launch_file == TRAJECTORY_LAUNCH_FILE
     runs = sweep.get('runs', [])
     if not runs:
         print('ERROR: sweep config has no runs.', file=sys.stderr)
@@ -268,12 +335,27 @@ def main() -> int:
     # (sweep_summary.csv, sweep_parameters.yaml, charts) without mixing
     # with the per-run folders. compute_sweep_metrics looks for sweep runs
     # in either <sweep_dir> or <sweep_dir>/runs.
-    base_output_dir = Path.cwd() / 'sweep_output' / output_name / 'runs'
+    sweep_dir = Path.cwd() / 'sweep_output' / output_name
+    base_output_dir = sweep_dir / 'runs'
     base_output_dir.mkdir(parents=True, exist_ok=True)
 
     defaults = load_default_params()
+    if closed_loop:
+        # Merge the tracker defaults (e.g. K_p) into the flat defaults so runs
+        # that don't override them still get them written to their own section.
+        defaults = {**defaults, **load_tracker_defaults()}
+        # Snapshot the desired path so the path-following metric is scored
+        # against exactly what these runs tracked, like optimize_cma does.
+        if TRAJECTORY_FILE.exists():
+            shutil.copyfile(TRAJECTORY_FILE, sweep_dir / 'trajectory.yaml')
+            print(f'Snapshotted desired path: {sweep_dir / "trajectory.yaml"}')
+        else:
+            print(f'WARNING: {TRAJECTORY_FILE} not found — no path snapshot.',
+                  file=sys.stderr)
 
     print(f'Sweep: {len(runs)} runs, output under {base_output_dir}')
+    print(f'Launch file: {launch_file}'
+          f'{" (closed-loop tracker)" if closed_loop else ""}')
     print(f'Defaults loaded from: {DEFAULTS_FILE}')
 
     # Clear residuals from prior invocations before starting.
@@ -296,7 +378,7 @@ def main() -> int:
         run_dir = base_output_dir / run_name
         t_start = time.time()
         run_one(run_name, effective, wait_seconds, run_dir,
-                render_gif=False, quiet=True)
+                render_gif=False, quiet=True, launch_file=launch_file)
         wall = time.time() - t_start
         run_durations.append(wall)
 

@@ -1,0 +1,105 @@
+# Sweep over the trajectory-tracker proportional gain K_p.
+#
+# K_p maps the body→target heading error (radians) to the steering correction
+# δ published on /movement_controller/delta (trajectory_tracker.py), which the
+# sidewinding controller consumes via eq. 3.26. δ is clipped to delta_max
+# (~14°), so for a ~14° (0.24 rad) heading error the map already saturates near
+# K_p≈1; below that the tracker is sluggish (wide cross-track), above it the
+# response saturates and can oscillate.
+#
+# Run with:
+#   python3 scripts/run_sweep.py config/sweeps/K_p_sweep.yaml
+# Then aggregate (use the scripts venv — pulls in numpy/pandas/cma):
+#   scripts/.venv/bin/python3 scripts/compute_sweep_metrics.py sweep_output/K_p_sweep
+#
+# Unlike the open-loop sweeps, this uses the closed-loop tracker launch, which
+# starts the trajectory publisher + trajectory_tracker. run_sweep routes K_p to
+# the trajectory_tracker params section and snapshots config/trajectory.yaml
+# into the sweep dir so the path-following metric is scored against the path
+# the runs actually tracked (currently: circle r=0.5 ccw).
+
+# Closed-loop launch: starts the desired-trajectory publisher and the tracker.
+launch_file: snake_sim_trajectory_launch.py
+
+# Default wait time per run (seconds). RTF≈0.1, so 300s wall ≈ 30s sim.
+wait_seconds: 300
+
+# Output folder under ./sweep_output/
+output_name: K_p_sweep
+
+runs:
+  - name: K_p_0.2
+    params:
+      K_p: 0.2
+  - name: K_p_0.4
+    params:
+      K_p: 0.4
+  - name: K_p_0.6
+    params:
+      K_p: 0.6
+  - name: K_p_0.8
+    params:
+      K_p: 0.8
+  - name: K_p_1.0
+    params:
+      K_p: 1.0
+  - name: K_p_1.2
+    params:
+      K_p: 1.2
+  - name: K_p_1.4
+    params:
+      K_p: 1.4
+  - name: K_p_1.6
+    params:
+      K_p: 1.6
+  - name: K_p_1.8
+    params:
+      K_p: 1.8
+  - name: K_p_2.0
+    params:
+      K_p: 2.0
+  - name: K_p_2.2
+    params:
+      K_p: 2.2
+  - name: K_p_2.4
+    params:
+      K_p: 2.4
+  - name: K_p_2.6
+    params:
+      K_p: 2.6
+  - name: K_p_2.8
+    params:
+      K_p: 2.8
+  - name: K_p_3.0
+    params:
+      K_p: 3.0
+  - name: K_p_3.2
+    params:
+      K_p: 3.2
+  - name: K_p_3.4
+    params:
+      K_p: 3.4
+  - name: K_p_3.6
+    params:
+      K_p: 3.6
+  - name: K_p_3.8
+    params:
+      K_p: 3.8
+  - name: K_p_4.0
+    params:
+      K_p: 4.0
+  - name: K_p_4.2
+    params:
+      K_p: 4.2
+  - name: K_p_4.4
+    params:
+      K_p: 4.4
+  - name: K_p_4.6
+    params:
+      K_p: 4.6
+  - name: K_p_4.8
+    params:
+      K_p: 4.8
+  - name: K_p_5.0
+    params:
+      K_p: 5.0

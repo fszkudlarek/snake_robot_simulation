@@ -43,6 +43,10 @@ from compute_avg_com import process_run as compute_avg_com_for_run
 
 
 CONTROLLER_NODE_NAME = 'movement_controller_node'
+# Closed-loop steering controller node; its params (e.g. K_p) live in a separate
+# section of each run's *_params.yaml and are merged in so they're treated as
+# swept dimensions like the controller params.
+TRACKER_NODE_NAME = 'trajectory_tracker'
 
 # Float tolerance when deciding whether a parameter is "constant" across runs.
 PARAM_EQ_ATOL = 1e-3
@@ -99,6 +103,12 @@ AXIS_LABELS = {
     'A_h_deg': r'$A_H$',
     'delta': r'$\delta$',
     'delta_deg': r'$\delta[^\circ]$',
+    'K_p': r'$K_p$',
+    'path_rms_xtrack_m': r'RMS cross-track$\,[m]$',
+    'path_mean_xtrack_m': r'mean cross-track$\,[m]$',
+    'path_max_xtrack_m': r'max cross-track$\,[m]$',
+    'path_covered_arc_m': r'arc covered$\,[m]$',
+    'path_avg_speed_m_s': r'avg speed$\,[m/s]$',
 }
 
 # Legend labels — used when a column appears as a *series* on a chart
@@ -118,6 +128,11 @@ METRIC_COLORS = {
     'displacement_x_local': 'tab:blue',
     'displacement_y_local': 'tab:orange',
     'orientation_change_deg': 'tab:green',
+    'path_rms_xtrack_m': 'tab:red',
+    'path_mean_xtrack_m': 'tab:purple',
+    'path_max_xtrack_m': 'tab:brown',
+    'path_covered_arc_m': 'tab:gray',
+    'path_avg_speed_m_s': 'tab:cyan',
 }
 DEFAULT_METRIC_COLOR = 'tab:blue'
 
@@ -308,6 +323,66 @@ METRICS = {
     'displacement_y_local': metric_displacement_y_local,
 }
 
+# Path-following metrics. Unlike the METRICS above (which operate on the
+# averaged COM), these are computed from the *raw* body_trajectory CSV against
+# the desired path, reusing optimize_cma.compute_path_following_error so the
+# yardstick matches the CMA optimizer and score_path_following.py exactly.
+# Keys are the prefixed summary columns; values are the keys in that function's
+# result dict. Only emitted when a desired path is available.
+PATH_METRICS = {
+    'path_rms_xtrack_m': 'rms_distance_m',
+    'path_mean_xtrack_m': 'mean_distance_m',
+    'path_max_xtrack_m': 'max_distance_m',
+    'path_covered_arc_m': 'covered_arc_m',
+    'path_avg_speed_m_s': 'avg_speed_m_s',
+}
+PATH_METRIC_KEYS = list(PATH_METRICS)
+
+
+def resolve_polyline(sweep_dir: Path, trajectory_file: Path | None):
+    """Lazy-load the desired-path polyline for path-following scoring.
+
+    Resolution order for the desired path: explicit --trajectory-file, then the
+    run_sweep snapshot at <sweep_dir>/trajectory.yaml, then optimize_cma's
+    default (config/trajectory.yaml). optimize_cma is imported lazily (it pulls
+    in cma/numpy) so plain open-loop sweeps without a path keep working.
+
+    Returns (polyline, source_path) or (None, None) when unavailable.
+    """
+    try:
+        import optimize_cma as oc
+    except ImportError as e:
+        print(f'Path metric unavailable (cannot import optimize_cma: {e}); '
+              f'run with the scripts/.venv interpreter to enable it.',
+              file=sys.stderr)
+        return None, None
+
+    if trajectory_file is not None:
+        oc.TRAJECTORY_FILE = trajectory_file
+    else:
+        snapshot = sweep_dir / 'trajectory.yaml'
+        if snapshot.exists():
+            oc.TRAJECTORY_FILE = snapshot
+
+    if not oc.TRAJECTORY_FILE.exists():
+        print(f'Path metric unavailable: no desired-path YAML at '
+              f'{oc.TRAJECTORY_FILE}', file=sys.stderr)
+        return None, None
+
+    polyline, _ = oc.load_desired_trajectory()
+    return polyline, oc.TRAJECTORY_FILE
+
+
+def compute_path_metrics(traj_csv: Path, polyline, transient_seconds: float) -> dict:
+    """Prefixed path-following columns for one run; NaNs on scoring failure."""
+    import optimize_cma as oc
+    try:
+        m = oc.compute_path_following_error(traj_csv, polyline, transient_seconds)
+    except Exception as e:
+        print(f'  path metric failed for {traj_csv.name}: {e!r}', file=sys.stderr)
+        return {col: float('nan') for col in PATH_METRICS}
+    return {col: float(m.get(src, float('nan'))) for col, src in PATH_METRICS.items()}
+
 
 def load_run(run_dir: Path, skip_cycles: float, analysis_cycles: int,
              period: float, write_outputs: bool = True) -> dict | None:
@@ -327,13 +402,17 @@ def load_run(run_dir: Path, skip_cycles: float, analysis_cycles: int,
         return None
 
     with open(param_yamls[0]) as f:
-        params = (yaml.safe_load(f) or {}) \
-            .get(CONTROLLER_NODE_NAME, {}) \
-            .get('ros__parameters', {}) or {}
+        doc = yaml.safe_load(f) or {}
+    params = doc.get(CONTROLLER_NODE_NAME, {}).get('ros__parameters', {}) or {}
+    tracker = doc.get(TRACKER_NODE_NAME, {}).get('ros__parameters', {}) or {}
+    # Tracker params (e.g. K_p) get merged in as swept dimensions. Their names
+    # don't collide with the controller's, so a flat merge is unambiguous.
+    merged = {**params, **tracker}
 
     return {'name': run_dir.name,
-            'params': augment_with_derived(params),
-            'avg_df': avg_df}
+            'params': augment_with_derived(merged),
+            'avg_df': avg_df,
+            'traj_csv': traj_csvs[0]}
 
 
 def values_equal(values: list) -> bool:
@@ -654,6 +733,11 @@ def _build_summary_from_runs(args: argparse.Namespace) \
         print(f'ERROR: no usable runs in {args.sweep_dir}', file=sys.stderr)
         return None
 
+    # Desired path for the path-following metric (closed-loop sweeps only).
+    polyline, traj_src = resolve_polyline(args.sweep_dir, args.trajectory_file)
+    if polyline is not None:
+        print(f'Path-following metric scored against {traj_src}')
+
     alias_k = should_alias_k([r for _, r in base_runs])
     if alias_k:
         for _, r in base_runs:
@@ -698,6 +782,12 @@ def _build_summary_from_runs(args: argparse.Namespace) \
                     print(f'  {run_data["name"]}: metric {name} failed: {e!r}',
                           file=sys.stderr)
                     row[name] = float('nan')
+            # Path-following metric off the raw trajectory, discarding the same
+            # warm-up (skip_val cycles) as the COM averaging above.
+            if polyline is not None and run_data.get('traj_csv') is not None:
+                transient = max(0.0, skip_val * args.period)
+                row.update(compute_path_metrics(
+                    run_data['traj_csv'], polyline, transient))
             if args.scan_skip_cycles:
                 row['skip_cycles'] = skip_val
             rows.append(row)
@@ -739,7 +829,8 @@ def _load_summary_from_csv(args: argparse.Namespace) \
     else:
         skip_values = [args.skip_cycles]
 
-    excluded = {'run_name', 'skip_cycles'} | set(METRICS.keys())
+    excluded = ({'run_name', 'skip_cycles'}
+                | set(METRICS.keys()) | set(PATH_METRIC_KEYS))
     changing_display = [c for c in summary_df.columns if c not in excluded]
 
     print(f'Loaded {summary_csv} ({len(summary_df)} rows)')
@@ -777,7 +868,12 @@ def process_sweep(args: argparse.Namespace) -> int:
         print('Skipping plots: no changing parameter to put on the X axis.')
         return 0
 
-    for metric in METRICS:
+    # Per-metric 2D charts: the avg-COM metrics plus any path-following columns
+    # that were actually emitted (closed-loop sweeps). The loop only reads
+    # summary_df columns by name, so path metrics plot with no extra code.
+    metric_cols = list(METRICS) + [c for c in PATH_METRIC_KEYS
+                                   if c in summary_df.columns]
+    for metric in metric_cols:
         color = metric_color(metric)
         for param_col in changing_display:
             fig, ax = plt.subplots(figsize=(8, 5))
@@ -979,6 +1075,12 @@ def main() -> int:
                         help='Number of averaged windows to compute (default: 5)')
     parser.add_argument('--period', type=float, default=5.0,
                         help='Controller period in seconds (default: 5.0)')
+    parser.add_argument('--trajectory-file', type=Path, default=None,
+                        help='Desired-path YAML for the path-following metric. '
+                             'Default: <sweep_dir>/trajectory.yaml (the snapshot '
+                             'run_sweep writes for closed-loop sweeps), else '
+                             'config/trajectory.yaml. Path metric is omitted '
+                             'when none is found.')
     parser.add_argument('--scan-skip-cycles', action='store_true',
                         help=f'Repeat metric computation for {SCAN_SKIP_COUNT} '
                              f'skip_cycles values (base, base+{SCAN_SKIP_STEP}, '
