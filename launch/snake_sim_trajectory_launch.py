@@ -210,7 +210,7 @@ def generate_launch_description():
         executable='trajectory_tracker',
         name='trajectory_tracker',
         output='screen',
-        parameters=[{'use_sim_time': True}],
+        parameters=[{'use_sim_time': True}, controller_params_file],
     )
 
     # Startup chain: spawn robot → load joint_state_broadcaster

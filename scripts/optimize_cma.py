@@ -605,7 +605,7 @@ def main() -> int:
                     break
 
                 run_name = f'eval_{iteration:03d}_{i:02d}'
-                eval_dir = session_dir / run_name
+                eval_dir = session_dir / 'evaluations' / run_name
                 t_start = time.time()
 
                 physical = vector_to_params(x, defaults)

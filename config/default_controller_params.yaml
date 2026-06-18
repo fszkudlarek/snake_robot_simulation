@@ -49,3 +49,9 @@ movement_controller_node:
     a_max: 0.9599                  # 55 degrees
     delta_min: -0.3142            # -18 degrees
     delta_max: 0.2443             # 14 degrees
+
+# Closed-loop steering controller (trajectory_tracker.py). Maps heading error
+# to the δ correction published on /movement_controller/delta.
+trajectory_tracker:
+  ros__parameters:
+    K_p: 1.0                       # proportional gain on heading error → δ
