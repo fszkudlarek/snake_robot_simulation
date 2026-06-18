@@ -35,6 +35,12 @@ Objective (minimize), selected with --objective:
     The desired (x, y) is linearly interpolated from that time-parametrization
     at every COM timestamp, and J is the RMS distance between the two.
 
+Both objectives also enforce a displacement floor (--min-displacement): a run
+whose COM trace spans less than that end-to-end (max distance between any two
+COM samples) is rejected, so a gait that stays in place — and fools the path
+projection, e.g. by sitting near the circle centre where the nearest point
+swings wildly — cannot score well.
+
 The body-CSV clock is rebased so t=0 corresponds to the first post-transient
 sample — i.e. the desired trajectory effectively restarts after the gait has
 settled. This penalizes both geometric error AND speed mismatch: a snake
@@ -125,7 +131,8 @@ LOG_COLUMNS = (
     ['gen', 'eval', 'wall_seconds']
     + PHYSICAL_PARAM_NAMES
     + ['n_samples', 'duration_s', 'mean_distance_m',
-       'rms_distance_m', 'max_distance_m', 'covered_arc_m', 'J', 'status']
+       'rms_distance_m', 'max_distance_m', 'max_displacement_m',
+       'covered_arc_m', 'J', 'status']
 )
 
 # Tag stored in session_config.yaml so a pickled CMA state from an
@@ -133,8 +140,8 @@ LOG_COLUMNS = (
 # different CMA vector layout — is rejected instead of silently resumed.
 # Bump a tag whenever its scoring or PARAM_NAMES meaning changes.
 OBJECTIVE_TAGS = {
-    'cross_track': 'path_following_crosstrack_v1',
-    'time_aligned': 'trajectory_time_aligned_rms_v2',
+    'cross_track': 'path_following_crosstrack_v2',
+    'time_aligned': 'trajectory_time_aligned_rms_v3',
 }
 
 # Returned J when the simulation produced no usable data. Large enough to be
@@ -219,6 +226,26 @@ def load_desired_trajectory() -> tuple[np.ndarray, np.ndarray]:
     return polyline, desired_times
 
 
+def _com_diameter(com: np.ndarray) -> float:
+    """Largest straight-line distance between any two CoM samples (the spatial
+    diameter of the trajectory). Exact, computed in chunks so the full M x M
+    distance matrix is never materialised.
+    """
+    n = len(com)
+    if n < 2:
+        return 0.0
+    sq = np.einsum('ij,ij->i', com, com)
+    best2 = 0.0
+    step = 512
+    for i in range(0, n, step):
+        b = com[i:i + step]
+        d2 = sq[i:i + len(b), None] + sq[None, :] - 2.0 * (b @ com.T)
+        m = float(d2.max())
+        if m > best2:
+            best2 = m
+    return float(np.sqrt(best2)) if best2 > 0.0 else 0.0
+
+
 def compute_tracking_error(csv_path: Path, polyline: np.ndarray,
                            desired_times: np.ndarray,
                            transient_seconds: float) -> dict:
@@ -259,6 +286,7 @@ def compute_tracking_error(csv_path: Path, polyline: np.ndarray,
         'mean_distance_m': float(distances.mean()),
         'max_distance_m': float(distances.max()),
         'rms_distance_m': float(np.sqrt(np.mean(distances ** 2))),
+        'max_displacement_m': _com_diameter(com),
     }
 
 
@@ -323,6 +351,7 @@ def compute_path_following_error(csv_path: Path, polyline: np.ndarray,
         'rms_distance_m': float(np.sqrt(np.mean(dist ** 2))),
         'covered_arc_m': covered,
         'avg_speed_m_s': covered / duration if duration > 0 else 0.0,
+        'max_displacement_m': _com_diameter(com),
     }
 
 
@@ -381,7 +410,8 @@ def build_log_row(iteration: int, eval_count: int, wall: float,
 
     tail = []
     for col in ('n_samples', 'duration_s', 'mean_distance_m',
-                'rms_distance_m', 'max_distance_m', 'covered_arc_m'):
+                'rms_distance_m', 'max_distance_m', 'max_displacement_m',
+                'covered_arc_m'):
         v = info.get(col)
         if v is None:
             tail.append('')
@@ -400,12 +430,14 @@ def build_log_row(iteration: int, eval_count: int, wall: float,
 def evaluate(x, defaults: dict, eval_dir: Path, run_name: str,
              wait_seconds: int, polyline: np.ndarray,
              desired_times: np.ndarray, transient_seconds: float,
-             objective: str, min_progress_m: float) -> tuple[float, dict]:
+             objective: str, min_progress_m: float,
+             min_displacement_m: float) -> tuple[float, dict]:
     """Run one simulation and score it with the selected objective.
 
     Returns (J, info). `info` always contains 'status'; on success it also
     contains the keys build_log_row expects (n_samples, duration_s,
-    mean/rms/max_distance_m, and covered_arc_m for cross_track).
+    mean/rms/max_distance_m, max_displacement_m, and covered_arc_m for
+    cross_track).
     """
     params = vector_to_params(x, defaults)
     try:
@@ -428,9 +460,17 @@ def evaluate(x, defaults: dict, eval_dir: Path, run_name: str,
     except (ValueError, FileNotFoundError, KeyError) as e:
         return FAILED_RUN_PENALTY, {'status': f'metrics_error: {e}'}
 
-    # Anti-degeneracy floor (cross_track): a run that barely progressed along
-    # the path is rejected, so "sit at the start" (cross-track ~0) can't win.
-    # Keep the measured info so the log shows why it was gated.
+    # Anti-degeneracy floor #1 (both objectives): the COM must physically move.
+    # A gait that stays in place but sits near the path (or near the centre of
+    # a circle, where the nearest-point projection swings wildly) can otherwise
+    # score a low cross-track J. max_displacement_m is the spatial diameter of
+    # the COM trace, so projection artefacts can't fake it. Keep the measured
+    # info so the log shows why the run was gated.
+    if m['max_displacement_m'] < min_displacement_m:
+        return FAILED_RUN_PENALTY, {'status': 'insufficient_displacement', **m}
+
+    # Anti-degeneracy floor #2 (cross_track): the COM must also progress ALONG
+    # the path, not just wander near it.
     if objective == 'cross_track' and m['covered_arc_m'] < min_progress_m:
         return FAILED_RUN_PENALTY, {'status': 'insufficient_progress', **m}
 
@@ -468,6 +508,11 @@ def main() -> int:
                         help='cross_track only: reject runs whose COM '
                              'progressed less than this many metres along the '
                              'path (anti-degeneracy floor; default: 0.3)')
+    parser.add_argument('--min-displacement', type=float, default=0.2,
+                        help='Reject runs whose COM trace spans less than this '
+                             'many metres end-to-end (max distance between any '
+                             'two COM samples). Catches stay-in-place gaits '
+                             'that fool the path projection (default: 0.2)')
     args = parser.parse_args()
     objective_tag = OBJECTIVE_TAGS[args.objective]
 
@@ -542,7 +587,8 @@ def main() -> int:
         with open(config_path, 'w') as f:
             yaml.safe_dump({'objective': objective_tag,
                             'objective_name': args.objective,
-                            'min_progress_m': args.min_progress}, f)
+                            'min_progress_m': args.min_progress,
+                            'min_displacement_m': args.min_displacement}, f)
         # Snapshot the trajectory + defaults YAMLs so the session is
         # self-contained: J values stay interpretable even if the source-tree
         # configs change later, and the snapshots describe the full physical
@@ -559,6 +605,7 @@ def main() -> int:
         else:
             obj_desc = 'RMS COM-to-time-aligned-target distance'
         print(f'Objective: minimize {objective_tag} — {obj_desc}', flush=True)
+        print(f'Reject if COM displacement < {args.min_displacement} m', flush=True)
         print(f'Budget: {args.budget} evals, popsize={popsize}, n_dims={n_dims}', flush=True)
         print(f'Transient discard: {args.transient_seconds:.1f}s', flush=True)
         print('Search-vector init (CMA-internal layout):', flush=True)
@@ -622,6 +669,7 @@ def main() -> int:
                     x, defaults, eval_dir, run_name,
                     args.wait_seconds, polyline, desired_times,
                     args.transient_seconds, args.objective, args.min_progress,
+                    args.min_displacement,
                 )
                 # CMA minimizes; J is already the cost (RMS distance), so
                 # feed it directly. Lower is better.
@@ -646,9 +694,12 @@ def main() -> int:
                 eta_s = avg * (budget - eval_count)
                 cov = info.get('covered_arc_m')
                 cov_str = f'  covered={cov:.3f}m' if cov is not None else ''
+                disp = info.get('max_displacement_m')
+                disp_str = f'  disp={disp:.3f}m' if disp is not None else ''
                 print(f'  J={J:.6f}  '
                       f'mean={info.get("mean_distance_m", 0):.4f}  '
-                      f'max={info.get("max_distance_m", 0):.4f}{cov_str}  '
+                      f'max={info.get("max_distance_m", 0):.4f}'
+                      f'{disp_str}{cov_str}  '
                       f'status={info.get("status", "?")}', flush=True)
                 print(f'  best so far: J={best_J:.6f}  '
                       f'wall {wall:.0f}s  ETA {eta_s / 60:.1f} min', flush=True)
