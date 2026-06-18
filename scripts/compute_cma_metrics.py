@@ -28,6 +28,7 @@ Usage (needs the scripts/.venv interpreter for the path-following metric):
         [--transient-seconds 10.0] [-r]
 """
 import argparse
+import shutil
 import sys
 from pathlib import Path
 
@@ -117,6 +118,9 @@ def build_summary(cma_dir: Path, args: argparse.Namespace) -> pd.DataFrame | Non
     if polyline is not None:
         print(f'Path-following metric scored against {traj_src}')
 
+    # Collect every epoch's best avg-COM figure in one place for easy review.
+    collect_dir = cma_dir / 'avg_com_best_gen_runs'
+
     rows = []
     for entry in best_runs:
         run = csm.load_run(entry['dir'], args.skip_cycles, args.analysis_cycles,
@@ -126,6 +130,11 @@ def build_summary(cma_dir: Path, args: argparse.Namespace) -> pd.DataFrame | Non
             print(f'  {entry["best_eval"]}: missing trajectory/params or no '
                   f'avg-COM points — skipped', file=sys.stderr)
             continue
+
+        png = entry['dir'] / f'{entry["best_eval"]}_avg_com.png'
+        if png.exists():
+            collect_dir.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(png, collect_dir / png.name)
 
         row = {EPOCH_COL: entry[EPOCH_COL], 'best_eval': entry['best_eval'],
                'J': entry['J']}

@@ -506,11 +506,19 @@ def render_generation_best_avg_com(session_dir: Path, iteration: int,
         compute_avg_com_for_run(traj_csv, skip_cycles, AVG_COM_ANALYSIS_CYCLES,
                                 period, write_outputs=True,
                                 desired_path=polyline)
-        print(f'  gen {iteration}: wrote avg-COM figure for best eval '
-              f'{run_name} (J={fs[best_idx]:.6f}).', flush=True)
     except Exception as e:
         print(f'  gen {iteration}: avg-COM figure failed for {run_name}: {e!r}',
               file=sys.stderr, flush=True)
+        return
+
+    # Collect every generation's best figure in one place for easy review.
+    png = traj_csv.parent / f'{run_name}_avg_com.png'
+    collect_dir = session_dir / 'avg_com_best_gen_runs'
+    collect_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(png, collect_dir / png.name)
+    print(f'  gen {iteration}: wrote avg-COM figure for best eval '
+          f'{run_name} (J={fs[best_idx]:.6f}); copied to {collect_dir.name}/.',
+          flush=True)
 
 
 def main() -> int:
