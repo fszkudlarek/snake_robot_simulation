@@ -95,13 +95,17 @@ def _continuous_orientation_series(df: pd.DataFrame,
 
 
 def process_run(traj_csv: Path, skip_cycles: float, analysis_cycles: int,
-                period: float, write_outputs: bool = True) -> pd.DataFrame | None:
+                period: float, write_outputs: bool = True,
+                desired_path: np.ndarray | None = None) -> pd.DataFrame | None:
     """Compute averaged-COM + orientation rows for one run.
 
     Returns the resulting DataFrame (or None if no rows could be produced).
     When write_outputs is True, also writes <run>_avg_com.csv and the PNG.
     The caller can suppress writes when computing alternative configurations
     (e.g. a skip_cycles scan) without touching the persisted artifacts.
+
+    When desired_path (an (N, 2) world-frame [x, y] polyline) is given, it is
+    overlaid on the PNG as the path the run was tracking.
     """
     run_name = traj_csv.stem.replace('_body_trajectory', '')
     out_dir = traj_csv.parent
@@ -174,6 +178,9 @@ def process_run(traj_csv: Path, skip_cycles: float, analysis_cycles: int,
     # A short line at each averaged point shows the principal axis orientation.
     fig, ax = plt.subplots(figsize=(7, 7))
     ax.set_aspect('equal')
+    if desired_path is not None and len(desired_path) >= 1:
+        ax.plot(desired_path[:, 0], desired_path[:, 1], '--', color='tab:blue',
+                lw=1.2, alpha=0.7, zorder=0, label='desired path')
     ax.plot(com['com_x'], com['com_y'], '-', color='lightgray', lw=0.8,
             label='COM trail (full)')
 

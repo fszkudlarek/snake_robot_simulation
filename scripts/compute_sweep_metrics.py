@@ -385,11 +385,14 @@ def compute_path_metrics(traj_csv: Path, polyline, transient_seconds: float) -> 
 
 
 def load_run(run_dir: Path, skip_cycles: float, analysis_cycles: int,
-             period: float, write_outputs: bool = True) -> dict | None:
+             period: float, write_outputs: bool = True,
+             desired_path=None) -> dict | None:
     """(Re)generate avg-COM artifacts, then load them with the run's params.
 
     Returns {'name', 'params', 'avg_df'} or None if the body trajectory or
-    params YAML is missing, or if compute_avg_com produced no rows.
+    params YAML is missing, or if compute_avg_com produced no rows. When
+    desired_path (an (N, 2) polyline) is given, it is overlaid on the avg-COM
+    PNG (passed straight through to compute_avg_com).
     """
     traj_csvs = sorted(run_dir.glob('*_body_trajectory.csv'))
     param_yamls = sorted(run_dir.glob('*_params.yaml'))
@@ -397,7 +400,8 @@ def load_run(run_dir: Path, skip_cycles: float, analysis_cycles: int,
         return None
 
     avg_df = compute_avg_com_for_run(traj_csvs[0], skip_cycles, analysis_cycles,
-                                     period, write_outputs=write_outputs)
+                                     period, write_outputs=write_outputs,
+                                     desired_path=desired_path)
     if avg_df is None or avg_df.empty:
         return None
 
