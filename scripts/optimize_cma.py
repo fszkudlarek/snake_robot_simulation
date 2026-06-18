@@ -85,6 +85,7 @@ except ImportError:
 # Local imports — both scripts live in scripts/.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from run_sweep import run_one, load_default_params, REPO_ROOT, DEFAULTS_FILE
+from compute_avg_com import process_run as compute_avg_com_for_run
 
 
 # Source-tree trajectory definition. Mirrors the same file the installed
@@ -148,6 +149,11 @@ OBJECTIVE_TAGS = {
 # uncompetitive vs. any real run, finite so CMA's covariance update stays
 # well-defined.
 FAILED_RUN_PENALTY = 1.0e3
+
+# When a generation completes, render the best eval's averaged-COM figure so
+# the optimization can be eyeballed live. Matches compute_cma_metrics.py's
+# analysis window so the figure is the same one post-hoc analysis would produce.
+AVG_COM_ANALYSIS_CYCLES = 12
 
 
 def load_desired_trajectory() -> tuple[np.ndarray, np.ndarray]:
@@ -477,6 +483,36 @@ def evaluate(x, defaults: dict, eval_dir: Path, run_name: str,
     return m['rms_distance_m'], {'status': 'ok', **m}
 
 
+def render_generation_best_avg_com(session_dir: Path, iteration: int,
+                                   fs: list[float], polyline: np.ndarray,
+                                   period: float,
+                                   transient_seconds: float) -> None:
+    """Write the averaged-COM PNG for the best eval of a completed generation.
+
+    The best eval is the lowest-J one in `fs` (failed runs carry the penalty,
+    so they only win if the whole generation failed). Rendering never aborts the
+    optimization — any problem is reported and swallowed.
+    """
+    best_idx = int(np.argmin(fs))
+    run_name = f'eval_{iteration:03d}_{best_idx:02d}'
+    traj_csv = session_dir / 'evaluations' / run_name / f'{run_name}_body_trajectory.csv'
+    if not traj_csv.exists():
+        print(f'  gen {iteration}: best eval {run_name} has no trajectory CSV; '
+              f'skipping avg-COM figure.', flush=True)
+        return
+
+    skip_cycles = transient_seconds / period if period > 0 else 0.0
+    try:
+        compute_avg_com_for_run(traj_csv, skip_cycles, AVG_COM_ANALYSIS_CYCLES,
+                                period, write_outputs=True,
+                                desired_path=polyline)
+        print(f'  gen {iteration}: wrote avg-COM figure for best eval '
+              f'{run_name} (J={fs[best_idx]:.6f}).', flush=True)
+    except Exception as e:
+        print(f'  gen {iteration}: avg-COM figure failed for {run_name}: {e!r}',
+              file=sys.stderr, flush=True)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description='CMA-ES open-loop gait tuning for path following '
@@ -705,6 +741,10 @@ def main() -> int:
                       f'wall {wall:.0f}s  ETA {eta_s / 60:.1f} min', flush=True)
 
             if full_pop:
+                # Render the best eval of this completed epoch before moving on.
+                render_generation_best_avg_com(
+                    session_dir, iteration, fs, polyline,
+                    float(defaults.get('T', 5.0)), args.transient_seconds)
                 es.tell(xs, fs)
                 with open(state_path, 'wb') as f:
                     pickle.dump((es, eval_count, best_J, best_x), f)
